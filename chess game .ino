@@ -19,9 +19,6 @@ This will be chess meant to be played on a 128/160 tft display
 #define DC 9
 #define SD_SS 10
 
-int Board[8][8]; //8x8 grid for the board
-
-
 Adafruit_ST7735 mytft = Adafruit_ST7735(TFT_SS, DC, RST); // idk why this is needed      Grace i'm pretty sure this creates the screen object -Eli
 ButtonDebounce button(SW_PIN, MIN_CLICK);// seems to be defining some values for the button debounce library
 
@@ -30,8 +27,19 @@ unsigned int dispColors[] = { ST7735_BLACK, ST7735_RED, ST7735_ORANGE, ST7735_YE
 byte numColors =  sizeof(dispColors) / sizeof(dispColors[0]); //how many colors
 
 
+int Board[8][8]; //8x8 grid for the board
 int RefPnt[2]; //refference point, top right corner pixel of the square, 0 = x, 1 = y
 
+String Border = "000000";
+
+String WhiteDark = "0xA7A7A7";
+String WhiteLighter = "0xC1C1C1";
+String WhiteLight = "0xE1E1E1";
+
+String BlackDark = "0x151515";
+String BlackLighter = "0x242424";
+String BlackLight = "0x494949";
+String BlackHighlight = "0x6D6D6D";
 
 void setup() {
   mytft.initR(INITR_BLACKTAB); // for 1.8' TFT
