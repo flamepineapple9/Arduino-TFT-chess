@@ -31,17 +31,17 @@ int Board[8][8]; //8x8 grid for the board
 int RefPnt[2]; //refference point, top right corner pixel of the square, 0 = x, 1 = y
 
 //color variables to make sprite creation less painful 
-String Border = "000000";
+int Border = 0x0000;
 
-String WhiteDark = "0xA7A7A7";
-String WhiteLighter = "0xC1C1C1";
-String WhiteLight = "0xE1E1E1";
-String WhiteHighlight = "0xFDFDFD";
+int White4 = 0xA534;
+int White3 = 0xC618;
+int White2 = 0xE71C;
+int White1 = 0xFFFF;
 
-String BlackDark = "0x151515";
-String BlackLighter = "0x242424";
-String BlackLight = "0x494949";
-String BlackHighlight = "0x6D6D6D";
+int Black4 = 0x10A2;
+int Black3 = 0x2124;
+int Black2 = 0x4A49;
+int Black1 = 0x6B6D;
 
 void setup() {
   mytft.initR(INITR_BLACKTAB); // for 1.8' TFT
@@ -53,12 +53,14 @@ void setup() {
   mytft.setCursor(0,0); //puts cursor in top left, (which is where the text is printed from)
   randomSeed(analogRead(A5)); //Seed with bogus read
   Serial.begin(9600);
+
+  
 }
 
 
 
 void loop() {
-  DrawBoard();
+  //DrawBoard();
 }
 
 void BlankSquare(int k,int i){
@@ -82,9 +84,14 @@ void DrawBoard(){
   }
 }
 
-
+void DrawRook(int x, int y, int color){
+  RefPnt[0] = x * 16;
+  RefPnt[1] = y * 16;
+  mytft.drawLine(RefPnt[0] + 3, RefPnt[1] + 1, RefPnt[0] + 5, RefPnt[1] + 1, ST7735_BLACK);
+  
+}
 //also in the name
-void DrawPawn(int x, int y, int player){
+void DrawPawn(int x, int y, int color){ 
   //sets the refference point that all the other pixels build off of, ref point is the top left pixel of a square
   RefPnt[0] = x * 16;
   RefPnt[1] = y * 16;
