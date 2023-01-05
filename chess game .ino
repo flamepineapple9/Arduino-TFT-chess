@@ -30,11 +30,13 @@ byte numColors =  sizeof(dispColors) / sizeof(dispColors[0]); //how many colors
 int Board[8][8]; //8x8 grid for the board
 int RefPnt[2]; //refference point, top right corner pixel of the square, 0 = x, 1 = y
 
+//color variables to make sprite creation less painful 
 String Border = "000000";
 
 String WhiteDark = "0xA7A7A7";
 String WhiteLighter = "0xC1C1C1";
 String WhiteLight = "0xE1E1E1";
+String WhiteHighlight = "0xFDFDFD";
 
 String BlackDark = "0x151515";
 String BlackLighter = "0x242424";
