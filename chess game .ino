@@ -95,5 +95,7 @@ void DrawPawn(int x, int y, int color){
   //sets the refference point that all the other pixels build off of, ref point is the top left pixel of a square
   RefPnt[0] = x * 16;
   RefPnt[1] = y * 16;
-  mytft.drawLine(RefPnt[0] + 5, RefPnt[1] + 2, RefPnt[0] + 9, RefPnt[1] + 2, ST7735_BLACK);
+  mytft.drawLine(RefPnt[0] + 5, RefPnt[1] + 2, RefPnt[0] + 9, RefPnt[1] + 2, Border);
+  mytft.drawLine(RefPnt[0] + 4, RefPnt[1] + 3, RefPnt[0] + 4, RefPnt[1] + 5, Border);
+  mytft.drawLine(RefPnt[0] + 9, RefPnt[1] + 3, RefPnt[0] + 9, RefPnt[1] + 5, Border);
 }
