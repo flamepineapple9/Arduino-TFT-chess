@@ -51,6 +51,14 @@ void loop() {
   DrawBoard();
 }
 
+void BlankSquare(k, i){
+  //i honestly don't know how to concicsely explain this logic, but it makes sense once you look at examples
+  if ((k + i) % 2 == 1){
+    mytft.fillRect(RefPnt[0], RefPnt[1], 16, 16, 0x7CD691);
+  } else {
+    mytft.fillRect(RefPnt[0], RefPnt[1], 16, 16, 0x278A3E);
+  }
+}
 
 //its in the name
 void DrawBoard(){
@@ -59,13 +67,7 @@ void DrawBoard(){
       //sets the refference point that the squares are created from, ref point is the top right pixel of a square
       RefPnt[0] = k * 16;
       RefPnt[1] = i * 16;
-
-      //i honestly don't know how to concicsely explain this logic, but it makes sense once you look at examples
-      if ((k + i) % 2 == 1){
-        mytft.fillRect(RefPnt[0], RefPnt[1], 16, 16, 0x7CD691);
-      } else {
-        mytft.fillRect(RefPnt[0], RefPnt[1], 16, 16, 0x278A3E);
-      }
+      BlankSquare(k, i);
     }
   }
 }
