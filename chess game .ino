@@ -64,7 +64,7 @@ void BlankSquare(int k,int i){
 void DrawBoard(){
   for (int i = 0; i < 8; i++) {
       for (int k = 0; k < 8; k++){
-      //sets the refference point that the squares are created from, ref point is the top right pixel of a square
+      //sets the refference point that the squares are created from, ref point is the top left pixel of a square
       RefPnt[0] = k * 16;
       RefPnt[1] = i * 16;
       BlankSquare(k, i);
@@ -75,7 +75,7 @@ void DrawBoard(){
 
 //also in the name
 void DrawPawn(int x, int y, int player){
-  //sets the refference point that all the other pixels build off of, ref point is the top right pixel of a square
+  //sets the refference point that all the other pixels build off of, ref point is the top left pixel of a square
   RefPnt[0] = x * 16;
   RefPnt[1] = y * 16;
   mytft.drawLine(RefPnt[0] + 5, RefPnt[1] + 2, RefPnt[0] + 9, RefPnt[1] + 2, ST7735_BLACK);
