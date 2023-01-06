@@ -44,7 +44,23 @@ int Black2 = 0x4A49;
 int Black1 = 0x6B6D;
 
 
-int PawnArray[14][14] //im not sure what the best way to put the "pixels" into the array is
+int PawnArray[14][14] = 
+{ 
+0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0,
+0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+} //im not sure what the best way to put the "pixels" into the array is
 
 void setup() {
   mytft.initR(INITR_BLACKTAB); // for 1.8' TFT
@@ -64,7 +80,7 @@ void setup() {
 
 void loop() {
   DrawBoard();
-  DrawPawn(4, 5);
+  DrawPiece(PawnArray, 5, 4);
   delay(100000); //this is just here so it doesn't keep drawing everything all the time
 }
 
