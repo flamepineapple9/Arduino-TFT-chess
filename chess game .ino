@@ -33,6 +33,7 @@ int RefPnt[2]; //refference point, top right corner pixel of the square, 0 = x, 
 //color variables to make sprite creation less painful 
 int Border = 0x0000;
 
+//higher number = lighter color
 int White4 = 0xA534;
 int White3 = 0xC618;
 int White2 = 0xE71C;
@@ -43,12 +44,12 @@ int Black3 = 0x2124;
 int Black2 = 0x4A49;
 int Black1 = 0x6B6D;
 
-
-int PawnArray[14][14] = 
+//3d array, [piece][row][pixel]
+int PiecesArray[14][14] = 
 {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
  {0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
- {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+ {0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0},
  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
  {0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -70,40 +71,58 @@ void setup() {
   mytft.setCursor(0,0); //puts cursor in top left, (which is where the text is printed from)
   randomSeed(analogRead(A5)); //Seed with bogus read
   Serial.begin(9600);
-
-  
 }
 
 
 
 void loop() {
   DrawBoard();
-  DrawPawn(5, 4);
+  DrawPiece(5, 4, 1, 1);
   delay(100000); //this is just here so it doesn't keep drawing everything all the time
 }
 
 
 
 
-//piece array is the array with the pixel art in it, xSquare and ySquare is the square you want to draw piece in
-//also this currently only draws white pieces, we can just c + v it and replace the colors, or think of a way to make just one func
-void DrawPawn(int xSquare, int ySquare){
+//xSquare and ySquare is the square on the board 
+void DrawPiece(int xSquare, int ySquare, int color, int piece){
   for(int y = 0; y < 14; y++){
     for(int x = 0; x < 14; x++){
-      switch(PawnArray[y][x]){
-        //if the array space is 0, just means its blank
-        case 1:
-          mytft.drawLine(xSquare*16 + x, ySquare*16 + y, xSquare*16 + x, ySquare*16 + y, White1);
-          break;
-        case 2:
-          mytft.drawLine(xSquare*16 + x, ySquare*16 + y, xSquare*16 + x, ySquare*16 + y, White2);
-          break;
-        case 3:
-          mytft.drawLine(xSquare*16 + x, ySquare*16 + y, xSquare*16 + x, ySquare*16 + y, White3);
-          break;
-        case 4:
-          mytft.drawLine(xSquare*16 + x, ySquare*16 + y, xSquare*16 + x, ySquare*16 + y, White4);
-          break;
+      //color 1 makes the white piece
+      if(color == 1){
+        //if color 1 (white), and piece 1 (pawn), draw white pawn
+          switch(PiecesArray[y][x]){
+          case 1:
+            mytft.drawLine(xSquare*16 + x + 1, ySquare*16 + y + 1, xSquare*16 + x + 1, ySquare*16 + y + 1, White1);
+            break;
+          case 2:
+            mytft.drawLine(xSquare*16 + x + 1, ySquare*16 + y + 1, xSquare*16 + x + 1, ySquare*16 + y + 1, White2);
+            break;
+          case 3:
+            mytft.drawLine(xSquare*16 + x + 1, ySquare*16 + y + 1, xSquare*16 + x + 1, ySquare*16 + y + 1, White3);
+            break;
+          case 4:
+            mytft.drawLine(xSquare*16 + x + 1, ySquare*16 + y + 1, xSquare*16 + x + 1, ySquare*16 + y + 1, White4);
+            break;
+        }
+      }
+      
+      //color 2 makes black piece
+      if(color == 2){
+          switch(PiecesArray[y][x]){
+          case 1:
+            mytft.drawLine(xSquare*16 + x + 1, ySquare*16 + y + 1, xSquare*16 + x + 1, ySquare*16 + y + 1, Black1);
+            break;
+          case 2:
+            mytft.drawLine(xSquare*16 + x + 1, ySquare*16 + y + 1, xSquare*16 + x + 1, ySquare*16 + y + 1, Black2);
+            break;
+          case 3:
+            mytft.drawLine(xSquare*16 + x + 1, ySquare*16 + y + 1, xSquare*16 + x + 1, ySquare*16 + y + 1, Black3);
+            break;
+          case 4:
+            mytft.drawLine(xSquare*16 + x + 1, ySquare*16 + y + 1, xSquare*16 + x + 1, ySquare*16 + y + 1, Black4);
+            break;
+        }
       }
     }
   }
