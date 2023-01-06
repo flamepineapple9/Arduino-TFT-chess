@@ -43,6 +43,9 @@ int Black3 = 0x2124;
 int Black2 = 0x4A49;
 int Black1 = 0x6B6D;
 
+
+int PawnArray[14][14] //im not sure what the best way to put the "pixels" into the array is
+
 void setup() {
   mytft.initR(INITR_BLACKTAB); // for 1.8' TFT
   mytft.setTextWrap(false); // Allow text to run off the edge
@@ -74,6 +77,27 @@ void BlankSquare(int k,int i){
   }
 }
 
+
+//piece array is the array with the pixel art in it, xSquare and ySquare is the square you want to draw piece in
+//also this currently only draws white pieces, we can just c + v it and replace the colors, or think of a way to make just one func
+void DrawPiece(int PieceArray, int xSquare, int ySquare){
+  for(int y = 0; y < 14; y++){
+    for(int x = 0; x < 14; x++){
+      switch(PieceArray[x][y]){
+        //if the array space is 0, just means its blank
+        case 1:
+          mytft.drawLine(xSquare*16 + x, ySquare*16 + y, xSquare*16 + x, ySquare*16 + y, White1);
+        case 2:
+          mytft.drawLine(xSquare*16 + x, ySquare*16 + y, xSquare*16 + x, ySquare*16 + y, White2);
+        case 3:
+          mytft.drawLine(xSquare*16 + x, ySquare*16 + y, xSquare*16 + x, ySquare*16 + y, White3);
+        case 4:
+          mytft.drawLine(xSquare*16 + x, ySquare*16 + y, xSquare*16 + x, ySquare*16 + y, White4);
+      }
+    }
+  }
+}
+
 //its in the name
 void DrawBoard(){
   for (int i = 0; i < 8; i++) {
@@ -97,18 +121,4 @@ void DrawPawn(int x, int y, int color){
   //sets the refference point that all the other pixels build off of, ref point is the top left pixel of a square
   RefPnt[0] = x * 16;
   RefPnt[1] = y * 16;
-  mytft.drawLine(RefPnt[0] + 5, RefPnt[1] + 2, RefPnt[0] + 9, RefPnt[1] + 2, Border); //top line
-  mytft.drawLine(RefPnt[0] + 4, RefPnt[1] + 3, RefPnt[0] + 4, RefPnt[1] + 5, Border); //left top side line
-  mytft.drawLine(RefPnt[0] + 9, RefPnt[1] + 3, RefPnt[0] + 9, RefPnt[1] + 5, Border); //right top side line
-  mytft.drawLine(RefPnt[0] + 8, RefPnt[1] + 4, RefPnt[0] + 8, RefPnt[1] + 4, Border); //right dot
-  mytft.drawLine(RefPnt[0] + 5, RefPnt[1] + 4, RefPnt[0] + 5, RefPnt[1] + 4, Border); //left dot
-  mytft.drawLine(RefPnt[0] + 9, RefPnt[1] + 5, RefPnt[0] + 9, RefPnt[1] + 6, Border); //right short line
-  mytft.drawLine(RefPnt[0] + 4, RefPnt[1] + 5, RefPnt[0] + 4, RefPnt[1] + 6, Border); //left short line
-  mytft.drawLine(RefPnt[0] + 8, RefPnt[1] + 7, RefPnt[0] + 8, RefPnt[1] + 7, Border); //right dot
-  mytft.drawLine(RefPnt[0] + 5, RefPnt[1] + 7, RefPnt[0] + 5, RefPnt[1] + 7, Border); //left dot
-  mytft.drawLine(RefPnt[0] + 9, RefPnt[1] + 8, RefPnt[0] + 9, RefPnt[1] + 8, Border); //right next dot
-  mytft.drawLine(RefPnt[0] + 4, RefPnt[1] + 8, RefPnt[0] + 4, RefPnt[1] + 8, Border); //left next dot
-  mytft.drawLine(RefPnt[0] + 8, RefPnt[1] + 9, RefPnt[0] + 8, RefPnt[1] + 10, Border); //right side base line
-  mytft.drawLine(RefPnt[0] + 3, RefPnt[1] + 9, RefPnt[0] + 3, RefPnt[1] + 10, Border); //left side base line
-  mytft.drawLine(RefPnt[0] + 3, RefPnt[1] + 11, RefPnt[0] + 9, RefPnt[1] + 11, Border); //bottom line
 }
