@@ -97,7 +97,7 @@ void BlankSquare(int k,int i){
 void DrawPawn(int xSquare, int ySquare){
   for(int y = 0; y < 14; y++){
     for(int x = 0; x < 14; x++){
-      switch(PawnArray[x][y]){
+      switch(PawnArray[y][x]){
         //if the array space is 0, just means its blank
         case 1:
           mytft.drawLine(xSquare*16 + x, ySquare*16 + y, xSquare*16 + x, ySquare*16 + y, White1);
