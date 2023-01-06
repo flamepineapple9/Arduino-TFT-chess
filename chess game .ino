@@ -60,7 +60,9 @@ void setup() {
 
 
 void loop() {
-  //DrawBoard();
+  DrawBoard();
+  DrawPawn(4, 5);
+  delay(100000); //this is just here so it doesn't keep drawing everything all the time
 }
 
 void BlankSquare(int k,int i){
