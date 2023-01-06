@@ -95,7 +95,18 @@ void DrawPawn(int x, int y, int color){
   //sets the refference point that all the other pixels build off of, ref point is the top left pixel of a square
   RefPnt[0] = x * 16;
   RefPnt[1] = y * 16;
-  mytft.drawLine(RefPnt[0] + 5, RefPnt[1] + 2, RefPnt[0] + 9, RefPnt[1] + 2, Border);
-  mytft.drawLine(RefPnt[0] + 4, RefPnt[1] + 3, RefPnt[0] + 4, RefPnt[1] + 5, Border);
-  mytft.drawLine(RefPnt[0] + 9, RefPnt[1] + 3, RefPnt[0] + 9, RefPnt[1] + 5, Border);
+  mytft.drawLine(RefPnt[0] + 5, RefPnt[1] + 2, RefPnt[0] + 9, RefPnt[1] + 2, Border); //top line
+  mytft.drawLine(RefPnt[0] + 4, RefPnt[1] + 3, RefPnt[0] + 4, RefPnt[1] + 5, Border); //left top side line
+  mytft.drawLine(RefPnt[0] + 9, RefPnt[1] + 3, RefPnt[0] + 9, RefPnt[1] + 5, Border); //right top side line
+  mytft.drawLine(RefPnt[0] + 8, RefPnt[1] + 4, RefPnt[0] + 8, RefPnt[1] + 4, Border); //right dot
+  mytft.drawLine(RefPnt[0] + 5, RefPnt[1] + 4, RefPnt[0] + 5, RefPnt[1] + 4, Border); //left dot
+  mytft.drawLine(RefPnt[0] + 9, RefPnt[1] + 5, RefPnt[0] + 9, RefPnt[1] + 6, Border); //right short line
+  mytft.drawLine(RefPnt[0] + 4, RefPnt[1] + 5, RefPnt[0] + 4, RefPnt[1] + 6, Border); //left short line
+  mytft.drawLine(RefPnt[0] + 8, RefPnt[1] + 7, RefPnt[0] + 8, RefPnt[1] + 7, Border); //right dot
+  mytft.drawLine(RefPnt[0] + 5, RefPnt[1] + 7, RefPnt[0] + 5, RefPnt[1] + 7, Border); //left dot
+  mytft.drawLine(RefPnt[0] + 9, RefPnt[1] + 8, RefPnt[0] + 9, RefPnt[1] + 8, Border); //right next dot
+  mytft.drawLine(RefPnt[0] + 4, RefPnt[1] + 8, RefPnt[0] + 4, RefPnt[1] + 8, Border); //left next dot
+  mytft.drawLine(RefPnt[0] + 8, RefPnt[1] + 9, RefPnt[0] + 8, RefPnt[1] + 10, Border); //right side base line
+  mytft.drawLine(RefPnt[0] + 3, RefPnt[1] + 9, RefPnt[0] + 3, RefPnt[1] + 10, Border); //left side base line
+  mytft.drawLine(RefPnt[0] + 3, RefPnt[1] + 11, RefPnt[0] + 9, RefPnt[1] + 11, Border); //bottom line
 }
