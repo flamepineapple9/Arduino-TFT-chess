@@ -46,19 +46,19 @@ int Black1 = 0x6B6D;
 
 int PawnArray[14][14] = 
 {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-{0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-{0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-{0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0},
-{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
+ {0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+ {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+ {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+ {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+ {0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+ {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+ {0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0},
+ {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+ {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+ {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+ {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+ {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+ {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
 
 void setup() {
   mytft.initR(INITR_BLACKTAB); // for 1.8' TFT
@@ -82,14 +82,7 @@ void loop() {
   delay(100000); //this is just here so it doesn't keep drawing everything all the time
 }
 
-void BlankSquare(int k,int i){
-  //i honestly don't know how to concicsely explain this logic, but it makes sense once you look at examples
-  if ((k + i) % 2 == 1){
-    mytft.fillRect(RefPnt[0], RefPnt[1], 16, 16, 0x7EB2);
-  } else {
-    mytft.fillRect(RefPnt[0], RefPnt[1], 16, 16, 0x2447);
-  }
-}
+
 
 
 //piece array is the array with the pixel art in it, xSquare and ySquare is the square you want to draw piece in
@@ -113,6 +106,16 @@ void DrawPawn(int xSquare, int ySquare){
           break;
       }
     }
+  }
+}
+
+
+void BlankSquare(int k,int i){
+  //i honestly don't know how to concicsely explain this logic, but it makes sense once you look at examples
+  if ((k + i) % 2 == 1){
+    mytft.fillRect(RefPnt[0], RefPnt[1], 16, 16, 0x7EB2);
+  } else {
+    mytft.fillRect(RefPnt[0], RefPnt[1], 16, 16, 0x2447);
   }
 }
 
