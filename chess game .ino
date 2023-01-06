@@ -45,22 +45,20 @@ int Black1 = 0x6B6D;
 
 
 int PawnArray[14][14] = 
-{ 
-0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0,
-0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-} //im not sure what the best way to put the "pixels" into the array is
+{{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+{0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+{0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+{0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0},
+{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
 
 void setup() {
   mytft.initR(INITR_BLACKTAB); // for 1.8' TFT
@@ -80,35 +78,39 @@ void setup() {
 
 void loop() {
   DrawBoard();
-  DrawPiece(PawnArray, 5, 4);
+  DrawPawn(5, 4);
   delay(100000); //this is just here so it doesn't keep drawing everything all the time
 }
 
 void BlankSquare(int k,int i){
   //i honestly don't know how to concicsely explain this logic, but it makes sense once you look at examples
   if ((k + i) % 2 == 1){
-    mytft.fillRect(RefPnt[0], RefPnt[1], 16, 16, 0x7CD691);
+    mytft.fillRect(RefPnt[0], RefPnt[1], 16, 16, 0x7EB2);
   } else {
-    mytft.fillRect(RefPnt[0], RefPnt[1], 16, 16, 0x278A3E);
+    mytft.fillRect(RefPnt[0], RefPnt[1], 16, 16, 0x2447);
   }
 }
 
 
 //piece array is the array with the pixel art in it, xSquare and ySquare is the square you want to draw piece in
 //also this currently only draws white pieces, we can just c + v it and replace the colors, or think of a way to make just one func
-void DrawPiece(int PieceArray, int xSquare, int ySquare){
+void DrawPawn(int xSquare, int ySquare){
   for(int y = 0; y < 14; y++){
     for(int x = 0; x < 14; x++){
-      switch(PieceArray[x][y]){
+      switch(PawnArray[x][y]){
         //if the array space is 0, just means its blank
         case 1:
           mytft.drawLine(xSquare*16 + x, ySquare*16 + y, xSquare*16 + x, ySquare*16 + y, White1);
+          break;
         case 2:
           mytft.drawLine(xSquare*16 + x, ySquare*16 + y, xSquare*16 + x, ySquare*16 + y, White2);
+          break;
         case 3:
           mytft.drawLine(xSquare*16 + x, ySquare*16 + y, xSquare*16 + x, ySquare*16 + y, White3);
+          break;
         case 4:
           mytft.drawLine(xSquare*16 + x, ySquare*16 + y, xSquare*16 + x, ySquare*16 + y, White4);
+          break;
       }
     }
   }
