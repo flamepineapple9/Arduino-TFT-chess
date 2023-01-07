@@ -95,7 +95,7 @@ void DrawPiece(int xSquare, int ySquare, int color, int piece){
 void BlankSquare(int k,int i){
   //i honestly don't know how to concicsely explain this logic, but it makes sense once you look at examples
  
-  //Ryan here, if i=0, then k%2 just means every other, but as we increase i it will oscillate between even and odd,
+  //Ryan here, if i=0, then (0 + k)%2 just means every other, but as we increase i it will oscillate between even and odd,
   //meaning (k0 + i0)%2 != (k0 + i1)%2, thus making the modulus of a given line the inverse of the next.
   if ((k + i) % 2 == 1){
     mytft.fillRect(RefPnt[0], RefPnt[1], 16, 16, 0x7EB2);
