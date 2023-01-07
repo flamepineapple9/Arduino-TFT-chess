@@ -32,7 +32,7 @@ int Board[8][8]; //8x8 grid for the board
 
 int ColorArray[2][5] = 
  {{0x0000, 0x10A2, 0x2124, 0x4A49, 0x6B6D}, // white, righter/higher index = lighter
-  {0x0000, 0xA534, 0xC618, 0xE71C, 0xFFFF}} // black, righter/higher index = lighter
+  {0x0000, 0xA534, 0xC618, 0xE71C, 0xFFFF}}; // black, righter/higher index = lighter
 
 //3d array, [piece][row][pixel]
 int PiecesArray[1][14][14] = 
