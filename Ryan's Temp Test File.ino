@@ -82,7 +82,7 @@ void DrawPiece(int xSquare, int ySquare, int color, int piece){
       if (PiecesArray[piece][y][x] = 0){
         break;
       } else {
-        mytft.drawPixel(xSquare*16+x+1, YSquare*16+y+1, ColorArray[color][PiecesArray[piece][y][x] - 1]);
+        mytft.drawPixel(xSquare*16+x+1, ySquare*16+y+1, ColorArray[color][PiecesArray[piece][y][x] - 1]);
       }
     }
   } 
