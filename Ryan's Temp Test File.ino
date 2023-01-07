@@ -31,16 +31,16 @@ int Board[8][8]; //8x8 grid for the board
 
 
 int ColorArray[2][4] = 
- {{0x10A2, 0x2124, 0x4A49, 0x6B6D}, // white, righter/higher index = lighter
-  {0xA534, 0xC618, 0xE71C, 0xFFFF}} // black, righter/higher index = lighter
+ {{0x0000, 0x10A2, 0x2124, 0x4A49, 0x6B6D}, // white, righter/higher index = lighter
+  {0x0000, 0xA534, 0xC618, 0xE71C, 0xFFFF}} // black, righter/higher index = lighter
 
 //3d array, [piece][row][pixel]
 int PiecesArray[1][14][14] = 
 {{{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-  {0, 0, 0, 0, 0, 0, 2, 0, 2, 0, 0, 0, 0, 0},
+  {0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 0, 0, 0},
+  {0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 0, 0, 0},
   {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-  {0, 0, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0},
-  {0, 0, 0, 0, 0, 0, 2, 2, 2, 0, 0, 0, 0, 0},
+  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
   {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
   {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
   {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -82,7 +82,7 @@ void DrawPiece(int xSquare, int ySquare, int color, int piece){
       if (PiecesArray[piece][y][x] = 0){
         break;
       } else {
-        mytft.drawPixel(xSquare*16+1, YSquare*16+1, ColorArray[color][PiecesArray[piece][y][x]]);
+        mytft.drawPixel(xSquare*16+1, YSquare*16+1, ColorArray[color][PiecesArray[piece][y][x] - 1]);
       }
     }
   } 
