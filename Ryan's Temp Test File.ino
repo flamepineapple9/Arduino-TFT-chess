@@ -82,10 +82,10 @@ void loop() {
 void DrawPiece(int xSquare, int ySquare, int color, int piece){
   for(int y = 0; y < 14; y++){
     for(int x = 0; x < 14; x++){
-      if (PiecesArray[piece][y][x] != 0){
-        mytft.drawPixel(xSquare*16+1, YSquare*16+1, ColorArray[color][PiecesArray[piece][y][x]]);
-      } else {
+      if (PiecesArray[piece][y][x] = 0){
         break;
+      } else {
+        mytft.drawPixel(xSquare*16+1, YSquare*16+1, ColorArray[color][PiecesArray[piece][y][x]]);
       }
     }
   } 
