@@ -45,18 +45,18 @@ void loop() {
   DrawBoard();
   
   //should draw one of each piece type, 
-  DrawPiece(1, 0, 0, 0);
-  DrawPiece(1, 1, 1, 0);
-  DrawPiece(2, 0, 0, 1);
-  DrawPiece(2, 1, 1, 1);
-  DrawPiece(3, 0, 0, 2);
-  DrawPiece(3, 1, 1, 2);
-  DrawPiece(4, 0, 0, 3);
-  DrawPiece(4, 1, 1, 3);
-  DrawPiece(5, 0, 0, 4);
-  DrawPiece(5, 1, 1, 4);
-  DrawPiece(6, 0, 0, 5);
-  DrawPiece(6, 1, 1, 5);
+  DrawPiece(1, 1, 0, 0);
+  DrawPiece(1, 2, 1, 0);
+  DrawPiece(2, 1, 0, 1);
+  DrawPiece(2, 2, 1, 1);
+  DrawPiece(3, 1, 0, 2);
+  DrawPiece(3, 2, 1, 2);
+  DrawPiece(4, 1, 0, 3);
+  DrawPiece(4, 2, 1, 3);
+  DrawPiece(5, 1, 0, 4);
+  DrawPiece(5, 2, 1, 4);
+  DrawPiece(6, 1, 0, 5);
+  DrawPiece(6, 2, 1, 5);
   delay(100000); //this is just here so it doesn't keep drawing everything all the time
 }
 
