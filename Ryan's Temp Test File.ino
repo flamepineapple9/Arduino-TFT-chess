@@ -94,6 +94,9 @@ void DrawPiece(int xSquare, int ySquare, int color, int piece){
 
 void BlankSquare(int k,int i){
   //i honestly don't know how to concicsely explain this logic, but it makes sense once you look at examples
+ 
+  //Ryan here, if i=0, then k%2 just means every other, but as we increase i it will oscillate between even and odd,
+  //meaning (k0 + i0)%2 != (k0 + i1)%2, thus making the modulus of a given line the inverse of the next.
   if ((k + i) % 2 == 1){
     mytft.fillRect(RefPnt[0], RefPnt[1], 16, 16, 0x7EB2);
   } else {
@@ -111,17 +114,4 @@ void DrawBoard(){
       BlankSquare(k, i);
     }
   }
-}
-
-void DrawRook(int x, int y, int color){
-  RefPnt[0] = x * 16;
-  RefPnt[1] = y * 16;
-  mytft.drawLine(RefPnt[0] + 3, RefPnt[1] + 1, RefPnt[0] + 5, RefPnt[1] + 1, ST7735_BLACK);
-  
-}
-//also in the name
-void DrawPawn(int x, int y, int color){ 
-  //sets the refference point that all the other pixels build off of, ref point is the top left pixel of a square
-  RefPnt[0] = x * 16;
-  RefPnt[1] = y * 16;
 }
