@@ -80,6 +80,7 @@ void loop() {
 
 //xSquare and ySquare is the square on the board 
 void DrawPiece(int xSquare, int ySquare, int color, int piece){
+ //Ryan here, could use less loops, but for editings sake and to reduce calculations, this will do.
   for(int y = 0; y < 14; y++){
     for(int x = 0; x < 14; x++){
       if (PiecesArray[piece][y][x] = 0){
@@ -95,8 +96,8 @@ void DrawPiece(int xSquare, int ySquare, int color, int piece){
 void BlankSquare(int k,int i){
   //i honestly don't know how to concicsely explain this logic, but it makes sense once you look at examples
  
-  //Ryan here, if i=0, then (0 + k)%2 just means every other, but as we increase i it will oscillate between even and odd,
-  //meaning (k0 + i0)%2 != (k0 + i1)%2, thus making the modulus of a given line the inverse of the next.
+  //Ryan here, if i=0, then (0 + k)%2 just means every other, but as we increase i, i+constant will oscillate between
+  //even and odd, meaning (k0 + i0)%2 != (k0 + i1)%2, thus making a given row the inverse of the next.
   if ((k + i) % 2 == 1){
     mytft.fillRect(RefPnt[0], RefPnt[1], 16, 16, 0x7EB2);
   } else {
