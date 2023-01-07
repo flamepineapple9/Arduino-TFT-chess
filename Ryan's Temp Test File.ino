@@ -79,7 +79,7 @@ void DrawPiece(int xSquare, int ySquare, int color, int piece){
  //Ryan here, could use less loops, but for editings sake and to reduce calculations, this will do.
   for(int y = 0; y < 14; y++){
     for(int x = 0; x < 14; x++){
-      if (PiecesArray[piece][y][x] = 0){
+      if (PiecesArray[piece][y][x] == 0){
         break;
       } else {
         mytft.drawPixel(xSquare*16+x+1, ySquare*16+y+1, ColorArray[color][PiecesArray[piece][y][x] - 1]);
