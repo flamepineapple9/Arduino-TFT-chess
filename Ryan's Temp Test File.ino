@@ -28,10 +28,6 @@ byte numColors =  sizeof(dispColors) / sizeof(dispColors[0]); //how many colors
 
 
 int Board[8][8]; //8x8 grid for the board
-int RefPnt[2]; //refference point, top right corner pixel of the square, 0 = x, 1 = y
-
-//color variables to make sprite creation less painful 
-int Border = 0x0000;
 
 
 int ColorArray[2][4] = 
@@ -99,9 +95,9 @@ void BlankSquare(int k,int i){
   //Ryan here, if i=0, then (0 + k)%2 just means every other, but as we increase i, i+constant will oscillate between
   //even and odd, meaning (k0 + i0)%2 != (k0 + i1)%2, thus making a given row the inverse of the next.
   if ((k + i) % 2 == 1){
-    mytft.fillRect(RefPnt[0], RefPnt[1], 16, 16, 0x7EB2);
+    mytft.fillRect(k*16, i*16, 16, 16, 0x7EB2);
   } else {
-    mytft.fillRect(RefPnt[0], RefPnt[1], 16, 16, 0x2447);
+    mytft.fillRect(k*16, i*16, 16, 16, 0x2447);
   }
 }
 
@@ -110,8 +106,6 @@ void DrawBoard(){
   for (int i = 0; i < 8; i++) {
       for (int k = 0; k < 8; k++){
       //sets the refference point that the squares are created from, ref point is the top left pixel of a square
-      RefPnt[0] = k * 16;
-      RefPnt[1] = i * 16;
       BlankSquare(k, i);
     }
   }
