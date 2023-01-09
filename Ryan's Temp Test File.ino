@@ -42,7 +42,7 @@ void setup() {
 //------ v actual code v -----
 
 void loop() {
-  DrawBoard();
+  BoardSetup();
   
   //should draw one of each piece type, 
   DrawPiece(1, 1, 0, 0);
@@ -195,10 +195,15 @@ void BlankSquare(int k,int i){
   }
 }
 
-void DrawBoard(){
+void BoardSetup(){
   for (int i = 0; i < 8; i++) {
       for (int k = 0; k < 8; k++){
       BlankSquare(k, i);
     }
   }
+}
+
+void DrawBoard(){
+  //goes through board position array, and uses DrawPiece() to draw pieces in correct position depending on board position.
+  //should be called every time board pos changes.
 }
