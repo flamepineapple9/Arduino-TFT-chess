@@ -57,17 +57,11 @@ void loop() {
   DrawPiece(5, 2, 1, 4);
   DrawPiece(6, 1, 0, 5);
   DrawPiece(6, 2, 1, 5);
-  //mytft.drawPixel(51,50,ST7735_BLACK);
-  //mytft.drawPixel(50,50,ST7735_BLACK);
-  //mytft.drawPixel(50,51,ST7735_BLACK);
-  //mytft.drawPixel(51,51,ST7735_BLACK);
   delay(100000); //this is just here so it doesn't keep drawing everything all the time
 }
 
-
-//how are we going to represent the board. We have to also be able to tell what color each piece is
-//maybe a two digit number, second digit being piece type, take the digit % 10 to figure out piece number, first digit is color?
-//subtract 6 from the number (largest number would be a black king, 25), if > 10, black, if < 10, white.
+//each piece is represented by a 2 digit number, first digit is the color 1 = white, 2 = black, to access color in program, < 20 = white, >= 20 = black
+//second digit is the piece type, 0-5. To access piece type in program, take the two digit number % 10
 int Board[8][8]; //8x8 grid for the board
 
 const unsigned int ColorArray[2][5] = 
