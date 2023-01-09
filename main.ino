@@ -36,14 +36,13 @@ void setup() {
   mytft.setCursor(0,0); //puts cursor in top left, (which is where the text is printed from)
   randomSeed(analogRead(A5)); //Seed with bogus read
   Serial.begin(9600);
+  BoardSetup();
 }
 
 //--------- ^ setup ^ --------- 
 //------ v actual code v -----
 
 void loop() {
-  BoardSetup();
-  
   //should draw one of each piece type, 
   DrawPiece(1, 1, 0, 0);
   DrawPiece(1, 2, 1, 0);
