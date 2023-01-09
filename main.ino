@@ -76,7 +76,7 @@ PiecesArray[0] = pawn
            [4] = queen
            [5] = king
 */
-const unsigned int PiecesArray[6][14][14] = 
+const unsigned char PiecesArray[6][14][14] = 
 {{{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
   {0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0},
   {0, 0, 0, 0, 1, 5, 4, 4, 2, 1, 0, 0, 0, 0},
