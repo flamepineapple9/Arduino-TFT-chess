@@ -57,10 +57,10 @@ void loop() {
   DrawPiece(5, 2, 1, 4);
   DrawPiece(6, 1, 0, 5);
   DrawPiece(6, 2, 1, 5);
-  mytft.drawPixel(51,50,ST7735_BLACK);
-  mytft.drawPixel(50,50,ST7735_BLACK);
-  mytft.drawPixel(50,51,ST7735_BLACK);
-  mytft.drawPixel(51,51,ST7735_BLACK);
+  //mytft.drawPixel(51,50,ST7735_BLACK);
+  //mytft.drawPixel(50,50,ST7735_BLACK);
+  //mytft.drawPixel(50,51,ST7735_BLACK);
+  //mytft.drawPixel(51,51,ST7735_BLACK);
   delay(100000); //this is just here so it doesn't keep drawing everything all the time
 }
 
@@ -82,7 +82,7 @@ PiecesArray[0] = pawn
            [4] = queen
            [5] = king
 */
-const int PiecesArray[6][14][14] = 
+const unsigned int PiecesArray[6][14][14] = 
 {{{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
   {0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0},
   {0, 0, 0, 0, 1, 5, 4, 4, 2, 1, 0, 0, 0, 0},
