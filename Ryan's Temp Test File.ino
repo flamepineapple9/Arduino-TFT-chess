@@ -61,7 +61,9 @@ void loop() {
 }
 
 
-
+//how are we going to represent the board. We have to also be able to tell what color each piece is
+//maybe a two digit number, second digit being piece type, take the digit % 10 to figure out piece number, first digit is color?
+//subtract 6 from the number (largest number would be a black king, 25), if > 10, black, if < 10, white.
 int Board[8][8]; //8x8 grid for the board
 
 int ColorArray[2][5] = 
@@ -197,13 +199,18 @@ void BlankSquare(int k,int i){
 
 void BoardSetup(){
   for (int i = 0; i < 8; i++) {
-      for (int k = 0; k < 8; k++){
+    for (int k = 0; k < 8; k++){
       BlankSquare(k, i);
     }
   }
 }
 
-void DrawBoard(){
+/*void DrawBoard(){
   //goes through board position array, and uses DrawPiece() to draw pieces in correct position depending on board position.
   //should be called every time board pos changes.
-}
+  for(int y = 1; i <= 8; i++){
+    for(int x = 1; i <= 8; i++){
+      DrawPiece(x, y, I do not know how to make this the color , Board[y][x];
+    }
+  }
+}*/
