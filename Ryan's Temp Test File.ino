@@ -176,7 +176,7 @@ const unsigned int PiecesArray[6][14][14] =
 
 
 
-//xSquare and ySquare is the square on the board 
+//xSquare and ySquare is the square on the board, 0=black 1=white, refference PiecesArray
 void DrawPiece(int xSquare, int ySquare, int color, int piece){
  //Ryan here, could use less loops, but for editings sake and to reduce calculations, this will do.
   for(int y = 0; y < 14; y++){
