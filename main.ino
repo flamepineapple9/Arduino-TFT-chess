@@ -43,25 +43,22 @@ void setup() {
 //------ v actual code v -----
 
 void loop() {
-  //should draw one of each piece type, 
-  DrawPiece(1, 1, 0, 0);
-  DrawPiece(1, 2, 1, 0);
-  DrawPiece(2, 1, 0, 1);
-  DrawPiece(2, 2, 1, 1);
-  DrawPiece(3, 1, 0, 2);
-  DrawPiece(3, 2, 1, 2);
-  DrawPiece(4, 1, 0, 3);
-  DrawPiece(4, 2, 1, 3);
-  DrawPiece(5, 1, 0, 4);
-  DrawPiece(5, 2, 1, 4);
-  DrawPiece(6, 1, 0, 5);
-  DrawPiece(6, 2, 1, 5);
   delay(100000); //this is just here so it doesn't keep drawing everything all the time
 }
 
 //each piece is represented by a 2 digit number, first digit is the color 1 = white, 2 = black, to access color in program, < 20 = white, >= 20 = black
-//second digit is the piece type, 0-5. To access piece type in program, take the two digit number % 10
-int Board[8][8]; //8x8 grid for the board
+//second digit is the piece type, 0-5. To access piece type in program, take the two digit number % 10 
+//an element being 9 means no piece on that square, can't use 0, that indicates a pawn
+int Board[8][8] = {
+  {21, 22, 23, 24, 25, 23, 22, 21},
+  {20, 20, 20, 20, 20, 20, 20, 20},
+  {0, 0, 0, 0, 0, 0, 0, 0},
+  {0, 0, 0, 0, 0, 0, 0, 0},
+  {0, 0, 0, 0, 0, 0, 0, 0},
+  {0, 0, 0, 0, 0, 0, 0, 0},
+  {10, 10, 10, 10, 10, 10, 10, 10},
+  {11, 12, 13, 14, 15, 13, 12, 11},
+}
 
 const unsigned int ColorArray[2][5] = 
  {{0x0000, 0x10A2, 0x2124, 0x4A49, 0x6B6D}, // white, dark --> light
@@ -174,12 +171,9 @@ void DrawPiece(int xSquare, int ySquare, int color, int piece){
  //Ryan here, could use less loops, but for editings sake and to reduce calculations, this will do.
   for(int y = 0; y < 14; y++){
     for(int x = 0; x < 14; x++){
-      if (PiecesArray[piece][y][x] == 0x00){
-        break;
-      } else {
-       //             |  x position   |  y position  |                     color                      |
-       mytft.drawPixel(xSquare*16+x+1, ySquare*16+y+1, ColorArray[color][PiecesArray[piece][y][x] - 1]);
-      }
+      if (PiecesArray[piece][y][x] !== 0x00){
+        //             |  x position   |  y position  |                     color                      |
+        mytft.drawPixel(xSquare*16+x+1, ySquare*16+y+1, ColorArray[color][PiecesArray[piece][y][x] - 1]);
     }
   } 
 }
@@ -200,14 +194,17 @@ void BoardSetup(){
       BlankSquare(k, i);
     }
   }
-}
-
-/*void DrawBoard(){
   //goes through board position array, and uses DrawPiece() to draw pieces in correct position depending on board position.
   //should be called every time board pos changes.
-  for(int y = 1; i <= 8; i++){
-    for(int x = 1; i <= 8; i++){
-      DrawPiece(x, y, I do not know how to make this the color , Board[y][x];
+  for(int y = 0; i < 8; i++){
+    for(int x = 0; i < 8; i++){
+      if(Board[y][x] !== 0){
+        if(Board[y][x] < 20){
+          DrawPiece(x, y, 0, Board[y][x]%10)
+        } else {
+          DrawPiece(x, y, 1, Board[y][x]%10)
+        }
+      }
     }
   }
-}*/
+}
