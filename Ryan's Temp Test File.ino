@@ -70,7 +70,7 @@ void loop() {
 //subtract 6 from the number (largest number would be a black king, 25), if > 10, black, if < 10, white.
 int Board[8][8]; //8x8 grid for the board
 
-const int ColorArray[2][5] = 
+const unsigned int ColorArray[2][5] = 
  {{0x0000, 0x10A2, 0x2124, 0x4A49, 0x6B6D}, // white, dark --> light
   {0x0000, 0xA534, 0xC618, 0xE71C, 0xFFFF}}; // black, dark --> light
 
