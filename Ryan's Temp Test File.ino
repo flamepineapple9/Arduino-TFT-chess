@@ -57,6 +57,10 @@ void loop() {
   DrawPiece(5, 2, 1, 4);
   DrawPiece(6, 1, 0, 5);
   DrawPiece(6, 2, 1, 5);
+  mytft.drawPixel(51,50,ST7735_BLACK);
+  mytft.drawPixel(50,50,ST7735_BLACK);
+  mytft.drawPixel(50,51,ST7735_BLACK);
+  mytft.drawPixel(51,51,ST7735_BLACK);
   delay(100000); //this is just here so it doesn't keep drawing everything all the time
 }
 
@@ -66,7 +70,7 @@ void loop() {
 //subtract 6 from the number (largest number would be a black king, 25), if > 10, black, if < 10, white.
 int Board[8][8]; //8x8 grid for the board
 
-int ColorArray[2][5] = 
+const int ColorArray[2][5] = 
  {{0x0000, 0x10A2, 0x2124, 0x4A49, 0x6B6D}, // white, dark --> light
   {0x0000, 0xA534, 0xC618, 0xE71C, 0xFFFF}}; // black, dark --> light
 
