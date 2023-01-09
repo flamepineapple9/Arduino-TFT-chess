@@ -22,44 +22,9 @@ This will be chess meant to be played on a 128/160 tft display
 Adafruit_ST7735 mytft = Adafruit_ST7735(TFT_SS, DC, RST); // idk why this is needed      Grace i'm pretty sure this creates the screen object -Eli
 ButtonDebounce button(SW_PIN, MIN_CLICK);// seems to be defining some values for the button debounce library
 
-//array for colors
+//array for colors, pretty sure we can delete this, unless it's needed for the screen to operate somehow. no harm in leaving it though
 unsigned int dispColors[] = { ST7735_BLACK, ST7735_RED, ST7735_ORANGE, ST7735_YELLOW, ST7735_GREEN, ST7735_CYAN, ST7735_BLUE, ST7735_MAGENTA, ST7735_WHITE };
 byte numColors =  sizeof(dispColors) / sizeof(dispColors[0]); //how many colors
-
-
-int Board[8][8]; //8x8 grid for the board
-int RefPnt[2]; //refference point, top right corner pixel of the square, 0 = x, 1 = y
-
-//color variables to make sprite creation less painful 
-int Border = 0x0000;
-
-//higher number = lighter color
-int White4 = 0xA534;
-int White3 = 0xC618;
-int White2 = 0xE71C;
-int White1 = 0xFFFF;
-
-int Black4 = 0x10A2;
-int Black3 = 0x2124;
-int Black2 = 0x4A49;
-int Black1 = 0x6B6D;
-
-//3d array, [piece][row][pixel]
-int PiecesArray[14][14] = 
-{{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
- {0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
- {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
- {0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0},
- {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
- {0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
- {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
- {0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0},
- {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
- {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
- {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
- {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
- {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
- {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
 
 void setup() {
   mytft.initR(INITR_BLACKTAB); // for 1.8' TFT
@@ -73,92 +38,166 @@ void setup() {
   Serial.begin(9600);
 }
 
-
+//--------- ^ setup ^ --------- 
+//------ v actual code v -----
 
 void loop() {
-  DrawBoard();
-  DrawPiece(5, 4, 1, 1);
+  BoardSetup();
+  
+  //should draw one of each piece type, 
+  DrawPiece(1, 1, 1, 0);
   delay(100000); //this is just here so it doesn't keep drawing everything all the time
 }
 
+
+//how are we going to represent the board. We have to also be able to tell what color each piece is
+//maybe a two digit number, second digit being piece type, take the digit % 10 to figure out piece number, first digit is color?
+//subtract 6 from the number (largest number would be a black king, 25), if > 10, black, if < 10, white.
+int Board[8][8]; //8x8 grid for the board
+
+const unsigned int ColorArray[2][5] = 
+ {{0x0000, 0x10A2, 0x2124, 0x4A49, 0x6B6D}, // white, dark --> light
+  {0x0000, 0xA534, 0xC618, 0xE71C, 0xFFFF}}; // black, dark --> light
+
+/*3d array, [piece][row][pixel], 
+PiecesArray[0] = pawn
+           [1] = rook
+           [2] = knight
+           [3] = bishop
+           [4] = queen
+           [5] = king
+*/
+const unsigned char PiecesArray[6][14][14] = 
+{{{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+  {0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0},
+  {0, 0, 0, 0, 1, 5, 4, 4, 2, 1, 0, 0, 0, 0},
+  {0, 0, 0, 0, 1, 4, 3, 3, 2, 1, 0, 0, 0, 0},
+  {0, 0, 0, 0, 1, 3, 3, 3, 2, 1, 0, 0, 0, 0},
+  {0, 0, 0, 0, 0, 1, 3, 2, 1, 0, 0, 0, 0, 0},
+  {0, 0, 0, 0, 1, 4, 4, 3, 2, 1, 0, 0, 0, 0},
+  {0, 0, 0, 0, 1, 3, 2, 2, 2, 1, 0, 0, 0, 0},
+  {0, 0, 0, 0, 0, 1, 3, 2, 1, 0, 0, 0, 0, 0},
+  {0, 0, 0, 0, 1, 4, 3, 3, 2, 1, 0, 0, 0, 0},
+  {0, 0, 0, 1, 4, 4, 3, 3, 3, 2, 1, 0, 0, 0},
+  {0, 0, 0, 1, 4, 2, 2, 2, 2, 2, 1, 0, 0, 0},
+  {0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0},
+  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
+
+ {{0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 0},
+  {0, 0, 1, 5, 1, 0, 1, 3, 3, 3, 2, 1, 0, 0},
+  {0, 0, 1, 4, 1, 1, 1, 3, 3, 3, 2, 1, 0, 0},
+  {0, 0, 1, 4, 3, 3, 3, 3, 3, 2, 2, 1, 0, 0},
+  {0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0},
+  {0, 0, 0, 1, 5, 4, 3, 3, 2, 2, 1, 0, 0, 0},
+  {0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0},
+  {0, 0, 0, 0, 1, 4, 3, 3, 2, 1, 0, 0, 0, 0},
+  {0, 0, 0, 0, 1, 4, 3, 3, 2, 1, 0, 0, 0, 0},
+  {0, 0, 0, 0, 1, 4, 3, 3, 2, 1, 0, 0, 0, 0},
+  {0, 0, 0, 1, 5, 4, 3, 3, 2, 2, 1, 0, 0, 0},
+  {0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0},
+  {0, 1, 5, 4, 4, 4, 3, 3, 3, 2, 2, 2, 1, 0},
+  {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0}},
+
+ {{0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0},
+  {0, 0, 0, 1, 5, 4, 3, 1, 1, 1, 0, 0, 0, 0},
+  {0, 0, 0, 0, 1, 4, 3, 3, 3, 2, 1, 0, 0, 0},
+  {0, 0, 0, 1, 4, 1, 3, 3, 3, 3, 2, 1, 0, 0},
+  {0, 0, 1, 4, 3, 3, 3, 2, 3, 3, 2, 1, 0, 0},
+  {0, 1, 4, 3, 3, 3, 2, 1, 3, 3, 2, 1, 0, 0},
+  {0, 1, 4, 3, 1, 1, 1, 4, 3, 3, 2, 1, 0, 0},
+  {0, 0, 1, 1, 0, 0, 1, 4, 3, 3, 2, 1, 0, 0},
+  {0, 0, 0, 0, 0, 1, 4, 4, 3, 3, 2, 1, 0, 0},
+  {0, 0, 0, 0, 1, 4, 3, 3, 3, 2, 1, 0, 0, 0},
+  {0, 0, 0, 1, 5, 4, 3, 3, 2, 2, 1, 0, 0, 0},
+  {0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0},
+  {0, 0, 1, 4, 4, 3, 3, 3, 2, 2, 2, 1, 0, 0},
+  {0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0}},
+ 
+ {{0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0},
+  {0, 0, 0, 0, 0, 1, 5, 2, 1, 0, 0, 0, 0, 0},
+  {0, 0, 0, 0, 0, 1, 4, 2, 1, 0, 0, 0, 0, 0},
+  {0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0},
+  {0, 0, 0, 0, 0, 1, 4, 2, 1, 0, 0, 0, 0, 0},
+  {0, 0, 0, 0, 1, 5, 3, 3, 0, 1, 0, 0, 0, 0},
+  {0, 0, 0, 1, 5, 3, 3, 0, 1, 2, 1, 0, 0, 0},
+  {0, 0, 0, 1, 4, 3, 3, 1, 3, 2, 1, 0, 0, 0},
+  {0, 0, 0, 1, 4, 3, 3, 3, 3, 2, 1, 0, 0, 0},
+  {0, 0, 0, 1, 4, 3, 3, 3, 3, 2, 1, 0, 0, 0},
+  {0, 0, 0, 0, 1, 4, 3, 3, 2, 1, 0, 0, 0, 0},
+  {0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0},
+  {0, 0, 1, 4, 4, 3, 3, 3, 2, 2, 2, 1, 0, 0},
+  {0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0}},
+
+ {{0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0},
+  {0, 0, 0, 0, 0, 1, 5, 2, 1, 0, 0, 0, 0, 0},
+  {0, 0, 0, 0, 0, 1, 4, 2, 1, 0, 0, 0, 0, 0},
+  {0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0},
+  {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+  {0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0},
+  {0, 1, 5, 1, 0, 1, 4, 3, 1, 0, 1, 2, 1, 0},
+  {0, 1, 5, 4, 1, 4, 3, 3, 3, 1, 2, 2, 1, 0},
+  {0, 0, 1, 4, 4, 3, 3, 3, 3, 3, 2, 1, 0, 0},
+  {0, 0, 1, 4, 4, 3, 3, 3, 3, 2, 2, 1, 0, 0},
+  {0, 0, 0, 1, 4, 3, 3, 3, 2, 2, 1, 0, 0, 0},
+  {0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0},
+  {0, 0, 1, 4, 4, 3, 3, 3, 2, 2, 2, 1, 0, 0},
+  {0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0}},
+
+ {{0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0},
+  {0, 0, 0, 0, 0, 1, 5, 2, 1, 0, 0, 0, 0, 0},
+  {0, 0, 0, 0, 0, 1, 4, 2, 1, 0, 0, 0, 0, 0},
+  {0, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 0},
+  {0, 1, 5, 3, 3, 1, 0, 0, 1, 3, 3, 2, 1, 0},
+  {0, 1, 4, 0, 1, 3, 1, 1, 3, 1, 0, 2, 1, 0},
+  {0, 1, 4, 0, 0, 1, 3, 3, 1, 0, 0, 2, 1, 0},
+  {0, 1, 4, 1, 0, 0, 3, 3, 0, 0, 1, 2, 1, 0},
+  {0, 0, 1, 4, 1, 1, 3, 3, 1, 1, 2, 1, 0, 0},
+  {0, 0, 1, 4, 4, 3, 3, 3, 3, 2, 2, 1, 0, 0},
+  {0, 0, 0, 1, 4, 3, 3, 3, 2, 2, 1, 0, 0, 0},
+  {0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0},
+  {0, 0, 1, 4, 4, 3, 3, 3, 2, 2, 2, 1, 0, 0},
+  {0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0}}
+};
 
 
 
 //xSquare and ySquare is the square on the board 
 void DrawPiece(int xSquare, int ySquare, int color, int piece){
+ //Ryan here, could use less loops, but for editings sake and to reduce calculations, this will do.
   for(int y = 0; y < 14; y++){
     for(int x = 0; x < 14; x++){
-      //color 1 makes the white piece
-      if(color == 1){
-        //if color 1 (white), and piece 1 (pawn), draw white pawn
-          switch(PiecesArray[y][x]){
-          case 1:
-            mytft.drawLine(xSquare*16 + x + 1, ySquare*16 + y + 1, xSquare*16 + x + 1, ySquare*16 + y + 1, White1);
-            break;
-          case 2:
-            mytft.drawLine(xSquare*16 + x + 1, ySquare*16 + y + 1, xSquare*16 + x + 1, ySquare*16 + y + 1, White2);
-            break;
-          case 3:
-            mytft.drawLine(xSquare*16 + x + 1, ySquare*16 + y + 1, xSquare*16 + x + 1, ySquare*16 + y + 1, White3);
-            break;
-          case 4:
-            mytft.drawLine(xSquare*16 + x + 1, ySquare*16 + y + 1, xSquare*16 + x + 1, ySquare*16 + y + 1, White4);
-            break;
-        }
-      }
-      
-      //color 2 makes black piece
-      if(color == 2){
-          switch(PiecesArray[y][x]){
-          case 1:
-            mytft.drawLine(xSquare*16 + x + 1, ySquare*16 + y + 1, xSquare*16 + x + 1, ySquare*16 + y + 1, Black1);
-            break;
-          case 2:
-            mytft.drawLine(xSquare*16 + x + 1, ySquare*16 + y + 1, xSquare*16 + x + 1, ySquare*16 + y + 1, Black2);
-            break;
-          case 3:
-            mytft.drawLine(xSquare*16 + x + 1, ySquare*16 + y + 1, xSquare*16 + x + 1, ySquare*16 + y + 1, Black3);
-            break;
-          case 4:
-            mytft.drawLine(xSquare*16 + x + 1, ySquare*16 + y + 1, xSquare*16 + x + 1, ySquare*16 + y + 1, Black4);
-            break;
-        }
+      if (PiecesArray[piece][y][x] != 0x00){
+        //             |  x position   |  y position  |                     color                      |
+        mytft.drawPixel(xSquare*16+x+1, ySquare*16+y+1, ColorArray[color][PiecesArray[piece][y][x] -1]);
       }
     }
-  }
+  } 
 }
-
 
 void BlankSquare(int k,int i){
-  //i honestly don't know how to concicsely explain this logic, but it makes sense once you look at examples
+  //Ryan here, if i=0, then (0 + k)%2 just means every other, but as we increase i, i+constant will oscillate between
+  //even and odd, meaning (k0 + i0)%2 != (k0 + i1)%2, thus making a given row the inverse of the next.
   if ((k + i) % 2 == 1){
-    mytft.fillRect(RefPnt[0], RefPnt[1], 16, 16, 0x7EB2);
+    mytft.fillRect(k*16, i*16, 16, 16, 0x7EB2);
   } else {
-    mytft.fillRect(RefPnt[0], RefPnt[1], 16, 16, 0x2447);
+    mytft.fillRect(k*16, i*16, 16, 16, 0x2447);
   }
 }
 
-//its in the name
-void DrawBoard(){
+void BoardSetup(){
   for (int i = 0; i < 8; i++) {
-      for (int k = 0; k < 8; k++){
-      //sets the refference point that the squares are created from, ref point is the top left pixel of a square
-      RefPnt[0] = k * 16;
-      RefPnt[1] = i * 16;
+    for (int k = 0; k < 8; k++){
       BlankSquare(k, i);
     }
   }
 }
 
-void DrawRook(int x, int y, int color){
-  RefPnt[0] = x * 16;
-  RefPnt[1] = y * 16;
-  mytft.drawLine(RefPnt[0] + 3, RefPnt[1] + 1, RefPnt[0] + 5, RefPnt[1] + 1, ST7735_BLACK);
-  
-}
-//also in the name
-void DrawPawn(int x, int y, int color){ 
-  //sets the refference point that all the other pixels build off of, ref point is the top left pixel of a square
-  RefPnt[0] = x * 16;
-  RefPnt[1] = y * 16;
-}
+/*void DrawBoard(){
+  //goes through board position array, and uses DrawPiece() to draw pieces in correct position depending on board position.
+  //should be called every time board pos changes.
+  for(int y = 1; i <= 8; i++){
+    for(int x = 1; i <= 8; i++){
+      DrawPiece(x, y, I do not know how to make this the color , Board[y][x];
+    }
+  }
+}*/
