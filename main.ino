@@ -202,9 +202,9 @@ void BoardSetup(){
     for(int x = 0; i < 8; i++){
       if(Board[y][x] !== 0){
         if(Board[y][x] < 20){
-          DrawPiece(x, y, 0, Board[y][x]%10)
+          DrawPiece(x, y, 0, Board[y][x]%10);
         } else {
-          DrawPiece(x, y, 1, Board[y][x]%10)
+          DrawPiece(x, y, 1, Board[y][x]%10);
         }
       }
     }
