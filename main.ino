@@ -41,11 +41,6 @@ void setup() {
 //--------- ^ setup ^ --------- 
 //------ v actual code v -----
 
-void loop() {
-  BoardSetup();
-  delay(100000); //this is just here so it doesn't keep drawing everything all the time
-}
-
 //each piece is represented by a 2 digit number, first digit is the color 1 = white, 2 = black, to access color in program, < 20 = white, >= 20 = black
 //second digit is the piece type, 0-5. To access piece type in program, take the two digit number % 10 
 //an element being 9 means no piece on that square, can't use 0, that indicates a pawn
@@ -209,4 +204,9 @@ void BoardSetup(){
       }
     }
   }
+}
+
+void loop() {
+  BoardSetup();
+  delay(100000); //this is just here so it doesn't keep drawing everything all the time
 }
