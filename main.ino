@@ -185,7 +185,7 @@ void BlankSquare(int k,int i){
   }
 }
 
-void BoardSetup(){
+/*void BoardSetup(){
   for (int i = 0; i < 8; i++) {
     for (int k = 0; k < 8; k++){
       BlankSquare(k, i);
@@ -203,6 +203,39 @@ void BoardSetup(){
         }
       }
     }
+  }
+}*/
+void BoardSetup(){
+  for (int i = 0; i < 8; i++) {
+    for (int k = 0; k < 8; k++){
+      BlankSquare(k, i);
+    }
+  }
+  
+  //black pieces
+  DrawPiece(0,0,1,1);
+  DrawPiece(0,1,1,2);
+  DrawPiece(0,2,1,3);
+  DrawPiece(0,3,1,4);
+  DrawPiece(0,4,1,5);
+  DrawPiece(0,5,1,3);
+  DrawPiece(0,6,1,2);
+  DrawPiece(0,7,1,1);
+  for(int pawns = 0; pawns < 8; pawns++){
+    DrawPiece(1,pawns,1,0);
+  }
+  
+  //white pieces
+  DrawPiece(7,0,0,1);
+  DrawPiece(7,1,0,2);
+  DrawPiece(7,2,0,3);
+  DrawPiece(7,3,0,4);
+  DrawPiece(7,4,0,5);
+  DrawPiece(7,5,0,3);
+  DrawPiece(7,6,0,2);
+  DrawPiece(7,7,0,1);
+  for(int pawns = 0; pawns < 8; pawns++){
+    DrawPiece(6,pawns,0,0);
   }
 }
 
