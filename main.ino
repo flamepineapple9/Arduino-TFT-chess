@@ -206,7 +206,7 @@ void BoardSetup(){
   }
 }
 
-void loop() {
+void loop(){
   BoardSetup();
   delay(100000); //this is just here so it doesn't keep drawing everything all the time
 }
