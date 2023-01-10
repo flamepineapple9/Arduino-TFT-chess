@@ -36,13 +36,13 @@ void setup() {
   mytft.setCursor(0,0); //puts cursor in top left, (which is where the text is printed from)
   randomSeed(analogRead(A5)); //Seed with bogus read
   Serial.begin(9600);
-  BoardSetup();
 }
 
 //--------- ^ setup ^ --------- 
 //------ v actual code v -----
 
 void loop() {
+  BoardSetup();
   delay(100000); //this is just here so it doesn't keep drawing everything all the time
 }
 
@@ -198,7 +198,7 @@ void BoardSetup(){
   }
   //goes through board position array, and uses DrawPiece() to draw pieces in correct position depending on board position.
   //should be called every time board pos changes.
-  /*for(int y = 0; i < 8; i++){
+  for(int y = 0; i < 8; i++){
     for(int x = 0; i < 8; i++){
       if(Board[y][x] !== 0){
         if(Board[y][x] < 20){
@@ -208,5 +208,5 @@ void BoardSetup(){
         }
       }
     }
-  }*/
+  }
 }
