@@ -195,7 +195,7 @@ void BoardSetup(){
   //should be called every time board pos changes.
   for(int y = 0; i < 8; i++){
     for(int x = 0; i < 8; i++){
-      if(Board[y][x] !== 0){
+      if(Board[y][x] != 0){
         if(Board[y][x] < 20){
           DrawPiece(x, y, 0, Board[y][x]%10);
         } else {
