@@ -46,7 +46,7 @@ void setup() {
 //each piece is represented by a 2 digit number, first digit is the color 1 = white, 2 = black, to access color in program, < 20 = white, >= 20 = black
 //second digit is the piece type, 0-5. To access piece type in program, take the two digit number % 10 
 //an element being 9 means no piece on that square, can't use 0, that indicates a pawn
-int Board[8][8] = {
+unsigned int Board[8][8] = {
   {21, 22, 23, 24, 25, 23, 22, 21},
   {20, 20, 20, 20, 20, 20, 20, 20},
   {0, 0, 0, 0, 0, 0, 0, 0},
