@@ -36,12 +36,16 @@ void setup() {
   mytft.setCursor(0,0); //puts cursor in top left, (which is where the text is printed from)
   randomSeed(analogRead(A5)); //Seed with bogus read
   Serial.begin(9600);
+  
   //  v part of code v
   BoardSetup();
 }
 
 //--------- ^ setup ^ --------- 
 //------ v actual code v -----
+
+int xCursor = 0;
+int yCursor = 0;
 
 //each piece is represented by a 2 digit number, first digit is the color 1 = white, 2 = black, to access color in program, < 20 = white, >= 20 = black
 //second digit is the piece type, 0-5. To access piece type in program, take the two digit number % 10 
@@ -198,15 +202,24 @@ void BlankOutline(int k,int i,){
     mytft.drawRect(k*16, i*16, 16, 16, 0x2447);
   }
 }
+  
+  
+void CursorOutline(int k,int i,){
+  mytft.drawRect(k*16, i*16, 16, 16, 0xf800);
+}
 
 
 void BoardSetup(){
+  //draws board
   for (int i = 0; i < 8; i++) {
     for (int k = 0; k < 8; k++){
       BlankSquare(k, i);
       BlankOutline(k, i);
     }
   }
+  
+  //draws cursor
+  CursorOutline(0, 0);
   
   //black pieces
   DrawPiece(0,0,1,1);
@@ -244,7 +257,49 @@ void MovePiece(int x1, int y1, int x2, int y2){
   DrawPiece(x2, y2, round((Board[y2][x2]-13)/10), Board[y2][x2]%10);
 }
  
+
+void UpdateCursor(int xJoy, int yJoy) { // moves the cursor
+  if (abs(xJoy - 511) > 100) {
+    if (xJoy > 511){
+      if (xCursor < 8){
+        BlankOutline(xCursor, yCursor);
+        xCursor += 1;
+        CursorOutline(xCursor, yCursor);
+      }
+    }
+    
+    if (xJoy < 511){
+      if (xCursor > -1){
+        BlankOutline(xCursor, yCursor);
+        xCursor -= 1;
+        CursorOutline(xCursor, yCursor);
+      }
+    }
+    
+  }
+  
+  if (abs(yJoy - 511) > 100){
+    if (yJoy > 511){
+      if (yCursor < 8){
+        BlankOutline(xCursor, yCursor);
+        yCursor += 1;
+        CursorOutline(xCursor, yCursor);
+      }
+    }
+    
+    if (yJoy < 511){
+      if (yCursor > -1){
+        BlankOutline(xCursor, yCursor);
+        yCursor -= 1;
+        CursorOutline(xCursor, yCursor);
+      }
+    } 
+  }
+}
+
+  
   
 void loop(){
+  UpdateCursor(analogRead(X_PIN), analogRead(Y_PIN));
   delay(100000); //this is just here so it doesn't keep drawing everything all the time
 }
