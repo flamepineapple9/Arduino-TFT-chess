@@ -261,13 +261,13 @@ void MovePiece(int x1, int y1, int x2, int y2){
 void UpdateCursor(int xJoy, int yJoy) { // moves the cursor
   if (abs(xJoy - 511) > 100) {
     if (xJoy > 511){
-      if (xCursor < 8){
+      if (xCursor < 7){
         BlankOutline(xCursor, yCursor);
         xCursor += 1;
         CursorOutline(xCursor, yCursor);
       }
     }else if (xJoy < 511){
-      if (xCursor > -1){
+      if (xCursor > 0){
         BlankOutline(xCursor, yCursor);
         xCursor -= 1;
         CursorOutline(xCursor, yCursor);
@@ -277,13 +277,13 @@ void UpdateCursor(int xJoy, int yJoy) { // moves the cursor
   
   if (abs(yJoy - 511) > 100){
     if (yJoy > 511){
-      if (yCursor < 8){
+      if (yCursor < 7){
         BlankOutline(xCursor, yCursor);
         yCursor += 1;
         CursorOutline(xCursor, yCursor);
       }
     }else if (yJoy < 511){
-      if (yCursor > -1){
+      if (yCursor > 0){
         BlankOutline(xCursor, yCursor);
         yCursor -= 1;
         CursorOutline(xCursor, yCursor);
