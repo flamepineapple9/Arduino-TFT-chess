@@ -266,16 +266,13 @@ void UpdateCursor(int xJoy, int yJoy) { // moves the cursor
         xCursor += 1;
         CursorOutline(xCursor, yCursor);
       }
-    }
-    
-    if (xJoy < 511){
+    }else if (xJoy < 511){
       if (xCursor > -1){
         BlankOutline(xCursor, yCursor);
         xCursor -= 1;
         CursorOutline(xCursor, yCursor);
       }
     }
-    
   }
   
   if (abs(yJoy - 511) > 100){
@@ -285,9 +282,7 @@ void UpdateCursor(int xJoy, int yJoy) { // moves the cursor
         yCursor += 1;
         CursorOutline(xCursor, yCursor);
       }
-    }
-    
-    if (yJoy < 511){
+    }else if (yJoy < 511){
       if (yCursor > -1){
         BlankOutline(xCursor, yCursor);
         yCursor -= 1;
