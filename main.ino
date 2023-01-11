@@ -177,6 +177,7 @@ void DrawPiece(int xSquare, int ySquare, int color, int piece){
   } 
 }
 
+  
 void BlankSquare(int k,int i){
   //Ryan here, if i=0, then (0 + k)%2 just means every other, but as we increase i, i+constant will oscillate between
   //even and odd, meaning (k0 + i0)%2 != (k0 + i1)%2, thus making a given row the inverse of the next.
@@ -221,6 +222,16 @@ void BoardSetup(){
     DrawPiece(pawns,6,0,0);
   }
 }
+  
+  
+void MovePiece(int x1, int y1, int x2, int y2){
+  Board[y2][x2] = Board[y1][x1];
+  Board[y1][x1] = 0;
+  BlankSquare(x1, y1);
+  BlankSquare(x2, y2);
+  DrawPiece(x2, y2, round((Board[y2][x2]-13)/10), Board[y2][x2]%10);
+}
+ 
   
 void loop(){
   delay(100000); //this is just here so it doesn't keep drawing everything all the time
