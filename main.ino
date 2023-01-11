@@ -187,26 +187,7 @@ void BlankSquare(int k,int i){
   }
 }
 
-/*void BoardSetup(){
-  for (int i = 0; i < 8; i++) {
-    for (int k = 0; k < 8; k++){
-      BlankSquare(k, i);
-    }
-  }
-  //goes through board position array, and uses DrawPiece() to draw pieces in correct position depending on board position.
-  //should be called every time board pos changes.
-  for(int y = 0; i < 8; i++){
-    for(int x = 0; i < 8; i++){
-      if(Board[y][x] != 0){
-        if(Board[y][x] < 20){
-          DrawPiece(x, y, 0, Board[y][x]%10);
-        } else {
-          DrawPiece(x, y, 1, Board[y][x]%10);
-        }
-      }
-    }
-  }
-}*/
+
 void BoardSetup(){
   for (int i = 0; i < 8; i++) {
     for (int k = 0; k < 8; k++){
