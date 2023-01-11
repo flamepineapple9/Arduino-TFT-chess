@@ -170,15 +170,16 @@ const unsigned char PiecesArray[6][14][14] =
 //xSquare and ySquare is the square on the board, 0=black 1=white, refference PiecesArray
 void DrawPiece(int xSquare, int ySquare, int color, int piece){
  //Ryan here, could use less loops, but for editings sake and to reduce calculations, this will do.
-  for(int y = 0; y < 14; y++){
-    for(int x = 0; x < 14; x++){
-      if (PiecesArray[piece][y][x] == 0x00){
-        break;
-    } else {
-        //             |  x position   |  y position  |                     color                      |
-        mytft.drawPixel(xSquare*16+x+1, ySquare*16+y+1, ColorArray[color][PiecesArray[piece][y][x] - 1]);
-    }
-  } 
+    for(int y = 0; y < 14; y++){
+      for(int x = 0; x < 14; x++){
+        if (PiecesArray[piece][y][x] == 0x00){
+          break;
+        } else {
+          //             |  x position   |  y position  |                     color                      |
+          mytft.drawPixel(xSquare*16+x+1, ySquare*16+y+1, ColorArray[color][PiecesArray[piece][y][x] - 1]);
+      }
+    } 
+  }
 }
 
   
