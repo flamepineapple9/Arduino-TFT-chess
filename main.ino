@@ -44,8 +44,10 @@ void setup() {
 //--------- ^ setup ^ --------- 
 //------ v actual code v -----
 
-int xCursor = 0;
-int yCursor = 0;
+unsigned int xCursor = 0;
+unsigned int yCursor = 0;
+unsigned int xLog = 8;
+unsigned int yLog = 8;
 
 //each piece is represented by a 2 digit number, first digit is the color 1 = white, 2 = black, to access color in program, < 20 = white, >= 20 = black
 //second digit is the piece type, 0-5. To access piece type in program, take the two digit number % 10 
@@ -287,6 +289,19 @@ void UpdateCursor(int xJoy, int yJoy) { // moves the cursor
         CursorOutline(xCursor, yCursor);
       }
    } 
+   /*
+   if (insert button press){
+      if (xLog = 8){
+        xLog = xCursor;
+        yLog = yCursor;
+      }else{
+        MovePiece(xLog, yLog, xCursor, YCursor);
+        xLog = 8;
+        yLog = 8;
+      }
+   }
+  
+   */
 }
 
   
