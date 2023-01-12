@@ -255,6 +255,7 @@ void MovePiece(int x1, int y1, int x2, int y2){
   Board[y1][x1] = 0;
   BlankSquare(x1, y1);
   BlankSquare(x2, y2);
+  Serial.println(round((Board[y2][x2]-13)/10));
   DrawPiece(x2, y2, round((Board[y2][x2]-13)/10), Board[y2][x2]%10);
 }
  
