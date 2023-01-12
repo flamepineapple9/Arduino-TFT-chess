@@ -222,30 +222,30 @@ void BoardSetup(){
   //draws cursor
   CursorOutline(0, 0);
   
-  //black pieces
-  DrawPiece(0,0,1,1);
-  DrawPiece(1,0,1,2);
-  DrawPiece(2,0,1,3);
-  DrawPiece(3,0,1,4);
-  DrawPiece(4,0,1,5);
-  DrawPiece(5,0,1,3);
-  DrawPiece(6,0,1,2);
-  DrawPiece(7,0,1,1);
+  //white pieces
+  DrawPiece(0,0,0,1);
+  DrawPiece(1,0,0,2);
+  DrawPiece(2,0,0,3);
+  DrawPiece(3,0,0,4);
+  DrawPiece(4,0,0,5);
+  DrawPiece(5,0,0,3);
+  DrawPiece(6,0,0,2);
+  DrawPiece(7,0,0,1);
   for(int pawns = 0; pawns < 8; pawns++){
-    DrawPiece(pawns,1,1,0);
+    DrawPiece(pawns,1,0,0);
   }
   
-  //white pieces
-  DrawPiece(0,7,0,1);
-  DrawPiece(1,7,0,2);
-  DrawPiece(2,7,0,3);
-  DrawPiece(3,7,0,4);
-  DrawPiece(4,7,0,5);
-  DrawPiece(5,7,0,3);
-  DrawPiece(6,7,0,2);
-  DrawPiece(7,7,0,1);
+  //black pieces
+  DrawPiece(0,7,1,1);
+  DrawPiece(1,7,1,2);
+  DrawPiece(2,7,1,3);
+  DrawPiece(3,7,1,4);
+  DrawPiece(4,7,1,5);
+  DrawPiece(5,7,1,3);
+  DrawPiece(6,7,1,2);
+  DrawPiece(7,7,1,1);
   for(int pawns = 0; pawns < 8; pawns++){
-    DrawPiece(pawns,6,0,0);
+    DrawPiece(pawns,6,1,0);
   }
 }
   
