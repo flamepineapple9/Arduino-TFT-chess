@@ -289,13 +289,17 @@ void UpdateCursor(int xJoy, int yJoy) { // moves the cursor
    } 
    
    if (button.state() == LOW){
+     serial.println("button pushed");
       if (xLog = 8){
         xLog = xCursor;
         yLog = yCursor;
+        
       }else{
-        MovePiece(xLog, yLog, xCursor, yCursor);
-        xLog = 8;
-        yLog = 8;
+        if (xLog != xCursor and xLog != xCursor){
+          MovePiece(xLog, yLog, xCursor, yCursor);
+          xLog = 8;
+          yLog = 8;
+        }
       }
    }
 }
