@@ -290,7 +290,7 @@ void UpdateCursor(int xJoy, int yJoy) { // moves the cursor
    
    if (button.state() == LOW){
      serial.println("button pushed");
-      if (xLog = 8){
+      if (xLog == 8){
         xLog = xCursor;
         yLog = yCursor;
         
