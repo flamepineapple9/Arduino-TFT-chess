@@ -303,7 +303,7 @@ void UpdateCursor(int xJoy, int yJoy) { // moves the cursor
   
   
 void loop(){
+  button.update();
   UpdateCursor(analogRead(X_PIN), analogRead(Y_PIN));
-  
   delay(300); //this is just here so it doesn't keep drawing everything all the time
 }
