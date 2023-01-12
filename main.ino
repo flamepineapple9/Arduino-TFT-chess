@@ -289,8 +289,8 @@ void UpdateCursor(int xJoy, int yJoy) { // moves the cursor
         CursorOutline(xCursor, yCursor);
       }
    } 
-   /*
-   if (insert button press){
+   
+   if (button.state() == LOW){
       if (xLog = 8){
         xLog = xCursor;
         yLog = yCursor;
@@ -300,8 +300,6 @@ void UpdateCursor(int xJoy, int yJoy) { // moves the cursor
         yLog = 8;
       }
    }
-  
-   */
 }
 
   
