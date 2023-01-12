@@ -179,9 +179,9 @@ void DrawPiece(int xSquare, int ySquare, int color, int piece){
         } else {
           //             |  x position   |  y position  |                     color                      |
           mytft.drawPixel(xSquare*16+x+1, ySquare*16+y+1, ColorArray[color][PiecesArray[piece][y][x] - 1]);
-      }
-    } 
-  }
+        }
+      } 
+   }
 }
 
   
@@ -295,7 +295,7 @@ void UpdateCursor(int xJoy, int yJoy) { // moves the cursor
         xLog = xCursor;
         yLog = yCursor;
       }else{
-        MovePiece(xLog, yLog, xCursor, YCursor);
+        MovePiece(xLog, yLog, xCursor, yCursor);
         xLog = 8;
         yLog = 8;
       }
