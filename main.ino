@@ -295,7 +295,7 @@ void UpdateCursor(int xJoy, int yJoy) { // moves the cursor
         yLog = yCursor;
         Serial.println("pick up");
       }else{
-        if (xLog == xCursor and xLog == xCursor){
+        if (xLog != xCursor || yLog != yCursor){
           MovePiece(xLog, yLog, xCursor, yCursor);
           xLog = 8;
           yLog = 8;
