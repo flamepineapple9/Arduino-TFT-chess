@@ -272,7 +272,7 @@ void UpdateCursor(int xJoy, int yJoy) { // moves the cursor
         
         if ((xLog == xCursor) && (yLog == yCursor)){
           SelectOutline(xCursor, yCursor);
-          Serial.println(e)
+          Serial.println("e");
         }else{
           BlankOutline(xCursor, yCursor);
         }
@@ -285,7 +285,7 @@ void UpdateCursor(int xJoy, int yJoy) { // moves the cursor
         
         if ((xLog == xCursor) && (yLog == yCursor)){
           SelectOutline(xCursor, yCursor);
-          Serial.println(e)
+          Serial.println("e");
         }else{
           BlankOutline(xCursor, yCursor);
         }
@@ -300,7 +300,7 @@ void UpdateCursor(int xJoy, int yJoy) { // moves the cursor
         
         if ((xLog == xCursor) && (yLog == yCursor)){
           SelectOutline(xCursor, yCursor);
-          Serial.println(e)
+          Serial.println("e");
         }else{
           BlankOutline(xCursor, yCursor);
         }
@@ -313,7 +313,7 @@ void UpdateCursor(int xJoy, int yJoy) { // moves the cursor
         
         if ((xLog == xCursor) && (yLog == yCursor)){
           SelectOutline(xCursor, yCursor);
-          Serial.println(e)
+          Serial.println("e");
         }else{
           BlankOutline(xCursor, yCursor);
         }
