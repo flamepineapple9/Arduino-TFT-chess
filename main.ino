@@ -48,24 +48,25 @@ unsigned int xCursor = 0;
 unsigned int yCursor = 0;
 unsigned int xLog = 8;
 unsigned int yLog = 8;
+bool buttonState = false;
 
 //each piece is represented by a 2 digit number, first digit is the color 1 = white, 2 = black, to access color in program, < 20 = white, >= 20 = black
 //second digit is the piece type, 0-5. To access piece type in program, take the two digit number % 10 
 //an element being 9 means no piece on that square, can't use 0, that indicates a pawn
 unsigned int Board[8][8] = {
-  {21, 22, 23, 24, 25, 23, 22, 21},
-  {20, 20, 20, 20, 20, 20, 20, 20},
-  {0, 0, 0, 0, 0, 0, 0, 0},
-  {0, 0, 0, 0, 0, 0, 0, 0},
-  {0, 0, 0, 0, 0, 0, 0, 0},
-  {0, 0, 0, 0, 0, 0, 0, 0},
+  {11, 12, 13, 14, 15, 13, 12, 11},
   {10, 10, 10, 10, 10, 10, 10, 10},
-  {11, 12, 13, 14, 15, 13, 12, 11}
+  {0, 0, 0, 0, 0, 0, 0, 0},
+  {0, 0, 0, 0, 0, 0, 0, 0},
+  {0, 0, 0, 0, 0, 0, 0, 0},
+  {0, 0, 0, 0, 0, 0, 0, 0},
+  {20, 20, 20, 20, 20, 20, 20, 20},
+  {21, 22, 23, 24, 25, 23, 22, 21}
 };
 
 const unsigned int ColorArray[2][5] = 
- {{0x0000, 0x10A2, 0x2124, 0x4A49, 0x6B6D}, // white, dark --> light
-  {0x0000, 0xA534, 0xC618, 0xE71C, 0xFFFF}}; // black, dark --> light
+ {{0x0000, 0xA534, 0xC618, 0xE71C, 0xFFFF}, // white, dark --> light
+  {0x0000, 0x10A2, 0x2124, 0x4A49, 0x6B6D}}; // black, dark --> light
 
 /*3d array, [piece][row][pixel], 
 PiecesArray[0] = pawn
@@ -223,29 +224,29 @@ void BoardSetup(){
   CursorOutline(0, 0);
   
   //white pieces
-  DrawPiece(0,0,1,1);
-  DrawPiece(1,0,1,2);
-  DrawPiece(2,0,1,3);
-  DrawPiece(3,0,1,4);
-  DrawPiece(4,0,1,5);
-  DrawPiece(5,0,1,3);
-  DrawPiece(6,0,1,2);
-  DrawPiece(7,0,1,1);
+  DrawPiece(0,0,0,1);
+  DrawPiece(1,0,0,2);
+  DrawPiece(2,0,0,3);
+  DrawPiece(3,0,0,4);
+  DrawPiece(4,0,0,5);
+  DrawPiece(5,0,0,3);
+  DrawPiece(6,0,0,2);
+  DrawPiece(7,0,0,1);
   for(int pawns = 0; pawns < 8; pawns++){
-    DrawPiece(pawns,1,1,0);
+    DrawPiece(pawns,1,0,0);
   }
   
   //black pieces
-  DrawPiece(0,7,0,1);
-  DrawPiece(1,7,0,2);
-  DrawPiece(2,7,0,3);
-  DrawPiece(3,7,0,4);
-  DrawPiece(4,7,0,5);
-  DrawPiece(5,7,0,3);
-  DrawPiece(6,7,0,2);
-  DrawPiece(7,7,0,1);
+  DrawPiece(0,7,1,1);
+  DrawPiece(1,7,1,2);
+  DrawPiece(2,7,1,3);
+  DrawPiece(3,7,1,4);
+  DrawPiece(4,7,1,5);
+  DrawPiece(5,7,1,3);
+  DrawPiece(6,7,1,2);
+  DrawPiece(7,7,1,1);
   for(int pawns = 0; pawns < 8; pawns++){
-    DrawPiece(pawns,6,0,0);
+    DrawPiece(pawns,6,1,0);
   }
 }
   
@@ -288,18 +289,21 @@ void UpdateCursor(int xJoy, int yJoy) { // moves the cursor
         CursorOutline(xCursor, yCursor);
       }
    } 
-   
-   if (button.state() == LOW){
-      if (xLog == 8){
-        xLog = xCursor;
-        yLog = yCursor;
-      }else{
-        if (xLog != xCursor || yLog != yCursor){
-          MovePiece(xLog, yLog, xCursor, yCursor);
-          xLog = 8;
-          yLog = 8;
-        }
+  
+   if ((button.state() == LOW) && (buttonState)){
+    if (xLog == 8){
+      xLog = xCursor;
+      yLog = yCursor;
+    }else{
+      if (xLog != xCursor || yLog != yCursor){
+        MovePiece(xLog, yLog, xCursor, yCursor);
+        xLog = 8;
+        yLog = 8;
       }
+    }
+    buttonState = false;
+   }else if ((button.state() == HIGH) && !(buttonState)){
+    buttonState = true;
    }
 }
 
