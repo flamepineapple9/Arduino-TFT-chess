@@ -49,6 +49,7 @@ unsigned int yCursor = 0;
 unsigned int xLog = 8;
 unsigned int yLog = 8;
 bool buttonState = false;
+bool joyState = false;
 
 //each piece is represented by a 2 digit number, first digit is the color 1 = white, 2 = black, to access color in program, < 20 = white, >= 20 = black
 //second digit is the piece type, 0-5. To access piece type in program, take the two digit number % 10 
@@ -211,6 +212,11 @@ void CursorOutline(int k,int i){
 }
 
 
+void SelectOutline(int k,int i){
+  mytft.drawRect(k*16, i*16, 16, 16, 0xf800);
+}
+
+
 void BoardSetup(){
   //draws board
   for (int i = 0; i < 8; i++) {
@@ -264,13 +270,21 @@ void MovePiece(int x1, int y1, int x2, int y2){
 void UpdateCursor(int xJoy, int yJoy) { // moves the cursor
    if (xJoy > 611){
       if (xCursor < 7){
-        BlankOutline(xCursor, yCursor);
+        if ((xLog == xCursor) && (yLog == yCursor)){
+          SelectOutline(xCursor, yCursor);
+        }else{
+          BlankOutline(xCursor, yCursor);
+        }
         xCursor += 1;
         CursorOutline(xCursor, yCursor);
       }
    }else if (xJoy < 411){
       if (xCursor > 0){
-        BlankOutline(xCursor, yCursor);
+        if ((xLog == xCursor) && (yLog == yCursor)){
+          SelectOutline(xCursor, yCursor);
+        }else{
+          BlankOutline(xCursor, yCursor);
+        }
         xCursor -= 1;
         CursorOutline(xCursor, yCursor);
       }
@@ -278,20 +292,28 @@ void UpdateCursor(int xJoy, int yJoy) { // moves the cursor
   
    if (yJoy > 611){
       if (yCursor < 7){
-        BlankOutline(xCursor, yCursor);
+        if ((xLog == xCursor) && (yLog == yCursor)){
+          SelectOutline(xCursor, yCursor);
+        }else{
+          BlankOutline(xCursor, yCursor);
+        }
         yCursor += 1;
         CursorOutline(xCursor, yCursor);
       }
    }else if (yJoy < 411){
       if (yCursor > 0){
-        BlankOutline(xCursor, yCursor);
+        if ((xLog == xCursor) && (yLog == yCursor)){
+          SelectOutline(xCursor, yCursor);
+        }else{
+          BlankOutline(xCursor, yCursor);
+        }
         yCursor -= 1;
         CursorOutline(xCursor, yCursor);
       }
    } 
   
    if ((button.state() == LOW) && (buttonState)){
-    if (xLog == 8){
+    if ((xLog == 8) && (Board[yCursor][xCursor] != 0)){
       xLog = xCursor;
       yLog = yCursor;
     }else{
