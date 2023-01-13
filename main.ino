@@ -212,7 +212,7 @@ void CursorOutline(int k,int i){
 
 
 void SelectOutline(int k,int i){
-  mytft.drawRect(k*16, i*16, 16, 16, 0xf800);
+  mytft.drawRect(k*16, i*16, 16, 16, 0x001f);
 }
 
 
