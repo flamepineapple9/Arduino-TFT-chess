@@ -269,21 +269,25 @@ void MovePiece(int x1, int y1, int x2, int y2){
 void UpdateCursor(int xJoy, int yJoy) { // moves the cursor
    if (xJoy > 611){
       if (xCursor < 7){
+        /*
         if ((xLog == xCursor) && (yLog == yCursor)){
           SelectOutline(xCursor, yCursor);
         }else{
           BlankOutline(xCursor, yCursor);
         }
+        */
         xCursor += 1;
         CursorOutline(xCursor, yCursor);
       }
    }else if (xJoy < 411){
       if (xCursor > 0){
+        /*
         if ((xLog == xCursor) && (yLog == yCursor)){
           SelectOutline(xCursor, yCursor);
         }else{
           BlankOutline(xCursor, yCursor);
         }
+        */
         xCursor -= 1;
         CursorOutline(xCursor, yCursor);
       }
@@ -291,21 +295,25 @@ void UpdateCursor(int xJoy, int yJoy) { // moves the cursor
   
    if (yJoy > 611){
       if (yCursor < 7){
+        /*
         if ((xLog == xCursor) && (yLog == yCursor)){
           SelectOutline(xCursor, yCursor);
         }else{
           BlankOutline(xCursor, yCursor);
         }
+        */
         yCursor += 1;
         CursorOutline(xCursor, yCursor);
       }
    }else if (yJoy < 411){
       if (yCursor > 0){
+        /*
         if ((xLog == xCursor) && (yLog == yCursor)){
           SelectOutline(xCursor, yCursor);
         }else{
           BlankOutline(xCursor, yCursor);
         }
+        */
         yCursor -= 1;
         CursorOutline(xCursor, yCursor);
       }
