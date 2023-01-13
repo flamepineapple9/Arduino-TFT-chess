@@ -318,7 +318,7 @@ void UpdateCursor(int xJoy, int yJoy) { // moves the cursor
       xLog = xCursor;
       yLog = yCursor;
     }else{
-      if (((xLog != xCursor) || (yLog != yCursor)) && (Board[yCursor][xCursor] != 0)){
+      if (((xLog != xCursor) || (yLog != yCursor)) && (xLog != 8)){
         MovePiece(xLog, yLog, xCursor, yCursor);
         xLog = 8;
         yLog = 8;
