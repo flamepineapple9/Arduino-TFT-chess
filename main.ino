@@ -1,5 +1,5 @@
 /*
-This will be chess meant to be played on a 128/160 tft display
+This is chess meant to be played on a 128/160 tft display
 */
 #include <SPI.h> 
 #include <Adafruit_GFX.h>
