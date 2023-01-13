@@ -260,8 +260,8 @@ void MovePiece(int x1, int y1, int x2, int y2){
   Board[y2][x2] = Board[y1][x1];
   Board[y1][x1] = 0;
   BlankSquare(x1, y1);
+  BlankOutline(x1, y1);
   BlankSquare(x2, y2);
-  Serial.println(round((Board[y2][x2])/10)-1);
   DrawPiece(x2, y2, round((Board[y2][x2])/10)-1, Board[y2][x2]%10);
 }
  
@@ -272,7 +272,6 @@ void UpdateCursor(int xJoy, int yJoy) { // moves the cursor
         
         if ((xLog == xCursor) && (yLog == yCursor)){
           SelectOutline(xCursor, yCursor);
-          Serial.println("e");
         }else{
           BlankOutline(xCursor, yCursor);
         }
@@ -282,14 +281,11 @@ void UpdateCursor(int xJoy, int yJoy) { // moves the cursor
       }
    }else if (xJoy < 411){
       if (xCursor > 0){
-        
         if ((xLog == xCursor) && (yLog == yCursor)){
           SelectOutline(xCursor, yCursor);
-          Serial.println("e");
         }else{
           BlankOutline(xCursor, yCursor);
-        }
-        
+        } 
         xCursor -= 1;
         CursorOutline(xCursor, yCursor);
       }
@@ -297,27 +293,21 @@ void UpdateCursor(int xJoy, int yJoy) { // moves the cursor
   
    if (yJoy > 611){
       if (yCursor < 7){
-        
         if ((xLog == xCursor) && (yLog == yCursor)){
           SelectOutline(xCursor, yCursor);
-          Serial.println("e");
         }else{
           BlankOutline(xCursor, yCursor);
         }
-        
         yCursor += 1;
         CursorOutline(xCursor, yCursor);
       }
    }else if (yJoy < 411){
       if (yCursor > 0){
-        
         if ((xLog == xCursor) && (yLog == yCursor)){
           SelectOutline(xCursor, yCursor);
-          Serial.println("e");
         }else{
           BlankOutline(xCursor, yCursor);
         }
-        
         yCursor -= 1;
         CursorOutline(xCursor, yCursor);
       }
