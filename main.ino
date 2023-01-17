@@ -227,6 +227,7 @@ void BoardSetup(){
       }
     }
   }
+  CursorOutline(xCursor, yCursor)
 }
   
   
