@@ -269,15 +269,14 @@ void MovePiece(int x1, int y1, int x2, int y2){
 void UpdateCursor(int xJoy, int yJoy) { // moves the cursor
    if (xJoy > 611){
       if (xCursor < 7){
-        
         if ((xLog == xCursor) && (yLog == yCursor)){
           SelectOutline(xCursor, yCursor);
         }else{
           BlankOutline(xCursor, yCursor);
         }
-        
         xCursor += 1;
         CursorOutline(xCursor, yCursor);
+        delay(300);
       }
    }else if (xJoy < 411){
       if (xCursor > 0){
@@ -288,6 +287,7 @@ void UpdateCursor(int xJoy, int yJoy) { // moves the cursor
         } 
         xCursor -= 1;
         CursorOutline(xCursor, yCursor);
+        delay(300);
       }
    }
   
@@ -300,6 +300,7 @@ void UpdateCursor(int xJoy, int yJoy) { // moves the cursor
         }
         yCursor += 1;
         CursorOutline(xCursor, yCursor);
+        delay(300);
       }
    }else if (yJoy < 411){
       if (yCursor > 0){
@@ -310,6 +311,7 @@ void UpdateCursor(int xJoy, int yJoy) { // moves the cursor
         }
         yCursor -= 1;
         CursorOutline(xCursor, yCursor);
+        delay(300);
       }
    } 
   
@@ -335,5 +337,5 @@ void UpdateCursor(int xJoy, int yJoy) { // moves the cursor
 void loop(){
   button.update();
   UpdateCursor(analogRead(X_PIN), analogRead(Y_PIN));
-  delay(300); //this is just here so it doesn't keep drawing everything all the time
+  delay(10); //this is just here so it doesn't keep drawing everything all the time
 }
