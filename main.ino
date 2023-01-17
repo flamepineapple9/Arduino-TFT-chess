@@ -232,11 +232,11 @@ void BoardSetup(){
   
   
 void MovePiece(int x1, int y1, int x2, int y2){
-  if ((Board[y1][x1]==10)&&(y2==7)){
-    Board[y1][x1] = 14;
-  }else if ((Board[y1][x1]==20)&&(y2==0)){
-    Board[y1][x1] = 24;
+  //handels promotion
+  if (((Board[y1][x1]==10)&&(y2==7))||((Board[y1][x1]==20)&&(y2==0))){
+    Board[y1][x1] += 4;
   }
+  //moves piece
   Board[y2][x2] = Board[y1][x1];
   Board[y1][x1] = 0;
   BlankSquare(x1, y1);
