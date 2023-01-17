@@ -42,7 +42,7 @@ void setup() {
 }
 
 //--------- ^ setup ^ --------- 
-//------ v actual code v -----
+//------ v actual code v ------
 
 unsigned int xCursor = 0;
 unsigned int yCursor = 0;
