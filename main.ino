@@ -227,7 +227,7 @@ void BoardSetup(){
       }
     }
   }
-  CursorOutline(xCursor, yCursor)
+  CursorOutline(xCursor, yCursor);
 }
   
   
