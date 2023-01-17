@@ -223,7 +223,7 @@ void BoardSetup(){
       BlankSquare(k, i);
       BlankOutline(k, i);
       if (Board[i][k] != 0){
-        DrawPiece(k, i, round((Board[i][k])/10)-1, Board[i][k]%10)
+        DrawPiece(k, i, round((Board[i][k])/10)-1, Board[i][k]%10);
       }
     }
   }
