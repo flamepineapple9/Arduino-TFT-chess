@@ -321,10 +321,10 @@ void UpdateCursor(int xJoy, int yJoy) { // moves the cursor
 //DO NOT IMPLIMENT UNTILL NEW BUTTON IS DECLARED
 void UndoMove(button){
   if ((button.state() == LOW)&&(UndoStates[0] != 8)){
-    for (var i=0; i<6; i+=3){
-      BlankSquare(UndoStates[0+i], UndoStates[1+i]);
-      DrawPiece(UndoStates[0+i], UndoStates[1+i], UndoStates[2+i]);
-    }
+    BlankSquare(UndoStates[0], UndoStates[1]);
+    DrawPiece(UndoStates[0], UndoStates[1], UndoStates[2]);
+    BlankSquare(UndoStates[3], UndoStates[4]);
+    DrawPiece(UndoStates[3], UndoStates[4], UndoStates[5]);
   }
 }
 */
