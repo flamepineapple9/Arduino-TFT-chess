@@ -176,6 +176,7 @@ const unsigned char PiecesArray[6][14][14] =
 //xSquare and ySquare is the square on the board, 0=black 1=white, refference PiecesArray
 void DrawPiece(int xSquare, int ySquare, int piece){
  //Ryan here, could use less loops, but for editings sake and to reduce calculations, this will do.
+  if (piece != 0){
     for(int y = 0; y < 14; y++){
       for(int x = 0; x < 14; x++){
         if (PiecesArray[piece%10][y][x] != 0x00){
@@ -183,7 +184,8 @@ void DrawPiece(int xSquare, int ySquare, int piece){
           mytft.drawPixel(xSquare*16+x+1, ySquare*16+y+1, ColorArray[round(piece/10)-1][PiecesArray[piece%10][y][x] - 1]);
         }
       } 
-   }
+    }
+  }
 }
 
   
@@ -225,9 +227,7 @@ void BoardSetup(){
     for (int k = 0; k < 8; k++){
       BlankSquare(k, i);
       BlankOutline(k, i);
-      if (Board[i][k] != 0){
-        DrawPiece(k, i, Board[i][k]);
-      }
+      DrawPiece(k, i, Board[i][k]);
     }
   }
   CursorOutline(xCursor, yCursor);
@@ -317,6 +317,17 @@ void UpdateCursor(int xJoy, int yJoy) { // moves the cursor
    }
 }
 
+/*
+//DO NOT IMPLIMENT UNTILL NEW BUTTON IS DECLARED
+void UndoMove(button){
+  if ((button.state() == LOW)&&(UndoStates[0] != 8)){
+    BlankSquare(UndoStates[0], UndoStates[1]);
+    DrawPiece(UndoStates[0], UndoStates[1], UndoStates[2]);
+    BlankSquare(UndoStates[3], UndoStates[4]);
+    DrawPiece(UndoStates[3], UndoStates[4], UndoStates[5]);
+  }
+}
+*/
   
   
 void loop(){
