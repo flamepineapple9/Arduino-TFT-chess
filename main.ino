@@ -50,6 +50,9 @@ unsigned int xLog = 8;
 unsigned int yLog = 8;
 bool buttonState = false;
 
+//                       |x1|y1|#1|x2|y2|#2|
+unsigned int UndoStates[6]{8, 8, 0, 8, 8, 0};
+
 //each piece is represented by a 2 digit number, first digit is the color 1 = white, 2 = black, to access color in program, < 20 = white, >= 20 = black
 //second digit is the piece type, 0-5. To access piece type in program, take the two digit number % 10 
 //an element being 9 means no piece on that square, can't use 0, that indicates a pawn
@@ -171,13 +174,13 @@ const unsigned char PiecesArray[6][14][14] =
 
 
 //xSquare and ySquare is the square on the board, 0=black 1=white, refference PiecesArray
-void DrawPiece(int xSquare, int ySquare, int color, int piece){
+void DrawPiece(int xSquare, int ySquare, int piece){
  //Ryan here, could use less loops, but for editings sake and to reduce calculations, this will do.
     for(int y = 0; y < 14; y++){
       for(int x = 0; x < 14; x++){
-        if (PiecesArray[piece][y][x] != 0x00){
-          //             |  x position   |  y position  |                     color                      |
-          mytft.drawPixel(xSquare*16+x+1, ySquare*16+y+1, ColorArray[color][PiecesArray[piece][y][x] - 1]);
+        if (PiecesArray[piece%10][y][x] != 0x00){
+          //             |  x position   |  y position  |                          color                                |
+          mytft.drawPixel(xSquare*16+x+1, ySquare*16+y+1, ColorArray[round(piece/10)-1][PiecesArray[piece%10][y][x] - 1]);
         }
       } 
    }
@@ -223,7 +226,7 @@ void BoardSetup(){
       BlankSquare(k, i);
       BlankOutline(k, i);
       if (Board[i][k] != 0){
-        DrawPiece(k, i, round((Board[i][k])/10)-1, Board[i][k]%10);
+        DrawPiece(k, i, Board[i][k]);
       }
     }
   }
@@ -236,13 +239,15 @@ void MovePiece(int x1, int y1, int x2, int y2){
   if (((Board[y1][x1]==10)&&(y2==7))||((Board[y1][x1]==20)&&(y2==0))){
     Board[y1][x1] += 4;
   }
+  //saves to undo
+  UndoStates = {x1, y1, Board[y1][x1], x2, y2, Board[y2][x2]};
   //moves piece
   Board[y2][x2] = Board[y1][x1];
   Board[y1][x1] = 0;
   BlankSquare(x1, y1);
   BlankOutline(x1, y1);
   BlankSquare(x2, y2);
-  DrawPiece(x2, y2, round((Board[y2][x2])/10)-1, Board[y2][x2]%10);
+  DrawPiece(x2, y2, Board[y2][x2]);
 }
  
 
