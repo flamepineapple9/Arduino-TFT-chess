@@ -37,7 +37,7 @@ void setup() {
   randomSeed(analogRead(A5)); //Seed with bogus read
   Serial.begin(9600);
   
-  //  v part of code v
+  //actual code
   BoardSetup();
 }
 
@@ -173,9 +173,8 @@ const unsigned char PiecesArray[6][14][14] =
 
 
 
-//xSquare and ySquare is the square on the board, 0=black 1=white, refference PiecesArray
 void DrawPiece(int xSquare, int ySquare, int piece){
-  //Ryan here, could use less loops, but for editings sake and to reduce calculations, this will do.
+  //xSquare and ySquare is the square on the board, 0=black 1=white, refference PiecesArray
   if (piece != 0){
     for(int y = 0; y < 14; y++){
       for(int x = 0; x < 14; x++){
@@ -252,6 +251,7 @@ void MovePiece(int x1, int y1, int x2, int y2){
  
 
 void UpdateCursor(int xJoy, int yJoy) { // moves the cursor
+  //moves cursor outline on x
   if (xJoy > 611){
     if (xCursor < 7){
       if ((xLog == xCursor) && (yLog == yCursor)){
@@ -275,7 +275,7 @@ void UpdateCursor(int xJoy, int yJoy) { // moves the cursor
       delay(300);
     }
   }
-  
+  //moves cursor outline on y
   if (yJoy > 611){
     if (yCursor < 7){
       if ((xLog == xCursor) && (yLog == yCursor)){
@@ -300,6 +300,7 @@ void UpdateCursor(int xJoy, int yJoy) { // moves the cursor
     }
   } 
   
+  //checks button
   if ((button.state() == LOW) && (buttonState)){
     if ((xLog == 8) && (Board[yCursor][xCursor] != 0)){
       xLog = xCursor;
@@ -318,6 +319,83 @@ void UpdateCursor(int xJoy, int yJoy) { // moves the cursor
 }
 
 /*
+void UpdateOutlines(int x, int y, int piece, bool color){
+  //vertical
+  if ((piece%10 == 1) || (piece%10 == 4)){
+    while(){
+      
+    }
+    while(){
+      
+    }
+  }
+  //horizontal
+  if ((piece%10 == 1) || (piece%10 == 4)){
+    while(){
+      
+    }
+    while(){
+      
+    }
+  }
+  //relative negative slant
+  if ((piece%10 == 3) || (piece%10 == 4)){
+    while(){
+      
+    }
+    while(){
+      
+    }
+  }
+  //relative positive slant
+  if ((piece%10 == 3) || (piece%10 == 4)){
+    while(){
+      
+    }
+    while(){
+      
+    }
+  }
+  //king
+  if (piece%10 == 5){
+    for(var i=0, i<4, i++){
+      if (piece%10 == _){
+        
+      }
+    }
+  }
+  //knight
+  if (piece%10 == 2){
+    for(){
+      
+    }
+  }
+  //pawn
+  if (piece%10 == 0){
+    //normal move
+    if(){
+      
+    }
+    //en passant
+    if(){
+      
+    }
+    if(){
+      
+    }
+  }
+  //castle
+  if ((piece%10 == 1) || (piece%10 == 5)){
+    if(){
+      if(){
+      
+      }
+    }
+  }
+}
+*/
+
+/*
 //DO NOT IMPLIMENT UNTILL NEW BUTTON IS DECLARED
 void UndoMove(button){
   if ((button.state() == LOW)&&(UndoStates[0] != 8)){
@@ -328,8 +406,10 @@ void UndoMove(button){
   }
 }
 */
-  
-  
+
+
+
+//main loop
 void loop(){
   button.update();
   UpdateCursor(analogRead(X_PIN), analogRead(Y_PIN));
