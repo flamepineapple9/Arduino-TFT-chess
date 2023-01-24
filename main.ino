@@ -175,7 +175,7 @@ const unsigned char PiecesArray[6][14][14] =
 
 //xSquare and ySquare is the square on the board, 0=black 1=white, refference PiecesArray
 void DrawPiece(int xSquare, int ySquare, int piece){
- //Ryan here, could use less loops, but for editings sake and to reduce calculations, this will do.
+  //Ryan here, could use less loops, but for editings sake and to reduce calculations, this will do.
   if (piece != 0){
     for(int y = 0; y < 14; y++){
       for(int x = 0; x < 14; x++){
@@ -196,7 +196,7 @@ void BlankSquare(int k,int i){
     mytft.fillRect(k*16+1, i*16+1, 14, 14, 0x7EB2);
   } else {
   	mytft.fillRect(k*16+1, i*16+1, 14, 14, 0x2447);
-	}
+  }
 }
   
   
@@ -252,55 +252,55 @@ void MovePiece(int x1, int y1, int x2, int y2){
  
 
 void UpdateCursor(int xJoy, int yJoy) { // moves the cursor
-	if (xJoy > 611){
-      if (xCursor < 7){
-        if ((xLog == xCursor) && (yLog == yCursor)){
-          SelectOutline(xCursor, yCursor);
-        }else{
-          BlankOutline(xCursor, yCursor);
-        }
-        xCursor += 1;
-        CursorOutline(xCursor, yCursor);
-        delay(300);
+  if (xJoy > 611){
+    if (xCursor < 7){
+      if ((xLog == xCursor) && (yLog == yCursor)){
+        SelectOutline(xCursor, yCursor);
+      }else{
+        BlankOutline(xCursor, yCursor);
       }
-	}else if (xJoy < 411){
-      if (xCursor > 0){
-        if ((xLog == xCursor) && (yLog == yCursor)){
-          SelectOutline(xCursor, yCursor);
-        }else{
-          BlankOutline(xCursor, yCursor);
-        } 
-        xCursor -= 1;
-        CursorOutline(xCursor, yCursor);
-        delay(300);
-      }
-	}
+      xCursor += 1;
+      CursorOutline(xCursor, yCursor);
+      delay(300);
+    }
+  }else if (xJoy < 411){
+    if (xCursor > 0){
+      if ((xLog == xCursor) && (yLog == yCursor)){
+        SelectOutline(xCursor, yCursor);
+      }else{
+        BlankOutline(xCursor, yCursor);
+      } 
+      xCursor -= 1;
+      CursorOutline(xCursor, yCursor);
+      delay(300);
+    }
+  }
   
-	if (yJoy > 611){
-      if (yCursor < 7){
-        if ((xLog == xCursor) && (yLog == yCursor)){
-          SelectOutline(xCursor, yCursor);
-        }else{
-          BlankOutline(xCursor, yCursor);
-        }
-        yCursor += 1;
-        CursorOutline(xCursor, yCursor);
-        delay(300);
+  if (yJoy > 611){
+    if (yCursor < 7){
+      if ((xLog == xCursor) && (yLog == yCursor)){
+        SelectOutline(xCursor, yCursor);
+      }else{
+        BlankOutline(xCursor, yCursor);
       }
-	}else if (yJoy < 411){
-      if (yCursor > 0){
-        if ((xLog == xCursor) && (yLog == yCursor)){
-          SelectOutline(xCursor, yCursor);
-        }else{
-          BlankOutline(xCursor, yCursor);
-        }
-        yCursor -= 1;
-        CursorOutline(xCursor, yCursor);
-        delay(300);
+      yCursor += 1;
+      CursorOutline(xCursor, yCursor);
+      delay(300);
+    }
+  }else if (yJoy < 411){
+    if (yCursor > 0){
+      if ((xLog == xCursor) && (yLog == yCursor)){
+        SelectOutline(xCursor, yCursor);
+      }else{
+        BlankOutline(xCursor, yCursor);
       }
-	} 
+      yCursor -= 1;
+      CursorOutline(xCursor, yCursor);
+      delay(300);
+    }
+  } 
   
-	if ((button.state() == LOW) && (buttonState)){
+  if ((button.state() == LOW) && (buttonState)){
     if ((xLog == 8) && (Board[yCursor][xCursor] != 0)){
       xLog = xCursor;
       yLog = yCursor;
@@ -312,9 +312,9 @@ void UpdateCursor(int xJoy, int yJoy) { // moves the cursor
       }
     }
     buttonState = false;
-   }else if ((button.state() == HIGH) && !(buttonState)){
+  }else if ((button.state() == HIGH) && !(buttonState)){
     buttonState = true;
-	}
+  }
 }
 
 /*
