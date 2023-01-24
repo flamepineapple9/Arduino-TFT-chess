@@ -1,5 +1,5 @@
 /* my current idea for how the game will work is as follows:
-first a square on an invisible 16x20 grid (8x8 pixel squares) will be randomly selected, and for now it will be yellow. when the joystick
+First a square on an invisible 16x20 grid (8x8 pixel squares) will be randomly selected, and for now it will be yellow. when the joystick
 is moved the square below the invisible cursor will be colored red, untill the cursor is under the yellow square. When this happens, the
 square will turn green and the game will end.
 
