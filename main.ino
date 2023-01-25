@@ -49,6 +49,7 @@ unsigned int yCursor = 0;
 unsigned int xLog = 8;
 unsigned int yLog = 8;
 bool buttonState = false;
+bool cursorState = false;
 
 //                       |x1|y1|#1|x2|y2|#2|
 unsigned int UndoStates[6]{8, 8, 0, 8, 8, 0};
