@@ -209,8 +209,6 @@ void BlankSquare(int k,int i){
   
   
 void BlankOutline(int k,int i){
-  //Ryan here, if i=0, then (0 + k)%2 just means every other, but as we increase i, i+constant will oscillate between
-  //even and odd, meaning (k0 + i0)%2 != (k0 + i1)%2, thus making a given row the inverse of the next.
   if ((k + i) % 2 == 1){
     mytft.drawRect(k*16, i*16, 16, 16, 0x7EB2);
   } else {
@@ -425,7 +423,7 @@ void UpdateOutlines(int x, int y, int piece, bool color){
 */
 
 /*
-//DO NOT IMPLIMENT UNTILL NEW BUTTON IS DECLARED
+//Ryan here, DO NOT IMPLIMENT UNTILL NEW BUTTON IS DECLARED
 void UndoMove(button){
   if ((button.state() == LOW)&&(UndoStates[0] != 8)){
     BlankSquare(UndoStates[0], UndoStates[1]);
@@ -443,5 +441,5 @@ BoardSetup();
 void loop(){
   button.update();
   UpdateCursor(analogRead(X_PIN), analogRead(Y_PIN));
-  delay(10); //just a small global delay
+  delay(10); //Ryan here, just a small global delay.
 }
