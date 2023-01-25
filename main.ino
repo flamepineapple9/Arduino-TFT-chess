@@ -36,9 +36,6 @@ void setup() {
   mytft.setCursor(0,0); //puts cursor in top left, (which is where the text is printed from)
   randomSeed(analogRead(A5)); //Seed with bogus read
   Serial.begin(9600);
-  
-  //actual code
-  BoardSetup();
 }
 
 //--------- ^ setup ^ --------- 
@@ -51,6 +48,7 @@ unsigned int yLog = 8;
 bool buttonState = false;
 bool cursorState = false;
 
+//Ryan here, going to do an overhaul of the undo system when I get the chance.
 //                       |x1|y1|#1|x2|y2|#2|
 unsigned int UndoStates[6]{8, 8, 0, 8, 8, 0};
 
@@ -65,9 +63,8 @@ unsigned char PosMoves[8][8] = {
   {0, 0, 0, 0, 0, 0, 0, 0}
 };
 
-//each piece is represented by a 2 digit number, first digit is the color 1 = white, 2 = black, to access color in program, < 20 = white, >= 20 = black
-//second digit is the piece type, 0-5. To access piece type in program, take the two digit number % 10 
-//an element being 9 means no piece on that square, can't use 0, that indicates a pawn
+//Ryan here, each piece is represented by a number. Tens place is color (1 for black, 2 for white)
+//and ones place is the piece number (reference PieceArray). 0 is null.
 unsigned int Board[8][8] = {
   {20, 20, 20, 20, 20, 20, 20, 20},
   {21, 22, 23, 24, 25, 23, 22, 21},
@@ -273,7 +270,7 @@ void UpdateCursor(int xJoy, int yJoy) { // moves the cursor
       }
       xCursor += 1;
       CursorOutline(xCursor, yCursor);
-      delay(300);
+      delay(250);
     }
   }else if (xJoy < 411){
     if (xCursor > 0){
@@ -284,7 +281,7 @@ void UpdateCursor(int xJoy, int yJoy) { // moves the cursor
       } 
       xCursor -= 1;
       CursorOutline(xCursor, yCursor);
-      delay(300);
+      delay(250);
     }
   }
   //moves cursor outline on y
@@ -297,7 +294,7 @@ void UpdateCursor(int xJoy, int yJoy) { // moves the cursor
       }
       yCursor += 1;
       CursorOutline(xCursor, yCursor);
-      delay(300);
+      delay(250);
     }
   }else if (yJoy < 411){
     if (yCursor > 0){
@@ -308,7 +305,7 @@ void UpdateCursor(int xJoy, int yJoy) { // moves the cursor
       }
       yCursor -= 1;
       CursorOutline(xCursor, yCursor);
-      delay(300);
+      delay(250);
     }
   } 
   
@@ -334,20 +331,40 @@ void UpdateCursor(int xJoy, int yJoy) { // moves the cursor
 void UpdateOutlines(int x, int y, int piece, bool color){
   //vertical
   if ((piece%10 == 1) || (piece%10 == 4)){
-    while(){
-      
+    //down from
+    for(var i = y+1; i<=7; i++){
+      if (Board[i][x] == 0){
+        
+      }else{
+        break;
+      }
     }
-    while(){
-      
+    //up from
+    for(var i = y-1; i>=0; i+-){
+      if (Board[i][x] == 0){
+        
+      }else{
+        break;
+      }
     }
   }
   //horizontal
   if ((piece%10 == 1) || (piece%10 == 4)){
-    while(){
-      
+    //right from
+    for(var k = x+1; k<=7; k++){
+      if (Board[y][k] == 0){
+        
+      }else{
+        break;
+      }
     }
-    while(){
-      
+    //left from
+    for(var k = x-1; k>=0; k+-){
+      if (Board[y][k] == 0){
+        
+      }else{
+        break;
+      }
     }
   }
   //relative negative slant
@@ -420,10 +437,11 @@ void UndoMove(button){
 */
 
 
-
+//game setup
+BoardSetup();
 //main loop
 void loop(){
   button.update();
   UpdateCursor(analogRead(X_PIN), analogRead(Y_PIN));
-  delay(10); //this is just here so it doesn't keep drawing everything all the time
+  delay(10); //just a small global delay
 }
