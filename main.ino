@@ -54,23 +54,34 @@ bool cursorState = false;
 //                       |x1|y1|#1|x2|y2|#2|
 unsigned int UndoStates[6]{8, 8, 0, 8, 8, 0};
 
+unsigned char PosMoves[8][8] = {
+  {0, 0, 0, 0, 0, 0, 0, 0},
+  {0, 0, 0, 0, 0, 0, 0, 0},
+  {0, 0, 0, 0, 0, 0, 0, 0},
+  {0, 0, 0, 0, 0, 0, 0, 0},
+  {0, 0, 0, 0, 0, 0, 0, 0},
+  {0, 0, 0, 0, 0, 0, 0, 0},
+  {0, 0, 0, 0, 0, 0, 0, 0},
+  {0, 0, 0, 0, 0, 0, 0, 0}
+};
+
 //each piece is represented by a 2 digit number, first digit is the color 1 = white, 2 = black, to access color in program, < 20 = white, >= 20 = black
 //second digit is the piece type, 0-5. To access piece type in program, take the two digit number % 10 
 //an element being 9 means no piece on that square, can't use 0, that indicates a pawn
 unsigned int Board[8][8] = {
-  {11, 12, 13, 14, 15, 13, 12, 11},
-  {10, 10, 10, 10, 10, 10, 10, 10},
-  {0, 0, 0, 0, 0, 0, 0, 0},
-  {0, 0, 0, 0, 0, 0, 0, 0},
-  {0, 0, 0, 0, 0, 0, 0, 0},
-  {0, 0, 0, 0, 0, 0, 0, 0},
   {20, 20, 20, 20, 20, 20, 20, 20},
-  {21, 22, 23, 24, 25, 23, 22, 21}
+  {21, 22, 23, 24, 25, 23, 22, 21},
+  {0, 0, 0, 0, 0, 0, 0, 0},
+  {0, 0, 0, 0, 0, 0, 0, 0},
+  {0, 0, 0, 0, 0, 0, 0, 0},
+  {0, 0, 0, 0, 0, 0, 0, 0},
+  {11, 12, 13, 14, 15, 13, 12, 11},
+  {10, 10, 10, 10, 10, 10, 10, 10}
 };
 
 const unsigned int ColorArray[2][5] = 
- {{0x0000, 0xA534, 0xC618, 0xE71C, 0xFFFF}, // white, dark --> light
-  {0x0000, 0x10A2, 0x2124, 0x4A49, 0x6B6D}}; // black, dark --> light
+ {{0x0000, 0x10A2, 0x2124, 0x4A49, 0x6B6D}, // black, dark --> light
+  {0x0000, 0xA534, 0xC618, 0xE71C, 0xFFFF}}; // white, dark --> light
 
 /*3d array, [piece][row][pixel], 
 PiecesArray[0] = pawn
@@ -180,7 +191,7 @@ void DrawPiece(int xSquare, int ySquare, int piece){
     for(int y = 0; y < 14; y++){
       for(int x = 0; x < 14; x++){
         if (PiecesArray[piece%10][y][x] != 0x00){
-          //             |  x position   |  y position  |                          color                                |
+          //             |  x position  |   y position  |                          color                                |
           mytft.drawPixel(xSquare*16+x+1, ySquare*16+y+1, ColorArray[round(piece/10)-1][PiecesArray[piece%10][y][x] - 1]);
         }
       } 
@@ -240,7 +251,7 @@ void MovePiece(int x1, int y1, int x2, int y2){
     Board[y1][x1] += 4;
   }
   //saves to undo
-  UndoStates = {x1, y1, Board[y1][x1], x2, y2, Board[y2][x2]};
+  //UndoStates = {x1, y1, Board[y1][x1], x2, y2, Board[y2][x2]};
   //moves piece
   Board[y2][x2] = Board[y1][x1];
   Board[y1][x1] = 0;
