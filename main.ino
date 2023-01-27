@@ -326,6 +326,7 @@ void UpdateCursor(int xJoy, int yJoy) { // moves the cursor
 }
 
 /*
+//Ryan here, still a big work in progress, might add in a bool.
 void UpdateOutlines(int x, int y, int piece, bool color){
   //vertical
   if ((piece%10 == 1) || (piece%10 == 4)){
@@ -400,22 +401,27 @@ void UpdateOutlines(int x, int y, int piece, bool color){
   //pawn
   if (piece%10 == 0){
     //normal move
-    if(){
+    if (((piece < 19) && (Board[y-1][x] < 19))||((piece > 19) && (Board[y+1][x] > 19))){
       
+      //pawn jump
+      if (){
+      
+      }
     }
     //en passant
-    if(){
+    if (){
       
     }
-    if(){
+    if (){
       
     }
   }
   //castle
   if ((piece%10 == 1) || (piece%10 == 5)){
-    if(){
-      if(){
-      
+    //Ryan here, this needs work
+    if (((piece < 19) && (Board[7][4] == 15))||((piece > 19) && (Board[0][4] == 25))){
+      for (var i = 0, i < 2; i++){
+        
       }
     }
   }
