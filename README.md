@@ -4,6 +4,7 @@ joystick (will be d-pad) control scheme. We should put specs in here at some poi
 
 # Hardware Specs
 -Arduino Pro Mini/Uno
+
 -1.8" 128x160 TFT Display
 
 # Software Specs
