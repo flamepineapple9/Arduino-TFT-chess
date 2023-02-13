@@ -390,26 +390,49 @@ void UpdateOutlines(int x, int y, int piece, bool color){
   }
   //king
   if (piece%10 == 5){
-    for(var i=0, i<4, i++){
-      if (piece%10 == _){
-        
+    if (piece == 15){
+      for(var i=0, i<4, i++){
+        if ((Board[y+round(i/2)*2-1][x+(i%2)*2-1] > 19)||(Board[y+round(i/2)*2-1][x+(i%2)*2-1]==0)){
+          
+        }
+      }
+    }
+    if (piece == 15){
+      for(var i=0, i<4, i++){
+        if (Board[y+round(i/2)*2-1][x+(i%2)*2-1] < 19){
+          
+        }
       }
     }
   }
   //knight
   if (piece%10 == 2){
-    for(){
-      
+    for(var i=0, i<8, i++){
+      if (){
+        
+      }
     }
   }
   //pawn
   if (piece%10 == 0){
-    //normal move
-    if (((piece < 19) && (Board[y-1][x] < 19))||((piece > 19) && (Board[y+1][x] > 19))){
-      
+    if (piece == 10){
+      //normal move
+      if ((Board[y-1][x]>19)||(Board[y-1][x]==0)){
+        
+      }
       //pawn jump
-      if (){
-      
+      if ((y==7)&&(Board[y-2][x]>19)||(Board[y-2][x]==0)){
+        
+      }
+    }
+    if (piece == 20){
+      //normal move
+      if (Board[y+1][x]<19){
+        
+      }
+      //pawn jump
+      if ((y==0)&&(Board[y+2][x]<19)){
+        
       }
     }
     //en passant
