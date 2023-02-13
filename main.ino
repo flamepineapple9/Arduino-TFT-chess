@@ -50,7 +50,11 @@ bool cursorState = false;
 
 //Ryan here, going to do an overhaul of the undo system when I get the chance.
 //                       |x1|y1|#1|x2|y2|#2|
-unsigned int UndoStates[6]{8, 8, 0, 8, 8, 0};
+//unsigned int UndoStates[6]{8, 8, 0, 8, 8, 0};
+
+unsigned int BlackEnPassant = 8;
+
+unsigned int WhiteEnPassant = 8;
 
 unsigned char PosMoves[8][8] = {
   {0, 0, 0, 0, 0, 0, 0, 0},
@@ -66,14 +70,14 @@ unsigned char PosMoves[8][8] = {
 //Ryan here, each piece is represented by a number. Tens place is color (1 for black, 2 for white)
 //and ones place is the piece number (reference PieceArray). 0 is null.
 unsigned int Board[8][8] = {
-  {20, 20, 20, 20, 20, 20, 20, 20},
   {21, 22, 23, 24, 25, 23, 22, 21},
+  {20, 20, 20, 20, 20, 20, 20, 20},
   {0, 0, 0, 0, 0, 0, 0, 0},
   {0, 0, 0, 0, 0, 0, 0, 0},
   {0, 0, 0, 0, 0, 0, 0, 0},
   {0, 0, 0, 0, 0, 0, 0, 0},
-  {11, 12, 13, 14, 15, 13, 12, 11},
-  {10, 10, 10, 10, 10, 10, 10, 10}
+  {10, 10, 10, 10, 10, 10, 10, 10},
+  {11, 12, 13, 14, 15, 13, 12, 11}
 };
 
 const unsigned int ColorArray[2][5] = 
@@ -409,11 +413,21 @@ void UpdateOutlines(int x, int y, int piece, bool color){
       }
     }
     //en passant
-    if (){
-      
+    if ((piece==10)&&(y==4)&&(BlackEnPassant!=8)){
+      if(BlackEnPassant==x-1){
+        
+      }
+      if(BlackEnPassant==x+1){
+        
+      }
     }
-    if (){
-      
+    if ((piece==20)&&(y==3)&&(WhiteEnPassant!=8)){
+      if(WhiteEnPassant==x-1){
+        
+      }
+      if(WhiteEnPassant==x+1){
+        
+      }
     }
   }
   //castle
