@@ -80,6 +80,17 @@ unsigned int Board[8][8] = {
   {11, 12, 13, 14, 15, 13, 12, 11}
 };
 
+bool LegalMoves[8][8] = {
+  {false,false,false,false,false,false,false,false},
+  {false,false,false,false,false,false,false,false},
+  {false,false,false,false,false,false,false,false},
+  {false,false,false,false,false,false,false,false},
+  {false,false,false,false,false,false,false,false},
+  {false,false,false,false,false,false,false,false},
+  {false,false,false,false,false,false,false,false},
+  {false,false,false,false,false,false,false,false}
+};
+
 const unsigned int ColorArray[2][5] = 
  {{0x0000, 0x10A2, 0x2124, 0x4A49, 0x6B6D}, // black, dark --> light
   {0x0000, 0xA534, 0xC618, 0xE71C, 0xFFFF}}; // white, dark --> light
@@ -331,7 +342,7 @@ void UpdateCursor(int xJoy, int yJoy) { // moves the cursor
 
 /*
 //Ryan here, still a big work in progress, might add in a bool.
-void UpdateOutlines(int x, int y, int piece, bool color){
+void GenerateLegalMoves(int x, int y, int piece, bool color){
   //vertical
   if ((piece%10 == 1) || (piece%10 == 4)){
     //down from
