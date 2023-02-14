@@ -381,20 +381,21 @@ void GenerateLegalMoves(int x, int y, int piece, bool color){
       }
     }
   }
-  //relative negative slant
+  //slant
   if ((piece%10 == 3) || (piece%10 == 4)){
+    //quadrant 1
     while(){
       
     }
+    //quadrant 2
     while(){
       
     }
-  }
-  //relative positive slant
-  if ((piece%10 == 3) || (piece%10 == 4)){
+    //quadrant 3
     while(){
       
     }
+    //quadrant 4
     while(){
       
     }
