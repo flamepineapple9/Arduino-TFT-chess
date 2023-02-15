@@ -36,6 +36,9 @@ void setup() {
   mytft.setCursor(0,0); //puts cursor in top left, (which is where the text is printed from)
   randomSeed(analogRead(A5)); //Seed with bogus read
   Serial.begin(9600);
+  
+  //game setup
+  BoardSetup();
 }
 
 //--------- ^ setup ^ --------- 
@@ -348,7 +351,7 @@ void GenerateLegalMoves(int x, int y, int piece, bool color){
     //down from
     for(var i = y+1; i<=7; i++){
       if ((Board[i][x] == 0) || ((Board[i][x] > 19)&&(piece < 19)) || ((Board[i][x] < 19)&&(piece > 19))){
-        
+        LegalMoves[i][x] = true;
       }else{
         break;
       }
@@ -356,7 +359,7 @@ void GenerateLegalMoves(int x, int y, int piece, bool color){
     //up from
     for(var i = y-1; i>=0; i+-){
       if ((Board[i][x] == 0) || ((Board[i][x] > 19)&&(piece < 19)) || ((Board[i][x] < 19)&&(piece > 19))){
-        
+        LegalMoves[i][x] = true;
       }else{
         break;
       }
@@ -367,7 +370,7 @@ void GenerateLegalMoves(int x, int y, int piece, bool color){
     //right from
     for(var k = x+1; k<=7; k++){
       if (Board[y][k] == 0){
-        
+        LegalMoves[y][k] = true;
       }else{
         break;
       }
@@ -375,7 +378,7 @@ void GenerateLegalMoves(int x, int y, int piece, bool color){
     //left from
     for(var k = x-1; k>=0; k+-){
       if (Board[y][k] == 0){
-        
+        LegalMoves[y][k] = true;
       }else{
         break;
       }
@@ -405,14 +408,14 @@ void GenerateLegalMoves(int x, int y, int piece, bool color){
     if (piece == 15){
       for(var i=0, i<4, i++){
         if ((Board[y+round(i/2)*2-1][x+(i%2)*2-1] > 19)||(Board[y+round(i/2)*2-1][x+(i%2)*2-1]==0)){
-          
+          LegalMoves[][] = true;
         }
       }
     }
     if (piece == 15){
       for(var i=0, i<4, i++){
         if (Board[y+round(i/2)*2-1][x+(i%2)*2-1] < 19){
-          
+          LegalMoves[][] = true;
         }
       }
     }
@@ -421,7 +424,7 @@ void GenerateLegalMoves(int x, int y, int piece, bool color){
   if (piece%10 == 2){
     for(var i=0, i<8, i++){
       if (){
-        
+        LegalMoves[][] = true;
       }
     }
   }
@@ -430,38 +433,38 @@ void GenerateLegalMoves(int x, int y, int piece, bool color){
     if (piece == 10){
       //normal move
       if ((Board[y-1][x]>19)||(Board[y-1][x]==0)){
-        
+        LegalMoves[y-1][x] = true;
       }
       //pawn jump
       if ((y==7)&&(Board[y-2][x]>19)||(Board[y-2][x]==0)){
-        
+        LegalMoves[y-2][x] = true;
       }
     }
     if (piece == 20){
       //normal move
       if (Board[y+1][x]<19){
-        
+        LegalMoves[y+1][x] = true;
       }
       //pawn jump
       if ((y==0)&&(Board[y+2][x]<19)){
-        
+        LegalMoves[y+2][x] = true;
       }
     }
     //en passant
     if ((piece==10)&&(y==4)&&(BlackEnPassant!=8)){
       if(BlackEnPassant==x-1){
-        
+        LegalMoves[][] = true;
       }
       if(BlackEnPassant==x+1){
-        
+        LegalMoves[][] = true;
       }
     }
     if ((piece==20)&&(y==3)&&(WhiteEnPassant!=8)){
       if(WhiteEnPassant==x-1){
-        
+        LegalMoves[][] = true;
       }
       if(WhiteEnPassant==x+1){
-        
+        LegalMoves[][] = true;
       }
     }
   }
@@ -470,7 +473,8 @@ void GenerateLegalMoves(int x, int y, int piece, bool color){
     //Ryan here, this needs work
     if (((piece < 19) && (Board[7][4] == 15))||((piece > 19) && (Board[0][4] == 25))){
       for (var i = 0, i < 2; i++){
-        
+        LegalMoves[][] = true;
+        LegalMoves[][] = true;
       }
     }
   }
@@ -490,8 +494,6 @@ void UndoMove(button){
 */
 
 
-//game setup
-BoardSetup();
 //main loop
 void loop(){
   button.update();
