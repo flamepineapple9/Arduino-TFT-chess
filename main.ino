@@ -347,7 +347,7 @@ void GenerateLegalMoves(int x, int y, int piece, bool color){
   if ((piece%10 == 1) || (piece%10 == 4)){
     //down from
     for(var i = y+1; i<=7; i++){
-      if (Board[i][x] == 0){
+      if ((Board[i][x] == 0) || ((Board[i][x] > 19)&&(piece < 19)) || ((Board[i][x] < 19)&&(piece > 19))){
         
       }else{
         break;
@@ -355,7 +355,7 @@ void GenerateLegalMoves(int x, int y, int piece, bool color){
     }
     //up from
     for(var i = y-1; i>=0; i+-){
-      if (Board[i][x] == 0){
+      if ((Board[i][x] == 0) || ((Board[i][x] > 19)&&(piece < 19)) || ((Board[i][x] < 19)&&(piece > 19))){
         
       }else{
         break;
