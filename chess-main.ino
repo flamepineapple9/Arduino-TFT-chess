@@ -38,7 +38,7 @@ void setup() {
   Serial.begin(9600);
   
   //game setup
-  BoardSetup();
+  BoardSetup(true);
 }
 
 //--------- ^ setup ^ --------- 
@@ -245,13 +245,23 @@ void SelectOutline(int k,int i){
 }
 
 
-void BoardSetup(){
+void BoardSetup(bool color){
   //draws board
-  for (int i = 0; i < 8; i++) {
-    for (int k = 0; k < 8; k++){
-      BlankSquare(k, i);
-      BlankOutline(k, i);
-      DrawPiece(k, i, Board[i][k]);
+  if (color){
+    for (int i = 0; i < 8; i++) {
+      for (int k = 0; k < 8; k++){
+        BlankSquare(k, i);
+        BlankOutline(k, i);
+        DrawPiece(k, i, Board[i][k]);
+      }
+    }
+  }else{
+    for (int i = 0; i < 8; i++) {
+      for (int k = 7; k >= 0; k+-){
+        BlankSquare(k, i);
+        BlankOutline(k, i);
+        DrawPiece(k, i, Board[i][k]);
+      }
     }
   }
   CursorOutline(xCursor, yCursor);
