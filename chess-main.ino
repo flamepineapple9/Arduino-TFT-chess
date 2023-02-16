@@ -83,6 +83,7 @@ unsigned int Board[8][8] = {
   {11, 12, 13, 14, 15, 13, 12, 11}
 };
 
+//probably could have just pushed false to all elements but dont change it now LMAO
 bool LegalMoves[8][8] = {
   {false,false,false,false,false,false,false,false},
   {false,false,false,false,false,false,false,false},
