@@ -265,7 +265,7 @@ void BoardSetup(bool color){
     }
   }else{
     for (int i = 0; i < 8; i++) {
-      for (int k = 7; k >= 0; k+-){
+      for (int k = 7; k >= 0; k--) {
         BlankSquare(k, i);
         BlankOutline(k, i);
         DrawPiece(k, i, Board[i][k]);
@@ -386,62 +386,27 @@ void UndoMove(button){
 
 class LegalMoves {
   public:
-    LegalMoves LegalMoves;
-    void VertHoriz(int x, int y, bool color){
-      
-    }
-
-
-    void Diagonal(int x, int y, bool color){
-      
-    }
-
-
-    void King(int x, int y, bool color){
-      
-    }
-
-
-    void Knight(int x, int y, bool color){
-      
-    }
-
-
-    void Pawn(int x, int y, bool color){
-      
-    }
-
-
-    void Castle(int x, int y, bool color){
-      
-    }
-}
-
-
-/*
-//Ryan here, still a big work in progress, might add in a bool.
-void GenerateLegalMoves(int x, int y, int piece, bool color){
-  //vertical
-  if ((piece%10 == 1) || (piece%10 == 4)){
-    //down from
-    for(var i = y+1; i<=7; i++){
-      if ((Board[i][x] == 0) || ((Board[i][x] > 19)&&(piece < 19)) || ((Board[i][x] < 19)&&(piece > 19))){
-        LegalMoves[i][x] = true;
-      }else{
-        break;
+    void VertHoriz(int x, int y, int piece, bool color){
+      //VERTICAL
+      //down from
+      for(var i = y+1; i<=7; i++){
+        if ((Board[i][x] == 0) || ((Board[i][x] > 19)&&(piece < 19)) || ((Board[i][x] < 19)&&(piece > 19))){
+          LegalMoves[i][x] = true;
+        }else{
+          break;
+        }
+      }
+      //up from
+      for(var i = y-1; i>=0; i+-){
+        if ((Board[i][x] == 0) || ((Board[i][x] > 19)&&(piece < 19)) || ((Board[i][x] < 19)&&(piece > 19))){
+          LegalMoves[i][x] = true;
+        }else{
+          break;
+        }
       }
     }
-    //up from
-    for(var i = y-1; i>=0; i+-){
-      if ((Board[i][x] == 0) || ((Board[i][x] > 19)&&(piece < 19)) || ((Board[i][x] < 19)&&(piece > 19))){
-        LegalMoves[i][x] = true;
-      }else{
-        break;
-      }
-    }
-  }
-  //horizontal
-  if ((piece%10 == 1) || (piece%10 == 4)){
+    
+    //HORZONTAL
     //right from
     for(var k = x+1; k<=7; k++){
       if (Board[y][k] == 0){
@@ -458,114 +423,146 @@ void GenerateLegalMoves(int x, int y, int piece, bool color){
         break;
       }
     }
-  }
-  //slant
-  if ((piece%10 == 3) || (piece%10 == 4)){
-    //quadrant 1
-    while(){
-      
+    
+    void Diagonal(int x, int y, int piece, bool color){
+      //quadrant 1
+      while(){
+        
+      }
+      //quadrant 2
+      while(){
+        
+      }
+      //quadrant 3
+      while(){
+        
+      }
+      //quadrant 4
+      while(){
+        
+      }
     }
-    //quadrant 2
-    while(){
-      
+    
+    
+    void King(int x, int y, int piece, bool color){
+      if (piece == 15){
+        for(var i=0, i<4, i++){
+          if ((Board[y+round(i/2)*2-1][x+(i%2)*2-1] > 19)||(Board[y+round(i/2)*2-1][x+(i%2)*2-1]==0)){
+            LegalMoves[][] = true;
+          }
+        }
+      }
+      if (piece == 15){
+        for(var i=0, i<4, i++){
+          if (Board[y+round(i/2)*2-1][x+(i%2)*2-1] < 19){
+            LegalMoves[][] = true;
+          }
+        }
+      }
     }
-    //quadrant 3
-    while(){
-      
-    }
-    //quadrant 4
-    while(){
-      
-    }
-  }
-  //king
-  if (piece%10 == 5){
-    if (piece == 15){
-      for(var i=0, i<4, i++){
-        if ((Board[y+round(i/2)*2-1][x+(i%2)*2-1] > 19)||(Board[y+round(i/2)*2-1][x+(i%2)*2-1]==0)){
+    
+    
+    void Knight(int x, int y, int piece, bool color){
+      for(var i=0, i<8, i++){
+        if (){
           LegalMoves[][] = true;
         }
       }
     }
-    if (piece == 15){
-      for(var i=0, i<4, i++){
-        if (Board[y+round(i/2)*2-1][x+(i%2)*2-1] < 19){
+    
+    
+    void Pawn(int x, int y, int piece, bool color){
+      if (piece == 10){
+        //normal move
+        if ((Board[y-1][x]>19)||(Board[y-1][x]==0)){
+          LegalMoves[y-1][x] = true;
+        }
+        //pawn jump
+        if ((y==7)&&(Board[y-2][x]>19)||(Board[y-2][x]==0)){
+          LegalMoves[y-2][x] = true;
+        }
+      }
+      if (piece == 20){
+        //normal move
+        if (Board[y+1][x]<19){
+          LegalMoves[y+1][x] = true;
+        }
+        //pawn jump
+        if ((y==0)&&(Board[y+2][x]<19)){
+          LegalMoves[y+2][x] = true;
+        }
+      }
+      //en passant
+      if ((piece==10)&&(y==4)&&(BlackEnPassant!=8)){
+        if(BlackEnPassant==x-1){
+          LegalMoves[][] = true;
+        }
+        if(BlackEnPassant==x+1){
+          LegalMoves[][] = true;
+        }
+      }
+      if ((piece==20)&&(y==3)&&(WhiteEnPassant!=8)){
+        if(WhiteEnPassant==x-1){
+          LegalMoves[][] = true;
+        }
+        if(WhiteEnPassant==x+1){
           LegalMoves[][] = true;
         }
       }
     }
-  }
-  //knight
-  if (piece%10 == 2){
-    for(var i=0, i<8, i++){
-      if (){
-        LegalMoves[][] = true;
+    
+    
+    void Castle(int x, int y, int piece, bool color){
+      //Ryan here, this needs work
+      if (((piece < 19) && (Board[7][4] == 15))||((piece > 19) && (Board[0][4] == 25))){
+        for (var i = 0, i < 2; i++){
+          LegalMoves[][] = true;
+          LegalMoves[][] = true;
+        }
       }
     }
-  }
-  //pawn
+};
+
+
+//Ryan here, still a big work in progress, might add in a bool.
+void GenerateLegalMoves(int x, int y, int piece, bool color){
+  //Pawn
   if (piece%10 == 0){
-    if (piece == 10){
-      //normal move
-      if ((Board[y-1][x]>19)||(Board[y-1][x]==0)){
-        LegalMoves[y-1][x] = true;
-      }
-      //pawn jump
-      if ((y==7)&&(Board[y-2][x]>19)||(Board[y-2][x]==0)){
-        LegalMoves[y-2][x] = true;
-      }
-    }
-    if (piece == 20){
-      //normal move
-      if (Board[y+1][x]<19){
-        LegalMoves[y+1][x] = true;
-      }
-      //pawn jump
-      if ((y==0)&&(Board[y+2][x]<19)){
-        LegalMoves[y+2][x] = true;
-      }
-    }
-    //en passant
-    if ((piece==10)&&(y==4)&&(BlackEnPassant!=8)){
-      if(BlackEnPassant==x-1){
-        LegalMoves[][] = true;
-      }
-      if(BlackEnPassant==x+1){
-        LegalMoves[][] = true;
-      }
-    }
-    if ((piece==20)&&(y==3)&&(WhiteEnPassant!=8)){
-      if(WhiteEnPassant==x-1){
-        LegalMoves[][] = true;
-      }
-      if(WhiteEnPassant==x+1){
-        LegalMoves[][] = true;
-      }
-    }
+    LegalMoves Pawn(int x, int y, int piece, bool color);
   }
-  //castle
-  if ((piece%10 == 1) || (piece%10 == 5)){
-    //Ryan here, this needs work
-    if (((piece < 19) && (Board[7][4] == 15))||((piece > 19) && (Board[0][4] == 25))){
-      for (var i = 0, i < 2; i++){
-        LegalMoves[][] = true;
-        LegalMoves[][] = true;
-      }
-    }
+  //Rook
+  if (piece%10 == 1){
+    LegalMoves VertHoriz(int x, int y, int piece, bool color);
+  }
+  //Knight
+  if (piece%10 == 2){
+    LegalMoves Knight(int x, int y, int piece, bool color);
+  }
+  //Bishop
+  if (piece%10 == 3){
+    LegalMoves Diagonal(int x, int y, int piece, bool color);
+  }
+  //Queen
+  if (piece%10 == 4){
+    LegalMoves VertHoriz(int x, int y, int piece, bool color);
+    LegalMoves Diagonal(int x, int y, int piece, bool color);
+  }
+  //King
+  if (piece%10 == 5){
+    LegalMoves King(int x, int y, int piece, bool color);
   }
 }
-*/
 
 
-void ResetLegalMoves[]{
-  for (var x=0, x<8, x++){
-    for (var y=0, y<8, y++){
+void ResetLegalMoves(){
+  for (int x=0; x<8; x++){
+    for (int y=0; y<8; y++){
       if (LegalMoves[y][x] == true){
         LegalMoves[y][x] = false;
-      }
-    }
-  }
-}
+      };
+    };
+  };
+};
 
 
 
