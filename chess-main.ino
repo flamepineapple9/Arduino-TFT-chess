@@ -50,11 +50,7 @@ unsigned int xLog = 8;
 unsigned int yLog = 8;
 bool buttonState = false;
 bool cursorState = false;
-
-//Ryan here, going to do an overhaul of the undo system when I get the chance.
-//                       |x1|y1|#1|x2|y2|#2|
-//unsigned int UndoStates[6]{8, 8, 0, 8, 8, 0};
-
+unsigned int UndoStates = 0;
 unsigned int EnPassant = 8;
 
 unsigned char PosMoves[8][8] = {
@@ -81,7 +77,6 @@ unsigned int Board[8][8] = {
   {11, 12, 13, 14, 15, 13, 12, 11}
 };
 
-//probably could have just pushed false to all elements but dont change it now LMAO
 bool LegalMoves[8][8] = {
   {false,false,false,false,false,false,false,false},
   {false,false,false,false,false,false,false,false},
@@ -333,7 +328,10 @@ void UpdateCursor(int xJoy, int yJoy) { // moves the cursor
       delay(250);
     }
   } 
-  
+}
+
+
+void UpdateButton(){
   //checks button
   if ((button.state() == LOW) && (buttonState)){
     if ((xLog == 8) && (Board[yCursor][xCursor] != 0)){
@@ -514,7 +512,8 @@ void UndoMove(button){
 
 //main loop
 void loop(){
-  button.update();
   UpdateCursor(analogRead(X_PIN), analogRead(Y_PIN));
+  button.update();
+  UpdateButton();
   delay(10); //Ryan here, just a small global delay.
 }
