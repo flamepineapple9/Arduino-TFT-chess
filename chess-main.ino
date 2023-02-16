@@ -55,9 +55,7 @@ bool cursorState = false;
 //                       |x1|y1|#1|x2|y2|#2|
 //unsigned int UndoStates[6]{8, 8, 0, 8, 8, 0};
 
-unsigned int BlackEnPassant = 8;
-
-unsigned int WhiteEnPassant = 8;
+unsigned int EnPassant = 8;
 
 unsigned char PosMoves[8][8] = {
   {0, 0, 0, 0, 0, 0, 0, 0},
@@ -491,6 +489,15 @@ void GenerateLegalMoves(int x, int y, int piece, bool color){
   }
 }
 */
+
+void ResetLegalMoves[]{
+  for (var x=0, x<8, x++){
+    for (var y=0, y<8, y++){
+      LegalMoves[y][x] = false;
+    }
+  }
+}
+
 
 /*
 //Ryan here, DO NOT IMPLIMENT UNTILL NEW BUTTON IS DECLARED
