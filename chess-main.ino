@@ -37,62 +37,24 @@ void setup() {
   randomSeed(analogRead(A5)); //Seed with bogus read
   Serial.begin(9600);
   
-  //game setup
+  
+  //--------- ^ setup ^ --------- 
+  //------ v actual code v ------
+  
+  
   BoardSetup(true);
 }
 
-//--------- ^ setup ^ --------- 
-//------ v actual code v ------
 
-unsigned int xCursor = 0;
-unsigned int yCursor = 0;
-unsigned int xLog = 8;
-unsigned int yLog = 8;
-bool buttonState = false;
-bool cursorState = false;
-unsigned int UndoStates = 0;
-unsigned int EnPassant = 8;
 
-unsigned char PosMoves[8][8] = {
-  {0, 0, 0, 0, 0, 0, 0, 0},
-  {0, 0, 0, 0, 0, 0, 0, 0},
-  {0, 0, 0, 0, 0, 0, 0, 0},
-  {0, 0, 0, 0, 0, 0, 0, 0},
-  {0, 0, 0, 0, 0, 0, 0, 0},
-  {0, 0, 0, 0, 0, 0, 0, 0},
-  {0, 0, 0, 0, 0, 0, 0, 0},
-  {0, 0, 0, 0, 0, 0, 0, 0}
-};
-
-//Ryan here, each piece is represented by a number. Tens place is color (1 for black, 2 for white)
-//and ones place is the piece number (reference PieceArray). 0 is null.
-unsigned int Board[8][8] = {
-  {21, 22, 23, 24, 25, 23, 22, 21},
-  {20, 20, 20, 20, 20, 20, 20, 20},
-  {0, 0, 0, 0, 0, 0, 0, 0},
-  {0, 0, 0, 0, 0, 0, 0, 0},
-  {0, 0, 0, 0, 0, 0, 0, 0},
-  {0, 0, 0, 0, 0, 0, 0, 0},
-  {10, 10, 10, 10, 10, 10, 10, 10},
-  {11, 12, 13, 14, 15, 13, 12, 11}
-};
-
-bool LegalMoves[8][8] = {
-  {false,false,false,false,false,false,false,false},
-  {false,false,false,false,false,false,false,false},
-  {false,false,false,false,false,false,false,false},
-  {false,false,false,false,false,false,false,false},
-  {false,false,false,false,false,false,false,false},
-  {false,false,false,false,false,false,false,false},
-  {false,false,false,false,false,false,false,false},
-  {false,false,false,false,false,false,false,false}
-};
+//----------CONSTANTS----------
 
 const unsigned int ColorArray[2][5] = 
  {{0x0000, 0x10A2, 0x2124, 0x4A49, 0x6B6D}, // black, dark --> light
   {0x0000, 0xA534, 0xC618, 0xE71C, 0xFFFF}}; // white, dark --> light
 
-/*3d array, [piece][row][pixel], 
+
+/*3d array, [piece][row][column], 
 PiecesArray[0] = pawn
            [1] = rook
            [2] = knight
@@ -193,6 +155,58 @@ const unsigned char PiecesArray[6][14][14] =
 };
 
 
+//----------VARIABLES----------
+
+unsigned char PosMoves[8][8] = {
+  {0, 0, 0, 0, 0, 0, 0, 0},
+  {0, 0, 0, 0, 0, 0, 0, 0},
+  {0, 0, 0, 0, 0, 0, 0, 0},
+  {0, 0, 0, 0, 0, 0, 0, 0},
+  {0, 0, 0, 0, 0, 0, 0, 0},
+  {0, 0, 0, 0, 0, 0, 0, 0},
+  {0, 0, 0, 0, 0, 0, 0, 0},
+  {0, 0, 0, 0, 0, 0, 0, 0}
+};
+
+
+//Ryan here, each piece is represented by a number. Tens place is color (1 for black, 2 for white)
+//and ones place is the piece number (reference PieceArray). 0 is null.
+unsigned int Board[8][8] = {
+  {21, 22, 23, 24, 25, 23, 22, 21},
+  {20, 20, 20, 20, 20, 20, 20, 20},
+  {0, 0, 0, 0, 0, 0, 0, 0},
+  {0, 0, 0, 0, 0, 0, 0, 0},
+  {0, 0, 0, 0, 0, 0, 0, 0},
+  {0, 0, 0, 0, 0, 0, 0, 0},
+  {10, 10, 10, 10, 10, 10, 10, 10},
+  {11, 12, 13, 14, 15, 13, 12, 11}
+};
+
+
+bool LegalMoves[8][8] = {
+  {false,false,false,false,false,false,false,false},
+  {false,false,false,false,false,false,false,false},
+  {false,false,false,false,false,false,false,false},
+  {false,false,false,false,false,false,false,false},
+  {false,false,false,false,false,false,false,false},
+  {false,false,false,false,false,false,false,false},
+  {false,false,false,false,false,false,false,false},
+  {false,false,false,false,false,false,false,false}
+};
+
+
+unsigned int xCursor = 0;
+unsigned int yCursor = 0;
+unsigned int xLog = 8;
+unsigned int yLog = 8;
+bool buttonState = false;
+bool cursorState = false;
+unsigned int UndoStates = 0;
+unsigned int EnPassant = 8;
+
+
+
+//----------VISUAL FUNCTIONS----------
 
 void DrawPiece(int xSquare, int ySquare, int piece){
   //xSquare and ySquare is the square on the board, 0=black 1=white, refference PiecesArray
@@ -260,8 +274,11 @@ void BoardSetup(bool color){
   }
   CursorOutline(xCursor, yCursor);
 }
-  
-  
+
+
+
+//----------INTERNAL FUNCTIONS----------
+
 void MovePiece(int x1, int y1, int x2, int y2){
   //handels promotion
   if (((Board[y1][x1]==10)&&(y2==7))||((Board[y1][x1]==20)&&(y2==0))){
@@ -349,6 +366,57 @@ void UpdateButton(){
     buttonState = true;
   }
 }
+
+
+/*
+//Ryan here, DO NOT IMPLIMENT UNTILL NEW BUTTON IS DECLARED
+void UndoMove(button){
+  if ((button.state() == LOW)&&(UndoStates[0] != 8)){
+    BlankSquare(UndoStates[0], UndoStates[1]);
+    DrawPiece(UndoStates[0], UndoStates[1], UndoStates[2]);
+    BlankSquare(UndoStates[3], UndoStates[4]);
+    DrawPiece(UndoStates[3], UndoStates[4], UndoStates[5]);
+  }
+}
+*/
+
+
+
+//----------LEGAL MOVES FUNCTIONS----------
+
+class LegalMoves {
+  public:
+    LegalMoves LegalMoves;
+    void VertHoriz(int x, int y, bool color){
+      
+    }
+
+
+    void Diagonal(int x, int y, bool color){
+      
+    }
+
+
+    void King(int x, int y, bool color){
+      
+    }
+
+
+    void Knight(int x, int y, bool color){
+      
+    }
+
+
+    void Pawn(int x, int y, bool color){
+      
+    }
+
+
+    void Castle(int x, int y, bool color){
+      
+    }
+}
+
 
 /*
 //Ryan here, still a big work in progress, might add in a bool.
@@ -488,29 +556,21 @@ void GenerateLegalMoves(int x, int y, int piece, bool color){
 }
 */
 
+
 void ResetLegalMoves[]{
   for (var x=0, x<8, x++){
     for (var y=0, y<8, y++){
-      LegalMoves[y][x] = false;
+      if (LegalMoves[y][x] == true){
+        LegalMoves[y][x] = false;
+      }
     }
   }
 }
 
 
-/*
-//Ryan here, DO NOT IMPLIMENT UNTILL NEW BUTTON IS DECLARED
-void UndoMove(button){
-  if ((button.state() == LOW)&&(UndoStates[0] != 8)){
-    BlankSquare(UndoStates[0], UndoStates[1]);
-    DrawPiece(UndoStates[0], UndoStates[1], UndoStates[2]);
-    BlankSquare(UndoStates[3], UndoStates[4]);
-    DrawPiece(UndoStates[3], UndoStates[4], UndoStates[5]);
-  }
-}
-*/
 
+//----------MAIN LOOP----------
 
-//main loop
 void loop(){
   UpdateCursor(analogRead(X_PIN), analogRead(Y_PIN));
   button.update();
