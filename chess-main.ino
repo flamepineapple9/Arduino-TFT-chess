@@ -42,7 +42,7 @@ void setup() {
   //------ v actual code v ------
   
   
-  Draw Board(true);
+  Draw.Board(true);
 }
 
 
