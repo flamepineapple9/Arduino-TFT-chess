@@ -1,10 +1,14 @@
 /*
 This is chess meant to be played on a 128/160 tft display
 */
+
+//----------SETUP----------
+
 #include <SPI.h> 
 #include <Adafruit_GFX.h>
 #include <Adafruit_ST7735.h>
 #include <ButtonDebounce.h>
+
 
 // For the joystick
 #define Y_PIN A2 //orange wire
@@ -13,18 +17,17 @@ This is chess meant to be played on a 128/160 tft display
 #define MIN_CLICK 100 //debounce ms
 #define MAX_DCLICK 500 //double-click cutoff
 
+
 //for the lcd rgb display
 #define TFT_SS 7
 #define RST 8
 #define DC 9
 #define SD_SS 10
 
+
 Adafruit_ST7735 mytft = Adafruit_ST7735(TFT_SS, DC, RST); // idk why this is needed      Grace i'm pretty sure this creates the screen object -Eli
 ButtonDebounce button(SW_PIN, MIN_CLICK);// seems to be defining some values for the button debounce library
 
-//array for colors, pretty sure we can delete this, unless it's needed for the screen to operate somehow. no harm in leaving it though
-unsigned int dispColors[] = { ST7735_BLACK, ST7735_RED, ST7735_ORANGE, ST7735_YELLOW, ST7735_GREEN, ST7735_CYAN, ST7735_BLUE, ST7735_MAGENTA, ST7735_WHITE };
-byte numColors =  sizeof(dispColors) / sizeof(dispColors[0]); //how many colors
 
 void setup() {
   mytft.initR(INITR_BLACKTAB); // for 1.8' TFT
@@ -38,9 +41,8 @@ void setup() {
   Serial.begin(9600);
   
   
-  //--------- ^ setup ^ --------- 
-  //------ v actual code v ------
   
+  //----------GAME SETUP----------
   
   Draw.Board(true);
 }
@@ -49,20 +51,20 @@ void setup() {
 
 //----------CONSTANTS----------
 
-const unsigned int ColorArray[2][5] = 
+const unsigned int COLOR_ARRAY[2][5] = 
  {{0x0000, 0x10A2, 0x2124, 0x4A49, 0x6B6D}, // black, dark --> light
   {0x0000, 0xA534, 0xC618, 0xE71C, 0xFFFF}}; // white, dark --> light
 
 
 /*3d array, [piece][row][column], 
-PiecesArray[0] = pawn
-           [1] = rook
-           [2] = knight
-           [3] = bishop
-           [4] = queen
-           [5] = king
+PIECES_ARRAY[0] = pawn
+            [1] = rook
+            [2] = knight
+            [3] = bishop
+            [4] = queen
+            [5] = king
 */
-const unsigned char PiecesArray[6][14][14] = 
+const unsigned char PIECES_ARRAY[6][14][14] = 
 {{{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
   {0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0},
   {0, 0, 0, 0, 1, 5, 4, 4, 2, 1, 0, 0, 0, 0},
@@ -151,8 +153,8 @@ const unsigned char PiecesArray[6][14][14] =
   {0, 0, 0, 1, 4, 3, 3, 3, 2, 2, 1, 0, 0, 0},
   {0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0},
   {0, 0, 1, 4, 4, 3, 3, 3, 2, 2, 2, 1, 0, 0},
-  {0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0}}
-};
+  {0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0}}};
+
 
 
 //----------VARIABLES----------
@@ -165,8 +167,7 @@ unsigned char PosMoves[8][8] = {
   {0, 0, 0, 0, 0, 0, 0, 0},
   {0, 0, 0, 0, 0, 0, 0, 0},
   {0, 0, 0, 0, 0, 0, 0, 0},
-  {0, 0, 0, 0, 0, 0, 0, 0}
-};
+  {0, 0, 0, 0, 0, 0, 0, 0}};
 
 
 //Ryan here, each piece is represented by a number. Tens place is color (1 for black, 2 for white)
@@ -179,8 +180,7 @@ unsigned int Board[8][8] = {
   {0, 0, 0, 0, 0, 0, 0, 0},
   {0, 0, 0, 0, 0, 0, 0, 0},
   {10, 10, 10, 10, 10, 10, 10, 10},
-  {11, 12, 13, 14, 15, 13, 12, 11}
-};
+  {11, 12, 13, 14, 15, 13, 12, 11}};
 
 
 bool LegalMoves[8][8] = {
@@ -191,17 +191,16 @@ bool LegalMoves[8][8] = {
   {false,false,false,false,false,false,false,false},
   {false,false,false,false,false,false,false,false},
   {false,false,false,false,false,false,false,false},
-  {false,false,false,false,false,false,false,false}
-};
+  {false,false,false,false,false,false,false,false}};
 
 
-unsigned int xCursor = 0;
-unsigned int yCursor = 0;
-unsigned int xLog = 8;
-unsigned int yLog = 8;
-bool buttonState = false;
-bool cursorState = false;
-unsigned int UndoStates = 0;
+unsigned int XCursor = 0;
+unsigned int YCursor = 0;
+unsigned int XLog = 8;
+unsigned int YLog = 8;
+bool ButtonState = false;
+bool CursorState = false;
+unsigned int UndoLog = 0;
 unsigned int EnPassant = 8;
 
 
@@ -211,15 +210,15 @@ unsigned int EnPassant = 8;
 class Draw{
   public:
     void Piece(int xSquare, int ySquare, int piece){
-      //xSquare and ySquare is the square on the board, 0=black 1=white, refference PiecesArray
+      //xSquare and ySquare is the square on the board, 0=black 1=white, refference PIECES_ARRAY
       if (piece != 0){
         for(int y = 0; y < 14; y++){
           for(int x = 0; x < 14; x++){
-            if (PiecesArray[piece%10][y][x] != 0x00){
+            if (PIECES_ARRAY[piece%10][y][x] != 0x00){
               //             |  x position  |   y position  |                          color                                |
-              mytft.drawPixel(xSquare*16+x+1, ySquare*16+y+1, ColorArray[round(piece/10)-1][PiecesArray[piece%10][y][x] - 1]);
+              mytft.drawPixel(xSquare*16+x+1, ySquare*16+y+1, COLOR_ARRAY[round(piece/10)-1][PIECES_ARRAY[piece%10][y][x] - 1]);
             }
-          } 
+          }
         }
       }
     }
@@ -274,9 +273,9 @@ class Draw{
           }
         }
       }
-      CursorOutline(xCursor, yCursor);
+      CursorOutline(XCursor, YCursor);
     }
-}
+};
 
 
 
@@ -299,52 +298,52 @@ void MovePiece(int x1, int y1, int x2, int y2){
 }
  
 
-void UpdateCursor(int xJoy, int yJoy) { // moves the cursor
+void UpdateCursor(int XJoy, int YJoy) { // moves the cursor
   //moves cursor outline on x
-  if (xJoy > 611){
-    if (xCursor < 7){
-      if ((xLog == xCursor) && (yLog == yCursor)){
-        SelectOutline(xCursor, yCursor);
+  if (XJoy > 611){
+    if (XCursor < 7){
+      if ((XLog == XCursor) && (YLog == YCursor)){
+        SelectOutline(XCursor, YCursor);
       }else{
-        BlankOutline(xCursor, yCursor);
+        BlankOutline(XCursor, YCursor);
       }
-      xCursor += 1;
-      CursorOutline(xCursor, yCursor);
+      XCursor += 1;
+      CursorOutline(XCursor, YCursor);
       delay(250);
     }
-  }else if (xJoy < 411){
-    if (xCursor > 0){
-      if ((xLog == xCursor) && (yLog == yCursor)){
-        SelectOutline(xCursor, yCursor);
+  }else if (XJoy < 411){
+    if (XCursor > 0){
+      if ((XLog == XCursor) && (YLog == YCursor)){
+        SelectOutline(XCursor, YCursor);
       }else{
-        BlankOutline(xCursor, yCursor);
+        BlankOutline(XCursor, YCursor);
       } 
-      xCursor -= 1;
-      CursorOutline(xCursor, yCursor);
+      XCursor -= 1;
+      CursorOutline(XCursor, YCursor);
       delay(250);
     }
   }
   //moves cursor outline on y
-  if (yJoy > 611){
-    if (yCursor < 7){
-      if ((xLog == xCursor) && (yLog == yCursor)){
-        SelectOutline(xCursor, yCursor);
+  if (YJoy > 611){
+    if (YCursor < 7){
+      if ((XLog == XCursor) && (YLog == YCursor)){
+        SelectOutline(XCursor, YCursor);
       }else{
-        BlankOutline(xCursor, yCursor);
+        BlankOutline(XCursor, YCursor);
       }
-      yCursor += 1;
-      CursorOutline(xCursor, yCursor);
+      YCursor += 1;
+      CursorOutline(XCursor, YCursor);
       delay(250);
     }
-  }else if (yJoy < 411){
-    if (yCursor > 0){
-      if ((xLog == xCursor) && (yLog == yCursor)){
-        SelectOutline(xCursor, yCursor);
+  }else if (YJoy < 411){
+    if (YCursor > 0){
+      if ((XLog == XCursor) && (YLog == YCursor)){
+        SelectOutline(XCursor, YCursor);
       }else{
-        BlankOutline(xCursor, yCursor);
+        BlankOutline(XCursor, YCursor);
       }
-      yCursor -= 1;
-      CursorOutline(xCursor, yCursor);
+      YCursor -= 1;
+      CursorOutline(XCursor, YCursor);
       delay(250);
     }
   } 
@@ -354,14 +353,14 @@ void UpdateCursor(int xJoy, int yJoy) { // moves the cursor
 void UpdateButton(){
   //checks button
   if ((button.state() == LOW) && (buttonState)){
-    if ((xLog == 8) && (Board[yCursor][xCursor] != 0)){
-      xLog = xCursor;
-      yLog = yCursor;
+    if ((XLog == 8) && (Board[YCursor][XCursor] != 0)){
+      XLog = XCursor;
+      YLog = YCursor;
     }else{
-      if (((xLog != xCursor) || (yLog != yCursor)) && (xLog != 8)){
-        MovePiece(xLog, yLog, xCursor, yCursor);
-        xLog = 8;
-        yLog = 8;
+      if (((XLog != XCursor) || (YLog != YCursor)) && (XLog != 8)){
+        MovePiece(XLog, YLog, XCursor, YCursor);
+        XLog = 8;
+        YLog = 8;
       }
     }
     buttonState = false;
@@ -563,10 +562,10 @@ void ResetLegalMoves(){
     for (int y=0; y<8; y++){
       if (LegalMoves[y][x] == true){
         LegalMoves[y][x] = false;
-      };
-    };
-  };
-};
+      }
+    }
+  }
+}
 
 
 
