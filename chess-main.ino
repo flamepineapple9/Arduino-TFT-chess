@@ -1,6 +1,13 @@
 /*
-This is chess meant to be played on a 128/160 tft display
+PROJECT NAME: Arduino Chess
+PROJECT DESCRIPTION: Chess made for an arduino uno/pro mini with a 1.8" tft
+                     display and a joystick (will be d-pad) control scheme.
+CONTRIBUTERS: Ryan, Eli, and Grace.
+
+CHECK READ ME FOR MORE INFORMATION
 */
+
+
 
 //----------SETUP----------
 
