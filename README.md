@@ -4,10 +4,10 @@ joystick (will be d-pad) control scheme. We should put specs in here at some poi
 
 # Our Team
 Lead Software Designer: RyanYasuda
-Lead Hardware Designer: Grace
+
+Lead Hardware Designer: grace0lkjhb
+
 Lead CAD Designer: flamepineapple9
-
-
 
 # Hardware Specs
 -Arduino Pro Mini/Uno
