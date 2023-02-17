@@ -42,7 +42,7 @@ void setup() {
   //------ v actual code v ------
   
   
-  BoardSetup(true);
+  Draw Board(true);
 }
 
 
@@ -208,71 +208,74 @@ unsigned int EnPassant = 8;
 
 //----------VISUAL FUNCTIONS----------
 
-void DrawPiece(int xSquare, int ySquare, int piece){
-  //xSquare and ySquare is the square on the board, 0=black 1=white, refference PiecesArray
-  if (piece != 0){
-    for(int y = 0; y < 14; y++){
-      for(int x = 0; x < 14; x++){
-        if (PiecesArray[piece%10][y][x] != 0x00){
-          //             |  x position  |   y position  |                          color                                |
-          mytft.drawPixel(xSquare*16+x+1, ySquare*16+y+1, ColorArray[round(piece/10)-1][PiecesArray[piece%10][y][x] - 1]);
+class Draw{
+  public:
+    void Piece(int xSquare, int ySquare, int piece){
+      //xSquare and ySquare is the square on the board, 0=black 1=white, refference PiecesArray
+      if (piece != 0){
+        for(int y = 0; y < 14; y++){
+          for(int x = 0; x < 14; x++){
+            if (PiecesArray[piece%10][y][x] != 0x00){
+              //             |  x position  |   y position  |                          color                                |
+              mytft.drawPixel(xSquare*16+x+1, ySquare*16+y+1, ColorArray[round(piece/10)-1][PiecesArray[piece%10][y][x] - 1]);
+            }
+          } 
         }
-      } 
-    }
-  }
-}
-
-  
-void BlankSquare(int k,int i){
-  //Ryan here, if i=0, then (0 + k)%2 just means every other, but as we increase i, i+constant will oscillate between
-  //even and odd, meaning (k0 + i0)%2 != (k0 + i1)%2, thus making a given row the inverse of the next.
-  if ((k + i) % 2 == 1){
-    mytft.fillRect(k*16+1, i*16+1, 14, 14, 0x7EB2);
-  } else {
-  	mytft.fillRect(k*16+1, i*16+1, 14, 14, 0x2447);
-  }
-}
-  
-  
-void BlankOutline(int k,int i){
-  if ((k + i) % 2 == 1){
-    mytft.drawRect(k*16, i*16, 16, 16, 0x7EB2);
-  } else {
-    mytft.drawRect(k*16, i*16, 16, 16, 0x2447);
-  }
-}
-  
-  
-void CursorOutline(int k,int i){
-  mytft.drawRect(k*16, i*16, 16, 16, 0xf800);
-}
-
-
-void SelectOutline(int k,int i){
-  mytft.drawRect(k*16, i*16, 16, 16, 0x001f);
-}
-
-
-void BoardSetup(bool color){
-  //draws board
-  if (color){
-    for (int i = 0; i < 8; i++) {
-      for (int k = 0; k < 8; k++){
-        BlankSquare(k, i);
-        BlankOutline(k, i);
-        DrawPiece(k, i, Board[i][k]);
       }
     }
-  }else{
-    for (int i = 0; i < 8; i++) {
-      for (int k = 7; k >= 0; k--) {
-        BlankSquare(k, i);
-        BlankOutline(k, i);
-        DrawPiece(k, i, Board[i][k]);
+
+
+    void BlankSquare(int k,int i){
+      //Ryan here, if i=0, then (0 + k)%2 just means every other, but as we increase i, i+constant will oscillate between
+      //even and odd, meaning (k0 + i0)%2 != (k0 + i1)%2, thus making a given row the inverse of the next.
+      if ((k + i) % 2 == 1){
+        mytft.fillRect(k*16+1, i*16+1, 14, 14, 0x7EB2);
+      } else {
+        mytft.fillRect(k*16+1, i*16+1, 14, 14, 0x2447);
       }
     }
-  }
-  CursorOutline(xCursor, yCursor);
+
+
+    void BlankOutline(int k,int i){
+      if ((k + i) % 2 == 1){
+        mytft.drawRect(k*16, i*16, 16, 16, 0x7EB2);
+      } else {
+        mytft.drawRect(k*16, i*16, 16, 16, 0x2447);
+      }
+    }
+
+
+    void CursorOutline(int k,int i){
+      mytft.drawRect(k*16, i*16, 16, 16, 0xf800);
+    }
+
+
+    void SelectOutline(int k,int i){
+      mytft.drawRect(k*16, i*16, 16, 16, 0x001f);
+    }
+
+
+    void Board(bool color){
+      //draws board
+      if (color){
+        for (int i = 0; i < 8; i++) {
+          for (int k = 0; k < 8; k++){
+            BlankSquare(k, i);
+            BlankOutline(k, i);
+            DrawPiece(k, i, Board[i][k]);
+          }
+        }
+      }else{
+        for (int i = 0; i < 8; i++) {
+          for (int k = 7; k >= 0; k--) {
+            BlankSquare(k, i);
+            BlankOutline(k, i);
+            DrawPiece(k, i, Board[i][k]);
+          }
+        }
+      }
+      CursorOutline(xCursor, yCursor);
+    }
 }
 
 
@@ -404,25 +407,25 @@ class LegalMoves {
           break;
         }
       }
+      //HORZONTAL
+      //right from
+      for(var k = x+1; k<=7; k++){
+        if (Board[y][k] == 0){
+          LegalMoves[y][k] = true;
+        }else{
+          break;
+        }
+      }
+      //left from
+      for(var k = x-1; k>=0; k+-){
+        if (Board[y][k] == 0){
+          LegalMoves[y][k] = true;
+        }else{
+          break;
+        }
+      }
     }
     
-    //HORZONTAL
-    //right from
-    for(var k = x+1; k<=7; k++){
-      if (Board[y][k] == 0){
-        LegalMoves[y][k] = true;
-      }else{
-        break;
-      }
-    }
-    //left from
-    for(var k = x-1; k>=0; k+-){
-      if (Board[y][k] == 0){
-        LegalMoves[y][k] = true;
-      }else{
-        break;
-      }
-    }
     
     void Diagonal(int x, int y, int piece, bool color){
       //quadrant 1
@@ -526,30 +529,31 @@ class LegalMoves {
 
 //Ryan here, still a big work in progress, might add in a bool.
 void GenerateLegalMoves(int x, int y, int piece, bool color){
-  //Pawn
-  if (piece%10 == 0){
-    LegalMoves Pawn(int x, int y, int piece, bool color);
-  }
-  //Rook
-  if (piece%10 == 1){
-    LegalMoves VertHoriz(int x, int y, int piece, bool color);
-  }
-  //Knight
-  if (piece%10 == 2){
-    LegalMoves Knight(int x, int y, int piece, bool color);
-  }
-  //Bishop
-  if (piece%10 == 3){
-    LegalMoves Diagonal(int x, int y, int piece, bool color);
-  }
-  //Queen
-  if (piece%10 == 4){
-    LegalMoves VertHoriz(int x, int y, int piece, bool color);
-    LegalMoves Diagonal(int x, int y, int piece, bool color);
-  }
-  //King
-  if (piece%10 == 5){
-    LegalMoves King(int x, int y, int piece, bool color);
+  switch (piece%10){
+    //Pawn
+    case 0:
+      LegalMoves Pawn(int x, int y, int piece, bool color);
+      break;
+    //Rook
+    case 1:
+      LegalMoves VertHoriz(int x, int y, int piece, bool color);
+      break;
+    //Knight
+    case 2:
+      LegalMoves Knight(int x, int y, int piece, bool color);
+      break;
+    //Bishop
+    case 3:
+      LegalMoves Diagonal(int x, int y, int piece, bool color);
+      break;
+    //Queen
+    case 4:
+      LegalMoves VertHoriz(int x, int y, int piece, bool color);
+      LegalMoves Diagonal(int x, int y, int piece, bool color);
+      break;
+    //King
+    default:
+      LegalMoves King(int x, int y, int piece, bool color);
   }
 }
 
