@@ -531,6 +531,15 @@ class LegalMoves {
         }
       }
     }
+    void Reset(){
+      for (int x=0; x<8; x++){
+        for (int y=0; y<8; y++){
+          if (LegalMoves[y][x] == true){
+            LegalMoves[y][x] = false;
+          }
+        }
+      }
+    }
 };
 
 
@@ -561,17 +570,6 @@ void GenerateLegalMoves(int x, int y, int piece, bool color){
     //King
     default:
       LegalMoves.King(int x, int y, int piece, bool color);
-  }
-}
-
-
-void ResetLegalMoves(){
-  for (int x=0; x<8; x++){
-    for (int y=0; y<8; y++){
-      if (LegalMoves[y][x] == true){
-        LegalMoves[y][x] = false;
-      }
-    }
   }
 }
 
