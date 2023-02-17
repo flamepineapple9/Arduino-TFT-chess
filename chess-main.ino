@@ -1,6 +1,6 @@
 /*
 PROJECT NAME: Arduino Chess
-PROJECT DESCRIPTION: Chess made for an arduino uno/pro mini with a 1.8" tft
+PROJECT DESCRIPTION: Chess made for an Arduino Uno/Pro Mini with a 1.8" tft
                      display and a joystick (will be d-pad) control scheme.
 CONTRIBUTERS: RyanYasuda, flamepineapple9, and grace0lkjhb.
 
