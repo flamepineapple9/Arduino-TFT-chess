@@ -60,7 +60,7 @@ void setup() {
 //----------CONSTANTS----------
 
 const unsigned int COLOR_ARRAY[2][5] = 
- {{0x0000, 0x10A2, 0x2124, 0x4A49, 0x6B6D}, // black, dark --> light
+ {{0x0000, 0x10A2, 0x2124, 0x4A49, 0x6B6D},  // black, dark --> light
   {0x0000, 0xA534, 0xC618, 0xE71C, 0xFFFF}}; // white, dark --> light
 
 
@@ -210,6 +210,7 @@ bool ButtonState = false;
 bool CursorState = false;
 unsigned int UndoLog = 0;
 unsigned int EnPassant = 8;
+bool Turn = true;
 
 
 
@@ -217,7 +218,49 @@ unsigned int EnPassant = 8;
 
 class Draw{
   public:
+    void CursorOutline(int k,int i){
+      mytft.drawRect(k*16, i*16, 16, 16, 0xf800);
+    }
+
+
+    void SelectOutline(int k,int i){
+      mytft.drawRect(k*16, i*16, 16, 16, 0x001f);
+    }
+    
+    
+    void BlankSquare(int k,int i){
+      if (Turn){
+        i = 7-i;
+      }
+      
+      //Ryan here, if i=0, then (0 + k)%2 just means every other, but as we increase i, i+constant will oscillate between
+      //even and odd, meaning (k0 + i0)%2 != (k0 + i1)%2, thus making a given row the inverse of the next.
+      if ((k + i) % 2 == 1){
+        mytft.fillRect(k*16+1, i*16+1, 14, 14, 0x7EB2);
+      } else {
+        mytft.fillRect(k*16+1, i*16+1, 14, 14, 0x2447);
+      }
+    }
+
+
+    void BlankOutline(int k,int i){
+      if (Turn){
+        i = 7-i;
+      }
+      
+      if ((k + i) % 2 == 1){
+        mytft.drawRect(k*16, i*16, 16, 16, 0x7EB2);
+      } else {
+        mytft.drawRect(k*16, i*16, 16, 16, 0x2447);
+      }
+    }
+    
+    
     void Piece(int xSquare, int ySquare, int piece){
+      if (Turn){
+        ySquare = 7-ySquare;
+      }
+      
       //xSquare and ySquare is the square on the board, 0=black 1=white, refference PIECES_ARRAY
       if (piece != 0){
         for(int y = 0; y < 14; y++){
@@ -230,41 +273,11 @@ class Draw{
         }
       }
     }
-
-
-    void BlankSquare(int k,int i){
-      //Ryan here, if i=0, then (0 + k)%2 just means every other, but as we increase i, i+constant will oscillate between
-      //even and odd, meaning (k0 + i0)%2 != (k0 + i1)%2, thus making a given row the inverse of the next.
-      if ((k + i) % 2 == 1){
-        mytft.fillRect(k*16+1, i*16+1, 14, 14, 0x7EB2);
-      } else {
-        mytft.fillRect(k*16+1, i*16+1, 14, 14, 0x2447);
-      }
-    }
-
-
-    void BlankOutline(int k,int i){
-      if ((k + i) % 2 == 1){
-        mytft.drawRect(k*16, i*16, 16, 16, 0x7EB2);
-      } else {
-        mytft.drawRect(k*16, i*16, 16, 16, 0x2447);
-      }
-    }
-
-
-    void CursorOutline(int k,int i){
-      mytft.drawRect(k*16, i*16, 16, 16, 0xf800);
-    }
-
-
-    void SelectOutline(int k,int i){
-      mytft.drawRect(k*16, i*16, 16, 16, 0x001f);
-    }
-
-
-    void Board(bool color){
+    
+    
+    void Board(){
       //draws board
-      if (color){
+      if (Turn){
         for (int i = 0; i < 8; i++) {
           for (int k = 0; k < 8; k++){
             BlankSquare(k, i);
@@ -283,7 +296,7 @@ class Draw{
       }
       CursorOutline(XCursor, YCursor);
     }
-};
+} Draw;
 
 
 
@@ -542,7 +555,7 @@ class LegalMoves {
         }
       }
     }
-};
+} LegalMoves;
 
 
 //Ryan here, still a big work in progress, might add in a bool.
