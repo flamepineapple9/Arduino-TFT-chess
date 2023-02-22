@@ -59,11 +59,6 @@ void setup() {
 
 //----------CONSTANTS----------
 
-const unsigned int COLOR_ARRAY[2][5] = 
- {{0x0000, 0x10A2, 0x2124, 0x4A49, 0x6B6D},  // black, dark --> light
-  {0x0000, 0xA534, 0xC618, 0xE71C, 0xFFFF}}; // white, dark --> light
-
-
 /*3d array, [piece][row][column], 
 PIECES_ARRAY[0] = pawn
             [1] = rook
@@ -164,31 +159,25 @@ const unsigned char PIECES_ARRAY[6][14][14] =
   {0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0}}};
 
 
+const unsigned int COLOR_ARRAY[2][5] = 
+ {{0x0000, 0x10A2, 0x2124, 0x4A49, 0x6B6D},  // black, dark --> light
+  {0x0000, 0xA534, 0xC618, 0xE71C, 0xFFFF}}; // white, dark --> light
+
+
 
 //----------VARIABLES----------
 
-unsigned char PosMoves[8][8] = {
-  {0, 0, 0, 0, 0, 0, 0, 0},
-  {0, 0, 0, 0, 0, 0, 0, 0},
-  {0, 0, 0, 0, 0, 0, 0, 0},
-  {0, 0, 0, 0, 0, 0, 0, 0},
-  {0, 0, 0, 0, 0, 0, 0, 0},
-  {0, 0, 0, 0, 0, 0, 0, 0},
-  {0, 0, 0, 0, 0, 0, 0, 0},
-  {0, 0, 0, 0, 0, 0, 0, 0}};
-
-
-//Ryan here, each piece is represented by a number. <7 for black, >7 for white,
-//and %7 for piece number (reference PieceArray). 0 is null.
+//Ryan here, each piece is represented by a number. <6 for black, >6 for white,
+//and %7 for piece number (reference PieceArray). 6 is null. Also yeah, it's weird.
 unsigned int Board[8][8] = {
-  {9, 10, 11, 12, 13, 11, 10, 9},
-  {8, 8, 8, 8, 8, 8, 8, 8},
+  {8, 9, 10, 11, 12, 10, 9, 8},
+  {7, 7, 7, 7, 7, 7, 7, 7},
+  {6, 6, 6, 6, 6, 6, 6, 6},
+  {6, 6, 6, 6, 6, 6, 6, 6},
+  {6, 6, 6, 6, 6, 6, 6, 6},
+  {6, 6, 6, 6, 6, 6, 6, 6},
   {0, 0, 0, 0, 0, 0, 0, 0},
-  {0, 0, 0, 0, 0, 0, 0, 0},
-  {0, 0, 0, 0, 0, 0, 0, 0},
-  {0, 0, 0, 0, 0, 0, 0, 0},
-  {1, 1, 1, 1, 1, 1, 1, 1},
-  {2, 3, 4, 5, 6, 4, 3, 2}};
+  {1, 2, 3, 4, 5, 3, 2, 1}};
 
 
 bool LegalMoves[8][8] = {
@@ -229,13 +218,9 @@ class Draw{
     
     
     void BlankSquare(int k,int i){
-      if (Turn){
-        i = 7-i;
-      }
-      
       //Ryan here, if i=0, then (0 + k)%2 just means every other, but as we increase i, i+constant will oscillate between
       //even and odd, meaning (k0 + i0)%2 != (k0 + i1)%2, thus making a given row the inverse of the next.
-      if ((k + i) % 2 == 1){
+      if((k + i) % 2 == 1){
         mytft.fillRect(k*16+1, i*16+1, 14, 14, 0x7EB2);
       } else {
         mytft.fillRect(k*16+1, i*16+1, 14, 14, 0x2447);
@@ -244,11 +229,7 @@ class Draw{
 
 
     void BlankOutline(int k,int i){
-      if (Turn){
-        i = 7-i;
-      }
-      
-      if ((k + i) % 2 == 1){
+      if((k + i) % 2 == 1){
         mytft.drawRect(k*16, i*16, 16, 16, 0x7EB2);
       } else {
         mytft.drawRect(k*16, i*16, 16, 16, 0x2447);
@@ -257,15 +238,11 @@ class Draw{
     
     
     void Piece(int xSquare, int ySquare, int piece){
-      if (Turn){
-        ySquare = 7-ySquare;
-      }
-      
       //xSquare and ySquare is the square on the board, 0=black 1=white, refference PIECES_ARRAY
-      if (piece != 0){
+      if(piece != 6){
         for(int y = 0; y < 14; y++){
           for(int x = 0; x < 14; x++){
-            if (PIECES_ARRAY[piece%10][y][x] != 0x00){
+            if(PIECES_ARRAY[piece%7][y][x] != 0x00){
               //             |  x position  |   y position  |                          color                                |
               mytft.drawPixel(xSquare*16+x+1, ySquare*16+y+1, COLOR_ARRAY[round(piece/10)-1][PIECES_ARRAY[piece%10][y][x] - 1]);
             }
@@ -277,26 +254,16 @@ class Draw{
     
     void Board(){
       //draws board
-      if (Turn){
-        for (int i = 0; i < 8; i++) {
-          for (int k = 0; k < 8; k++){
-            BlankSquare(k, i);
-            BlankOutline(k, i);
-            DrawPiece(k, i, Board[i][k]);
-          }
-        }
-      }else{
-        for (int i = 0; i < 8; i++) {
-          for (int k = 7; k >= 0; k--) {
-            BlankSquare(k, i);
-            BlankOutline(k, i);
-            DrawPiece(k, i, Board[i][k]);
-          }
+      for(int i = 0; i < 8; i++) {
+        for(int k = 0; k < 8; k++){
+          BlankSquare(k, i);
+          BlankOutline(k, i);
+          DrawPiece(k, i, Board[i][k]);
         }
       }
       CursorOutline(XCursor, YCursor);
     }
-} Draw;
+}Draw;
 
 
 
@@ -304,7 +271,7 @@ class Draw{
 
 void MovePiece(int x1, int y1, int x2, int y2){
   //handels promotion
-  if (((Board[y1][x1]==10)&&(y2==7))||((Board[y1][x1]==20)&&(y2==0))){
+  if(((Board[y1][x1]==10)&&(y2==7))||((Board[y1][x1]==20)&&(y2==0))){
     Board[y1][x1] += 4;
   }
   //saves to undo
@@ -321,9 +288,9 @@ void MovePiece(int x1, int y1, int x2, int y2){
 
 void UpdateCursor(int XJoy, int YJoy) { // moves the cursor
   //moves cursor outline on x
-  if (XJoy > 611){
-    if (XCursor < 7){
-      if ((XLog == XCursor) && (YLog == YCursor)){
+  if(XJoy > 611){
+    if(XCursor < 7){
+      if((XLog == XCursor) && (YLog == YCursor)){
         SelectOutline(XCursor, YCursor);
       }else{
         BlankOutline(XCursor, YCursor);
@@ -332,9 +299,9 @@ void UpdateCursor(int XJoy, int YJoy) { // moves the cursor
       CursorOutline(XCursor, YCursor);
       delay(250);
     }
-  }else if (XJoy < 411){
-    if (XCursor > 0){
-      if ((XLog == XCursor) && (YLog == YCursor)){
+  }else if(XJoy < 411){
+    if(XCursor > 0){
+      if((XLog == XCursor) && (YLog == YCursor)){
         SelectOutline(XCursor, YCursor);
       }else{
         BlankOutline(XCursor, YCursor);
@@ -345,9 +312,9 @@ void UpdateCursor(int XJoy, int YJoy) { // moves the cursor
     }
   }
   //moves cursor outline on y
-  if (YJoy > 611){
-    if (YCursor < 7){
-      if ((XLog == XCursor) && (YLog == YCursor)){
+  if(YJoy > 611){
+    if(YCursor < 7){
+      if((XLog == XCursor) && (YLog == YCursor)){
         SelectOutline(XCursor, YCursor);
       }else{
         BlankOutline(XCursor, YCursor);
@@ -356,9 +323,9 @@ void UpdateCursor(int XJoy, int YJoy) { // moves the cursor
       CursorOutline(XCursor, YCursor);
       delay(250);
     }
-  }else if (YJoy < 411){
-    if (YCursor > 0){
-      if ((XLog == XCursor) && (YLog == YCursor)){
+  }else if(YJoy < 411){
+    if(YCursor > 0){
+      if((XLog == XCursor) && (YLog == YCursor)){
         SelectOutline(XCursor, YCursor);
       }else{
         BlankOutline(XCursor, YCursor);
@@ -373,28 +340,40 @@ void UpdateCursor(int XJoy, int YJoy) { // moves the cursor
 
 void UpdateButton(){
   //checks button
-  if ((button.state() == LOW) && (buttonState)){
-    if ((XLog == 8) && (Board[YCursor][XCursor] != 0)){
+  if((button.state() == LOW) && (ButtonState)){
+    if((XLog == 8) && (Board[YCursor][XCursor] != 0)){
       XLog = XCursor;
       YLog = YCursor;
     }else{
-      if (((XLog != XCursor) || (YLog != YCursor)) && (XLog != 8)){
+      if(((XLog != XCursor) || (YLog != YCursor)) && (XLog != 8)){
         MovePiece(XLog, YLog, XCursor, YCursor);
         XLog = 8;
         YLog = 8;
       }
     }
-    buttonState = false;
-  }else if ((button.state() == HIGH) && !(buttonState)){
-    buttonState = true;
+    ButtonState = false;
+  }else if((button.state() == HIGH) && !(ButtonState)){
+    ButtonState = true;
+  }
+}
+
+
+void InvertBoard(){
+  for(int x=0; x<8; x++){
+    for(int y=0; y<4; y++){
+      //Board[y][x] -> Board[7-y][x] & Board[7-y][x] -> Board[y][x]
+      Board[y][x] ++ Board[7-y][x];
+      Board[7-y][x] = Board[y][x]-Board[7-y][x];
+      Board[y][x] -- Board[7-y][x];
+    }
   }
 }
 
 
 /*
-//Ryan here, DO NOT IMPLIMENT UNTILL NEW BUTTON IS DECLARED
+//Ryan here, still a work in progress
 void UndoMove(button){
-  if ((button.state() == LOW)&&(UndoStates[0] != 8)){
+  if((button.state() == LOW)&&(UndoLog != )){
     BlankSquare(UndoStates[0], UndoStates[1]);
     DrawPiece(UndoStates[0], UndoStates[1], UndoStates[2]);
     BlankSquare(UndoStates[3], UndoStates[4]);
@@ -412,35 +391,47 @@ class LegalMoves {
     void VertHoriz(int x, int y, int piece, bool color){
       //VERTICAL
       //down from
-      for(var i = y+1; i<=7; i++){
-        if ((Board[i][x] == 0) || ((Board[i][x] > 19)&&(piece < 19)) || ((Board[i][x] < 19)&&(piece > 19))){
+      for(int i = y+1; i<=7; i++){
+        if(Board[i][x] == 0){
           LegalMoves[i][x] = true;
         }else{
+          if((Board[i][x] > 19)&&(piece < 19)) || ((Board[i][x] < 19)&&(piece > 19)){
+            LegalMoves[i][x] = true;
+          }
           break;
         }
       }
       //up from
-      for(var i = y-1; i>=0; i+-){
-        if ((Board[i][x] == 0) || ((Board[i][x] > 19)&&(piece < 19)) || ((Board[i][x] < 19)&&(piece > 19))){
+      for(int i = y-1; i>=0; i+-){
+        if(Board[i][x] == 0){
           LegalMoves[i][x] = true;
         }else{
+          if((Board[i][x] > 19)&&(piece < 19)) || ((Board[i][x] < 19)&&(piece > 19)){
+            LegalMoves[i][x] = true;
+          }
           break;
         }
       }
       //HORZONTAL
       //right from
-      for(var k = x+1; k<=7; k++){
-        if (Board[y][k] == 0){
+      for(int k = x+1; k<=7; k++){
+        if(Board[y][k] == 0){
           LegalMoves[y][k] = true;
         }else{
+          if(){
+            LegalMoves[y][k] = true;
+          }
           break;
         }
       }
       //left from
-      for(var k = x-1; k>=0; k+-){
-        if (Board[y][k] == 0){
+      for(int k = x-1; k>=0; k+-){
+        if(Board[y][k] == 0){
           LegalMoves[y][k] = true;
         }else{
+          if(){
+            LegalMoves[y][k] = true;
+          }
           break;
         }
       }
@@ -468,26 +459,22 @@ class LegalMoves {
     
     
     void King(int x, int y, int piece, bool color){
-      if (piece == 15){
-        for(var i=0, i<4, i++){
-          if ((Board[y+round(i/2)*2-1][x+(i%2)*2-1] > 19)||(Board[y+round(i/2)*2-1][x+(i%2)*2-1]==0)){
-            LegalMoves[][] = true;
-          }
+      for(int i=0, i<4, i++){
+        if((Board[y+round(i/2)*2-1][x+(i%2)*2-1] > 19)||(Board[y+round(i/2)*2-1][x+(i%2)*2-1]==0)){
+          LegalMoves[][] = true;
         }
       }
-      if (piece == 15){
-        for(var i=0, i<4, i++){
-          if (Board[y+round(i/2)*2-1][x+(i%2)*2-1] < 19){
-            LegalMoves[][] = true;
-          }
+      for(int i=0, i<4, i++){
+        if(Board[y+round(i/2)*2-1][x+(i%2)*2-1] < 19){
+          LegalMoves[][] = true;
         }
       }
     }
     
     
     void Knight(int x, int y, int piece, bool color){
-      for(var i=0, i<8, i++){
-        if (){
+      for(int i=0, i<8, i++){
+        if(){
           LegalMoves[][] = true;
         }
       }
@@ -495,72 +482,45 @@ class LegalMoves {
     
     
     void Pawn(int x, int y, int piece, bool color){
-      if (piece == 10){
-        //normal move
-        if ((Board[y-1][x]>19)||(Board[y-1][x]==0)){
-          LegalMoves[y-1][x] = true;
-        }
-        //pawn jump
-        if ((y==7)&&(Board[y-2][x]>19)||(Board[y-2][x]==0)){
-          LegalMoves[y-2][x] = true;
-        }
+      //normal move
+      if((Board[y-1][x]>19)||(Board[y-1][x]==0)){
+        LegalMoves[y-1][x] = true;
       }
-      if (piece == 20){
-        //normal move
-        if (Board[y+1][x]<19){
-          LegalMoves[y+1][x] = true;
-        }
-        //pawn jump
-        if ((y==0)&&(Board[y+2][x]<19)){
-          LegalMoves[y+2][x] = true;
-        }
+      //pawn jump
+      if((y==7)&&(Board[y-2][x]>19)||(Board[y-2][x]==0)){
+        LegalMoves[y-2][x] = true;
       }
       //en passant
-      if ((piece==10)&&(y==4)&&(BlackEnPassant!=8)){
-        if(BlackEnPassant==x-1){
-          LegalMoves[][] = true;
-        }
-        if(BlackEnPassant==x+1){
-          LegalMoves[][] = true;
-        }
-      }
-      if ((piece==20)&&(y==3)&&(WhiteEnPassant!=8)){
-        if(WhiteEnPassant==x-1){
-          LegalMoves[][] = true;
-        }
-        if(WhiteEnPassant==x+1){
-          LegalMoves[][] = true;
-        }
+      if(EnPassant==x-1){
+        LegalMoves[][] = true;
       }
     }
     
     
     void Castle(int x, int y, int piece, bool color){
       //Ryan here, this needs work
-      if (((piece < 19) && (Board[7][4] == 15))||((piece > 19) && (Board[0][4] == 25))){
-        for (var i = 0, i < 2; i++){
-          LegalMoves[][] = true;
-          LegalMoves[][] = true;
-        }
+      for(int i = 0, i < 2; i++){
+        LegalMoves[][] = true;
+        LegalMoves[][] = true;
       }
     }
     
     
     void Reset(){
-      for (int x=0; x<8; x++){
-        for (int y=0; y<8; y++){
-          if (LegalMoves[y][x] == true){
+      for(int x=0; x<8; x++){
+        for(int y=0; y<8; y++){
+          if(LegalMoves[y][x] == true){
             LegalMoves[y][x] = false;
           }
         }
       }
     }
-} LegalMoves;
+}LegalMoves;
 
 
 //Ryan here, still a big work in progress, might add in a bool.
 void GenerateLegalMoves(int x, int y, int piece, bool color){
-  switch (piece%10){
+  switch (piece%7){
     //Pawn
     case 0:
       LegalMoves.Pawn(int x, int y, int piece, bool color);
