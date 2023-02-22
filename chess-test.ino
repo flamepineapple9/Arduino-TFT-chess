@@ -441,19 +441,35 @@ class LegalMoves {
     void Diagonal(int x, int y, int piece, bool color){
       //quadrant 1
       while(){
-        
+        if(Board[][] == 0){
+          LegalMovesLog[][] = true;
+        }else{
+          break;
+        }
       }
       //quadrant 2
       while(){
-        
+        if(Board[][] == 0){
+          LegalMovesLog[][] = true;
+        }else{
+          break;
+        }
       }
       //quadrant 3
       while(){
-        
+        if(Board[][] == 0){
+          LegalMovesLog[][] = true;
+        }else{
+          break;
+        }
       }
       //quadrant 4
       while(){
-        
+        if(Board[][] == 0){
+          LegalMovesLog[][] = true;
+        }else{
+          break;
+        }
       }
     }
     
