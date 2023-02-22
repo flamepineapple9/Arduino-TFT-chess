@@ -180,7 +180,7 @@ unsigned int Board[8][8] = {
   {1, 2, 3, 4, 5, 3, 2, 1}};
 
 
-bool LegalMoves[8][8] = {
+bool LegalMovesLog[8][8] = {
   {false,false,false,false,false,false,false,false},
   {false,false,false,false,false,false,false,false},
   {false,false,false,false,false,false,false,false},
@@ -393,10 +393,10 @@ class LegalMoves {
       //down from
       for(int i = y+1; i<=7; i++){
         if(Board[i][x] == 0){
-          LegalMoves[i][x] = true;
+          LegalMovesLog[i][x] = true;
         }else{
           if((Board[i][x] > 19)&&(piece < 19)) || ((Board[i][x] < 19)&&(piece > 19)){
-            LegalMoves[i][x] = true;
+            LegalMovesLog[i][x] = true;
           }
           break;
         }
@@ -404,10 +404,10 @@ class LegalMoves {
       //up from
       for(int i = y-1; i>=0; i+-){
         if(Board[i][x] == 0){
-          LegalMoves[i][x] = true;
+          LegalMovesLog[i][x] = true;
         }else{
           if((Board[i][x] > 19)&&(piece < 19)) || ((Board[i][x] < 19)&&(piece > 19)){
-            LegalMoves[i][x] = true;
+            LegalMovesLog[i][x] = true;
           }
           break;
         }
@@ -416,10 +416,10 @@ class LegalMoves {
       //right from
       for(int k = x+1; k<=7; k++){
         if(Board[y][k] == 0){
-          LegalMoves[y][k] = true;
+          LegalMovesLog[y][k] = true;
         }else{
           if(){
-            LegalMoves[y][k] = true;
+            LegalMovesLog[y][k] = true;
           }
           break;
         }
@@ -427,10 +427,10 @@ class LegalMoves {
       //left from
       for(int k = x-1; k>=0; k+-){
         if(Board[y][k] == 0){
-          LegalMoves[y][k] = true;
+          LegalMovesLog[y][k] = true;
         }else{
           if(){
-            LegalMoves[y][k] = true;
+            LegalMovesLog[y][k] = true;
           }
           break;
         }
@@ -461,12 +461,12 @@ class LegalMoves {
     void King(int x, int y, int piece, bool color){
       for(int i=0, i<4, i++){
         if((Board[y+round(i/2)*2-1][x+(i%2)*2-1] > 19)||(Board[y+round(i/2)*2-1][x+(i%2)*2-1]==0)){
-          LegalMoves[][] = true;
+          LegalMovesLog[][] = true;
         }
       }
       for(int i=0, i<4, i++){
         if(Board[y+round(i/2)*2-1][x+(i%2)*2-1] < 19){
-          LegalMoves[][] = true;
+          LegalMovesLog[][] = true;
         }
       }
     }
@@ -475,7 +475,7 @@ class LegalMoves {
     void Knight(int x, int y, int piece, bool color){
       for(int i=0, i<8, i++){
         if(){
-          LegalMoves[][] = true;
+          LegalMovesLog[][] = true;
         }
       }
     }
@@ -484,15 +484,15 @@ class LegalMoves {
     void Pawn(int x, int y, int piece, bool color){
       //normal move
       if((Board[y-1][x]>19)||(Board[y-1][x]==0)){
-        LegalMoves[y-1][x] = true;
+        LegalMovesLog[y-1][x] = true;
       }
       //pawn jump
       if((y==7)&&(Board[y-2][x]>19)||(Board[y-2][x]==0)){
-        LegalMoves[y-2][x] = true;
+        LegalMovesLog[y-2][x] = true;
       }
       //en passant
       if(EnPassant==x-1){
-        LegalMoves[][] = true;
+        LegalMovesLog[][] = true;
       }
     }
     
@@ -500,8 +500,39 @@ class LegalMoves {
     void Castle(int x, int y, int piece, bool color){
       //Ryan here, this needs work
       for(int i = 0, i < 2; i++){
-        LegalMoves[][] = true;
-        LegalMoves[][] = true;
+        LegalMovesLog[][] = true;
+        LegalMovesLog[][] = true;
+      }
+    }
+    
+    
+    //Ryan here, still a big work in progress, might add in a bool.
+    void Generate(int x, int y, int piece, bool color){
+      switch (piece%7){
+        //Pawn
+        case 0:
+          LegalMoves.Pawn(int x, int y, int piece, bool color);
+          break;
+        //Rook
+        case 1:
+          LegalMoves.VertHoriz(int x, int y, int piece, bool color);
+          break;
+        //Knight
+        case 2:
+          LegalMoves.Knight(int x, int y, int piece, bool color);
+          break;
+        //Bishop
+        case 3:
+          LegalMoves.Diagonal(int x, int y, int piece, bool color);
+          break;
+        //Queen
+        case 4:
+          LegalMoves.VertHoriz(int x, int y, int piece, bool color);
+          LegalMoves.Diagonal(int x, int y, int piece, bool color);
+          break;
+        //King
+        default:
+          LegalMoves.King(int x, int y, int piece, bool color);
       }
     }
     
@@ -509,8 +540,8 @@ class LegalMoves {
     void Reset(){
       for(int x=0; x<8; x++){
         for(int y=0; y<8; y++){
-          if(LegalMoves[y][x] == true){
-            LegalMoves[y][x] = false;
+          if(LegalMovesLog[y][x] == true){
+            LegalMovesLog[y][x] = false;
           }
         }
       }
@@ -518,35 +549,7 @@ class LegalMoves {
 }LegalMoves;
 
 
-//Ryan here, still a big work in progress, might add in a bool.
-void GenerateLegalMoves(int x, int y, int piece, bool color){
-  switch (piece%7){
-    //Pawn
-    case 0:
-      LegalMoves.Pawn(int x, int y, int piece, bool color);
-      break;
-    //Rook
-    case 1:
-      LegalMoves.VertHoriz(int x, int y, int piece, bool color);
-      break;
-    //Knight
-    case 2:
-      LegalMoves.Knight(int x, int y, int piece, bool color);
-      break;
-    //Bishop
-    case 3:
-      LegalMoves.Diagonal(int x, int y, int piece, bool color);
-      break;
-    //Queen
-    case 4:
-      LegalMoves.VertHoriz(int x, int y, int piece, bool color);
-      LegalMoves.Diagonal(int x, int y, int piece, bool color);
-      break;
-    //King
-    default:
-      LegalMoves.King(int x, int y, int piece, bool color);
-  }
-}
+
 
 
 
