@@ -243,8 +243,8 @@ class Draw{
         for(int y = 0; y < 14; y++){
           for(int x = 0; x < 14; x++){
             if(PIECES_ARRAY[piece%7][y][x] != 0x00){
-              //             |  x position  |   y position  |                          color                                |
-              mytft.drawPixel(xSquare*16+x+1, ySquare*16+y+1, COLOR_ARRAY[round(piece/10)-1][PIECES_ARRAY[piece%10][y][x] - 1]);
+              //             |  x position  |   y position  |                           color                                |
+              mytft.drawPixel(xSquare*16+x+1, ySquare*16+y+1, COLOR_ARRAY[round(piece/7)--][PIECES_ARRAY[piece%7][y][x]]);
             }
           }
         }
