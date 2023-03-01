@@ -508,8 +508,8 @@ class LegalMoves {
     void Knight(int x, int y, bool color){
       for(int i=-2, i=<2, i++){
         for(int k=-2, k=<2, k++){
-          if(((x+y+4)%2==1) && (i+k!=1) && () ){
-            
+          if(((x+y+4)%2==1) && (i!=0) && (k!=0)){
+            LegalMoves[i][k] = true;
           }
         }
       }
@@ -518,16 +518,20 @@ class LegalMoves {
     
     void Pawn(int x, int y, int piece, bool color){
       //normal move
-      if((Board[y-1][x]>19)||(Board[y-1][x]==0)){
+      if((Board[y-1][x]==0) || ((Board[y-1][x]<6)&&color) || ((Board[y-1][x]>6)&&!color)){
         LegalMovesLog[y-1][x] = true;
       }
       //pawn jump
-      if((y==7)&&(Board[y-2][x]>19)||(Board[y-2][x]==0)){
+      if(((Board[y-2][x]==0) || ((Board[y-2][x]<6)&&color) || ((Board[y-2][x]>6)&&!color)) && (y==6)){
         LegalMovesLog[y-2][x] = true;
       }
       //en passant
-      if(EnPassant==x-1){
-        LegalMovesLog[][] = true;
+      if(EnPassant){
+        if(){
+          LegalMovesLog[y-1][x-1] = true;
+        }else if(){
+          LegalMovesLog[y-1][x+1] = true;
+        }
       }
     }
     
