@@ -388,25 +388,25 @@ void UndoMove(button){
 
 class LegalMoves {
   public:
-    void VertHoriz(int x, int y, int piece, bool color){
+    void VertHoriz(int x, int y, bool color){
       //VERTICAL
       //down from
-      for(int i = y+1; i<=7; i++){
-        if(Board[i][x] == 0){
+      for(int i = y++; i<=7; i++){
+        if(Board[i][x] == 6){
           LegalMovesLog[i][x] = true;
         }else{
-          if((Board[i][x] > 19)&&(piece < 19)) || ((Board[i][x] < 19)&&(piece > 19)){
+          if((Board[i][x] < 6)&&color) || ((Board[i][x] > 6)&&!color){
             LegalMovesLog[i][x] = true;
           }
           break;
         }
       }
       //up from
-      for(int i = y-1; i>=0; i+-){
-        if(Board[i][x] == 0){
+      for(int i = y--; i>=0; i--){
+        if(Board[i][x] == 6){
           LegalMovesLog[i][x] = true;
         }else{
-          if((Board[i][x] > 19)&&(piece < 19)) || ((Board[i][x] < 19)&&(piece > 19)){
+          if((Board[i][x] < 6)&&color) || ((Board[i][x] > 6)&&!color){
             LegalMovesLog[i][x] = true;
           }
           break;
@@ -414,22 +414,22 @@ class LegalMoves {
       }
       //HORZONTAL
       //right from
-      for(int k = x+1; k<=7; k++){
-        if(Board[y][k] == 0){
+      for(int k = x++; k<=7; k++){
+        if(Board[y][k] == 6){
           LegalMovesLog[y][k] = true;
         }else{
-          if(){
+          if((Board[y][k] < 6)&&color) || ((Board[y][k] > 6)&&!color){
             LegalMovesLog[y][k] = true;
           }
           break;
         }
       }
       //left from
-      for(int k = x-1; k>=0; k+-){
-        if(Board[y][k] == 0){
+      for(int k = x--; k>=0; k--){
+        if(Board[y][k] == 6){
           LegalMovesLog[y][k] = true;
         }else{
-          if(){
+          if((Board[y][k] < 6)&&color) || ((Board[y][k] > 6)&&!color){
             LegalMovesLog[y][k] = true;
           }
           break;
@@ -438,60 +438,79 @@ class LegalMoves {
     }
     
     
-    void Diagonal(int x, int y, int piece, bool color){
+    void Diagonal(int x, int y, bool color){
       //quadrant 1
-      while(){
-        if(Board[][] == 0){
-          LegalMovesLog[][] = true;
-        }else{
-          break;
+      for(int i = y++; i<=7; i++){
+        for(int k = x++; k<=7; k++){
+          if(Board[i][k] == 6){
+            LegalMovesLog[i][k] = true;
+          }else{
+            if((Board[i][k] < 6)&&color) || ((Board[i][k] > 6)&&!color){
+              LegalMovesLog[i][k] = true;
+            }
+            break;
+          }
         }
       }
       //quadrant 2
-      while(){
-        if(Board[][] == 0){
-          LegalMovesLog[][] = true;
-        }else{
-          break;
+      for(int i = y++; i<=7; i++){
+        for(int k = x--; k<=0; k++){
+          if(Board[i][k] == 6){
+            LegalMovesLog[i][k] = true;
+          }else{
+            if((Board[i][k] < 6)&&color) || ((Board[i][k] > 6)&&!color){
+              LegalMovesLog[i][k] = true;
+            }
+            break;
+          }
         }
       }
       //quadrant 3
-      while(){
-        if(Board[][] == 0){
-          LegalMovesLog[][] = true;
-        }else{
-          break;
+      for(int i = y--; i<=0; i++){
+        for(int k = x--; k<=0; k++){
+          if(Board[i][k] == 6){
+            LegalMovesLog[i][k] = true;
+          }else{
+            if((Board[i][k] < 6)&&color) || ((Board[i][k] > 6)&&!color){
+              LegalMovesLog[i][k] = true;
+            }
+            break;
+          }
         }
       }
       //quadrant 4
-      while(){
-        if(Board[][] == 0){
-          LegalMovesLog[][] = true;
-        }else{
-          break;
+      for(int i = y--; i<=0; i++){
+        for(int k = x++; k<=7; k++){
+          if(Board[i][k] == 6){
+            LegalMovesLog[i][k] = true;
+          }else{
+            if((Board[i][k] < 6)&&color) || ((Board[i][k] > 6)&&!color){
+              LegalMovesLog[i][k] = true;
+            }
+            break;
+          }
         }
       }
     }
     
     
-    void King(int x, int y, int piece, bool color){
-      for(int i=0, i<4, i++){
-        if((Board[y+round(i/2)*2-1][x+(i%2)*2-1] > 19)||(Board[y+round(i/2)*2-1][x+(i%2)*2-1]==0)){
-          LegalMovesLog[][] = true;
-        }
-      }
-      for(int i=0, i<4, i++){
-        if(Board[y+round(i/2)*2-1][x+(i%2)*2-1] < 19){
-          LegalMovesLog[][] = true;
+    void King(int x, int y, bool color){
+      for(int i=y-1, i<y+2, i++){
+        for(int k=x-1, k<x+2, k++){
+          if(((i>=0)&&(i<=7)&&(k>=0)&&(k<=7)&&!((i==0)&&(k==0))) && ((Board[i][k]==6)||((Board[i][k]<6)&&color)||((Board[i][k]>6)&&!color))){
+            LegalMoves[i][k] = true;
+          }
         }
       }
     }
     
     
-    void Knight(int x, int y, int piece, bool color){
-      for(int i=0, i<8, i++){
-        if(){
-          LegalMovesLog[][] = true;
+    void Knight(int x, int y, bool color){
+      for(int i=-2, i=<2, i++){
+        for(int k=-2, k=<2, k++){
+          if(((x+y+4)%2==1) && (i+k!=1) && () ){
+            
+          }
         }
       }
     }
