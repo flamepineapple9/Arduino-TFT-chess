@@ -12,7 +12,9 @@ CHECK READ ME FOR MORE INFORMATION
 
 //----------SETUP----------
 
-#include <SPI.h> 
+//import libraries
+#include <SPI.h>
+#include <Adafruit_GFX_Buffer.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_ST7735.h>
 #include <ButtonDebounce.h>
@@ -33,8 +35,9 @@ CHECK READ ME FOR MORE INFORMATION
 #define SD_SS 10
 
 
-Adafruit_ST7735 mytft = Adafruit_ST7735(TFT_SS, DC, RST); // idk why this is needed      Grace i'm pretty sure this creates the screen object -Eli
-ButtonDebounce button(SW_PIN, MIN_CLICK);// seems to be defining some values for the button debounce library
+//library variable/object definitions
+Adafruit_GFX_Buffer<Adafruit_ST7735> mytft = Adafruit_GFX_Buffer<Adafruit_ST7735>(80, 160,  Adafruit_ST7735(TFT_SS, DC, RST)  );
+ButtonDebounce button(SW_PIN, MIN_CLICK);
 
 
 void setup() {
@@ -598,5 +601,5 @@ void loop(){
   UpdateCursor(analogRead(X_PIN), analogRead(Y_PIN));
   button.update();
   UpdateButton();
-  delay(10); //Ryan here, just a small global delay.
+  mytft.display();
 }
