@@ -14,6 +14,6 @@ Lead CAD Designer: flamepineapple9
 -1.8" 128x160 TFT Display
 
 # Software Specs
--~500 Lines
+-~550 Lines
 
 -wow u actually read the read me, good job
