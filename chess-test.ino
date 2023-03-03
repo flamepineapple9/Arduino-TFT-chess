@@ -203,6 +203,8 @@ bool CursorState = false;
 unsigned int UndoLog = 0;
 unsigned int EnPassant = 8;
 bool Turn = true;
+bool RightCastle = true;
+bool LeftCastle = true;
 
 
 
@@ -247,7 +249,7 @@ class DRAW{
           for(int x = 0; x < 14; x++){
             if(PIECES_ARRAY[piece%7][y][x] != 0x00){
               //             |  x position  |   y position  |                           color                                |
-              mytft.drawPixel(xSquare*16+x+1, ySquare*16+y+1, COLOR_ARRAY[round(piece/7)][PIECES_ARRAY[piece%7][y][x]-1]);
+              mytft.drawPixel(xSquare*16+x+1, ySquare*16+y+1, COLOR_ARRAY[trunc(piece/7)][PIECES_ARRAY[piece%7][y][x]-1]);
             }
           }
         }
@@ -443,56 +445,80 @@ class LegalMoves {
     
     void Diagonal(int x, int y, bool color){
       //quadrant 1
-      for(int i = y++; i<=7; i++){
-        for(int k = x++; k<=7; k++){
-          if(Board[i][k] == 6){
-            LegalMovesLog[i][k] = true;
-          }else{
-            if(((Board[i][k] < 6)&&color) || ((Board[i][k] > 6)&&!color)){
-              LegalMovesLog[i][k] = true;
+      for(int i = (y--)*8+(x++); trunc(i/8)>=0 || i%8<=7; i-=7){
+        switch(Board[trunc(i/8)][i%8]){
+          case 6:
+            LegalMovesLog[trunc(i/8)][i%8] = true;
+            continue;
+          case 0||1||2||3||4||5||6:
+            if(color){
+              LegalMovesLog[trunc(i/8)][i%8] = true;
             }
             break;
-          }
+          case 7||8||9||10||11||12||13:
+            if(!color){
+              LegalMovesLog[trunc(i/8)][i%8] = true;
+            }
+            break;
         }
+        break;
       }
       //quadrant 2
-      for(int i = y++; i<=7; i++){
-        for(int k = x--; k<=0; k++){
-          if(Board[i][k] == 6){
-            LegalMovesLog[i][k] = true;
-          }else{
-            if(((Board[i][k] < 6)&&color) || ((Board[i][k] > 6)&&!color)){
-              LegalMovesLog[i][k] = true;
+      for(int i = (y--)*8+(x--); trunc(i/8)>=0 || i%8<=7; i-=9){
+        switch(Board[trunc(i/8)][i%8]){
+          case 6:
+            LegalMovesLog[trunc(i/8)][i%8] = true;
+            continue;
+          case 0||1||2||3||4||5||6:
+            if(color){
+              LegalMovesLog[trunc(i/8)][i%8] = true;
             }
             break;
-          }
+          case 7||8||9||10||11||12||13:
+            if(!color){
+              LegalMovesLog[trunc(i/8)][i%8] = true;
+            }
+            break;
         }
+        break;
       }
       //quadrant 3
-      for(int i = y--; i<=0; i++){
-        for(int k = x--; k<=0; k++){
-          if(Board[i][k] == 6){
-            LegalMovesLog[i][k] = true;
-          }else{
-            if(((Board[i][k] < 6)&&color) || ((Board[i][k] > 6)&&!color)){
-              LegalMovesLog[i][k] = true;
+      for(int i = (y++)*8+(x--); trunc(i/8)>=0 || i%8<=7; i+=7){
+        switch(Board[trunc(i/8)][i%8]){
+          case 6:
+            LegalMovesLog[trunc(i/8)][i%8] = true;
+            continue;
+          case 0||1||2||3||4||5||6:
+            if(color){
+              LegalMovesLog[trunc(i/8)][i%8] = true;
             }
             break;
-          }
+          case 7||8||9||10||11||12||13:
+            if(!color){
+              LegalMovesLog[trunc(i/8)][i%8] = true;
+            }
+            break;
         }
+        break;
       }
       //quadrant 4
-      for(int i = y--; i<=0; i++){
-        for(int k = x++; k<=7; k++){
-          if(Board[i][k] == 6){
-            LegalMovesLog[i][k] = true;
-          }else{
-            if(((Board[i][k] < 6)&&color) || ((Board[i][k] > 6)&&!color)){
-              LegalMovesLog[i][k] = true;
+      for(int i = (y++)*8+(x++); trunc(i/8)>=0 || i%8<=7; i+=9){
+        switch(Board[trunc(i/8)][i%8]){
+          case 6:
+            LegalMovesLog[trunc(i/8)][i%8] = true;
+            continue;
+          case 0||1||2||3||4||5||6:
+            if(color){
+              LegalMovesLog[trunc(i/8)][i%8] = true;
             }
             break;
-          }
+          case 7||8||9||10||11||12||13:
+            if(!color){
+              LegalMovesLog[trunc(i/8)][i%8] = true;
+            }
+            break;
         }
+        break;
       }
     }
     
@@ -519,7 +545,7 @@ class LegalMoves {
     }
     
     
-    void Pawn(int x, int y, int piece, bool color){
+    void Pawn(int x, int y, bool color){
       //normal move
       if((Board[y-1][x]==0) || ((Board[y-1][x]<6)&&color) || ((Board[y-1][x]>6)&&!color)){
         LegalMovesLog[y-1][x] = true;
@@ -529,10 +555,10 @@ class LegalMoves {
         LegalMovesLog[y-2][x] = true;
       }
       //en passant
-      if(EnPassant){
-        if(){
+      if(EnPassant && y==3){
+        if(EnPassant==x--){
           LegalMovesLog[y-1][x-1] = true;
-        }else if(){
+        }else if(EnPassant==x++){
           LegalMovesLog[y-1][x+1] = true;
         }
       }
@@ -541,9 +567,17 @@ class LegalMoves {
     
     void Castle(int x, int y, int piece, bool color){
       //Ryan here, this needs work
-      for(int i = 0, i < 2; i++){
-        LegalMovesLog[][] = true;
-        LegalMovesLog[][] = true;
+      if(piece%7==1){
+        if(RightCastle||LeftCastle){
+          LegalMovesLog[7][4] = true;
+        }
+      }else if(piece%7==5){
+        if(RightCastle){
+          LegalMovesLog[7][7] = true;
+        }
+        if(LeftCastle){
+          LegalMovesLog[7][0] = true;
+        }
       }
     }
     
@@ -561,7 +595,7 @@ class LegalMoves {
 
 
 void GenerateLegalMoves(int x, int y, int piece, bool color){
-  switch (piece%7){
+  switch(piece%7){
     //Pawn
     case 0:
       LegalMoves.Pawn(int x, int y, int piece, bool color);
