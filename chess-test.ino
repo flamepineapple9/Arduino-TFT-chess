@@ -598,28 +598,30 @@ void GenerateLegalMoves(int x, int y, int piece, bool color){
   switch(piece%7){
     //Pawn
     case 0:
-      LegalMoves.Pawn(int x, int y, int piece, bool color);
+      LegalMoves.Pawn(x, y, color);
       break;
     //Rook
     case 1:
-      LegalMoves.VertHoriz(int x, int y, int piece, bool color);
+      LegalMoves.VertHoriz(x, y, color);
+      LegalMoves.Castle(x, y, piece, color);
       break;
     //Knight
     case 2:
-      LegalMoves.Knight(int x, int y, int piece, bool color);
+      LegalMoves.Knight(x, y, color);
       break;
     //Bishop
     case 3:
-      LegalMoves.Diagonal(int x, int y, int piece, bool color);
+      LegalMoves.Diagonal(x, y, color);
       break;
     //Queen
     case 4:
-      LegalMoves.VertHoriz(int x, int y, int piece, bool color);
-      LegalMoves.Diagonal(int x, int y, int piece, bool color);
+      LegalMoves.VertHoriz(x, y, color);
+      LegalMoves.Diagonal(x, y, color);
       break;
     //King
     default:
-      LegalMoves.King(int x, int y, int piece, bool color);
+      LegalMoves.King(x, y, color);
+      LegalMoves.Castle(x, y, piece, color);
   }
 }
 
