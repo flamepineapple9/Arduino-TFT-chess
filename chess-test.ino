@@ -55,7 +55,7 @@ void setup() {
   
   //----------GAME SETUP----------
   
-  DrawBoard();
+  BoardSetup();
 }
 
 
@@ -258,7 +258,7 @@ class DRAW{
 }Draw;
 
 
-void DrawBoard(){
+void BoardSetup(){
   //draws board
   for(int i = 0; i < 8; i++) {
     for(int k = 0; k < 8; k++){
