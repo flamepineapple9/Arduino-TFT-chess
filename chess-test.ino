@@ -446,77 +446,49 @@ class LegalMoves {
     void Diagonal(int x, int y, bool color){
       //quadrant 1
       for(int i=1; i<=7; i++){
-        switch(int x=Board[y-i][x+i]){
-          case x==6:
-            LegalMovesLog[y-i][x+i] = true;
-            continue;
-          case x<6:
-            if(color){
-              LegalMovesLog[y-i][x+i] = true;
-            }
-            break;
-          case x>6:
-            if(!color){
-              LegalMovesLog[y-i][x+i] = true;
-            }
-            break;
+        if(Board[y-i][x+i]==6){
+          LegalMovesLog[y-i][x+i] = true;
+          continue;
+        }else if(color&&(Board[y-i][x+i]<6)){
+          LegalMovesLog[y-i][x+i] = true;
+        }else if(!color&&(Board[y-i][x+i]>6)){
+          LegalMovesLog[y-i][x+i] = true;
         }
         break;
       }
       //quadrant 2
-      for(int i = (y--)*8+(x--); trunc(i/8)>=0 || i%8<=7; i-=9){
-        switch(Board[trunc(i/8)][i%8]){
-          case 6:
-            LegalMovesLog[trunc(i/8)][i%8] = true;
-            continue;
-          case 0||1||2||3||4||5||6:
-            if(color){
-              LegalMovesLog[trunc(i/8)][i%8] = true;
-            }
-            break;
-          case 7||8||9||10||11||12||13:
-            if(!color){
-              LegalMovesLog[trunc(i/8)][i%8] = true;
-            }
-            break;
+      for(int i=1; i<=7; i++){
+        if(Board[y-i][x-i]==6){
+          LegalMovesLog[y-i][x-i] = true;
+          continue;
+        }else if(color&&(Board[y-i][x-i]<6)){
+          LegalMovesLog[y-i][x-i] = true;
+        }else if(!color&&(Board[y-i][x-i]>6)){
+          LegalMovesLog[y-i][x-i] = true;
         }
         break;
       }
       //quadrant 3
-      for(int i = (y++)*8+(x--); trunc(i/8)>=0 || i%8<=7; i+=7){
-        switch(Board[trunc(i/8)][i%8]){
-          case 6:
-            LegalMovesLog[trunc(i/8)][i%8] = true;
-            continue;
-          case 0||1||2||3||4||5||6:
-            if(color){
-              LegalMovesLog[trunc(i/8)][i%8] = true;
-            }
-            break;
-          case 7||8||9||10||11||12||13:
-            if(!color){
-              LegalMovesLog[trunc(i/8)][i%8] = true;
-            }
-            break;
+      for(int i=1; i<=7; i++){
+        if(Board[y+i][x-i]==6){
+          LegalMovesLog[y+i][x-i] = true;
+          continue;
+        }else if(color&&(Board[y+i][x-i]<6)){
+          LegalMovesLog[y+i][x-i] = true;
+        }else if(!color&&(Board[y+i][x-i]>6)){
+          LegalMovesLog[y+i][x-i] = true;
         }
         break;
       }
       //quadrant 4
-      for(int i = (y++)*8+(x++); trunc(i/8)>=0 || i%8<=7; i+=9){
-        switch(Board[trunc(i/8)][i%8]){
-          case 6:
-            LegalMovesLog[trunc(i/8)][i%8] = true;
-            continue;
-          case 0||1||2||3||4||5||6:
-            if(color){
-              LegalMovesLog[trunc(i/8)][i%8] = true;
-            }
-            break;
-          case 7||8||9||10||11||12||13:
-            if(!color){
-              LegalMovesLog[trunc(i/8)][i%8] = true;
-            }
-            break;
+      for(int i=1; i<=7; i++){
+        if(Board[y+i][x+i]==6){
+          LegalMovesLog[y+i][x+i] = true;
+          continue;
+        }else if(color&&(Board[y+i][x+i]<6)){
+          LegalMovesLog[y+i][x+i] = true;
+        }else if(!color&&(Board[y+i][x+i]>6)){
+          LegalMovesLog[y+i][x+i] = true;
         }
         break;
       }
