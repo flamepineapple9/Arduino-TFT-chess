@@ -55,7 +55,7 @@ void setup() {
   
   //----------GAME SETUP----------
   
-  Draw.Board(true);
+  DrawBoard();
 }
 
 
