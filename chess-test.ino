@@ -198,13 +198,13 @@ unsigned int XCursor = 0;
 unsigned int YCursor = 0;
 unsigned int XLog = 8;
 unsigned int YLog = 8;
-bool ButtonState = false;
-bool CursorState = false;
 unsigned int UndoLog = 0;
 unsigned int EnPassant = 8;
-bool Turn = true;
+bool ButtonState = false;
+bool CursorState = false;
 bool RightCastle = true;
 bool LeftCastle = true;
+bool Turn = true;
 
 
 
