@@ -249,7 +249,7 @@ class DRAW{
           for(int x = 0; x < 14; x++){
             if(PIECES_ARRAY[piece%7][y][x] != 0x00){
               //             |  x position  |   y position  |                           color                                |
-              mytft.drawPixel(xSquare*16+x+1, ySquare*16+y+1, COLOR_ARRAY[trunc(piece/7)][PIECES_ARRAY[piece%7][y][x]-1]);
+              mytft.drawPixel(xSquare*16+x+1, ySquare*16+y+1, COLOR_ARRAY[round(piece/7)][PIECES_ARRAY[piece%7][y][x]-1]);
             }
           }
         }
