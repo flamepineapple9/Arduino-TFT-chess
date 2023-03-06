@@ -445,19 +445,19 @@ class LegalMoves {
     
     void Diagonal(int x, int y, bool color){
       //quadrant 1
-      for(int i = (y--)*8+(x++); trunc(i/8)>=0 || i%8<=7; i-=7){
-        switch(Board[trunc(i/8)][i%8]){
-          case 6:
-            LegalMovesLog[trunc(i/8)][i%8] = true;
+      for(int i=1; i<=7; i++){
+        switch(int x=Board[y-i][x+i]){
+          case x==6:
+            LegalMovesLog[y-i][x+i] = true;
             continue;
-          case 0||1||2||3||4||5||6:
+          case x<6:
             if(color){
-              LegalMovesLog[trunc(i/8)][i%8] = true;
+              LegalMovesLog[y-i][x+i] = true;
             }
             break;
-          case 7||8||9||10||11||12||13:
+          case x>6:
             if(!color){
-              LegalMovesLog[trunc(i/8)][i%8] = true;
+              LegalMovesLog[y-i][x+i] = true;
             }
             break;
         }
@@ -535,8 +535,8 @@ class LegalMoves {
     
     
     void Knight(int x, int y, bool color){
-      for(int i=-2, i=<2, i++){
-        for(int k=-2, k=<2, k++){
+      for(int i=-2, i<=2, i++){
+        for(int k=-2, k<=2, k++){
           if(((x+y+4)%2==1) && (i!=0) && (k!=0)){
             LegalMovesLog[i][k] = true;
           }
