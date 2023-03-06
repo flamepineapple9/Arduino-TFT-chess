@@ -36,18 +36,18 @@ CHECK READ ME FOR MORE INFORMATION
 
 
 //library variable/object definitions
-Adafruit_GFX_Buffer<Adafruit_ST7735> mytft = Adafruit_GFX_Buffer<Adafruit_ST7735>(80, 160,  Adafruit_ST7735(TFT_SS, DC, RST)  );
+Adafruit_GFX_Buffer<Adafruit_ST7735> tft = Adafruit_GFX_Buffer<Adafruit_ST7735>(80, 160,  Adafruit_ST7735(TFT_SS, DC, RST)  );
 ButtonDebounce button(SW_PIN, MIN_CLICK);
 
 
 void setup() {
-  mytft.initR(INITR_BLACKTAB); // for 1.8' TFT
-  mytft.setTextWrap(false); // Allow text to run off the edge
-  mytft.setRotation(0);
-  mytft.fillScreen(ST7735_BLACK); //sets bg as black
-  mytft.setTextSize(1); //smallest text size
-  mytft.setTextColor(ST7735_WHITE);
-  mytft.setCursor(0,0); //puts cursor in top left, (which is where the text is printed from)
+  tft.initR(INITR_BLACKTAB); // for 1.8' TFT
+  tft.setTextWrap(false); // Allow text to run off the edge
+  tft.setRotation(0);
+  tft.fillScreen(ST7735_BLACK); //sets bg as black
+  tft.setTextSize(1); //smallest text size
+  tft.setTextColor(ST7735_WHITE);
+  tft.setCursor(0,0); //puts cursor in top left, (which is where the text is printed from)
   randomSeed(analogRead(A5)); //Seed with bogus read
   Serial.begin(9600);
   
@@ -213,12 +213,12 @@ bool Turn = true;
 class DRAW{
   public:
     void CursorOutline(int k,int i){
-      mytft.drawRect(k*16, i*16, 16, 16, 0xf800);
+      tft.drawRect(k*16, i*16, 16, 16, 0xf800);
     }
 
 
     void SelectOutline(int k,int i){
-      mytft.drawRect(k*16, i*16, 16, 16, 0x001f);
+      tft.drawRect(k*16, i*16, 16, 16, 0x001f);
     }
     
     
@@ -226,18 +226,18 @@ class DRAW{
       //Ryan here, if i=0, then (0 + k)%2 just means every other, but as we increase i, i+constant will oscillate between
       //even and odd, meaning (k0 + i0)%2 != (k0 + i1)%2, thus making a given row the inverse of the next.
       if((k + i) % 2 == 1){
-        mytft.fillRect(k*16+1, i*16+1, 14, 14, 0x7EB2);
+        tft.fillRect(k*16+1, i*16+1, 14, 14, 0x7EB2);
       } else {
-        mytft.fillRect(k*16+1, i*16+1, 14, 14, 0x2447);
+        tft.fillRect(k*16+1, i*16+1, 14, 14, 0x2447);
       }
     }
 
 
     void BlankOutline(int k,int i){
       if((k + i) % 2 == 1){
-        mytft.drawRect(k*16, i*16, 16, 16, 0x7EB2);
+        tft.drawRect(k*16, i*16, 16, 16, 0x7EB2);
       } else {
-        mytft.drawRect(k*16, i*16, 16, 16, 0x2447);
+        tft.drawRect(k*16, i*16, 16, 16, 0x2447);
       }
     }
     
@@ -249,7 +249,7 @@ class DRAW{
           for(int x = 0; x < 14; x++){
             if(PIECES_ARRAY[piece%7][y][x] != 0x00){
               //             |  x position  |   y position  |                           color                                |
-              mytft.drawPixel(xSquare*16+x+1, ySquare*16+y+1, COLOR_ARRAY[round(piece/7)][PIECES_ARRAY[piece%7][y][x]-1]);
+              tft.drawPixel(xSquare*16+x+1, ySquare*16+y+1, COLOR_ARRAY[round(piece/7)][PIECES_ARRAY[piece%7][y][x]-1]);
             }
           }
         }
@@ -602,5 +602,5 @@ void loop(){
   UpdateCursor(analogRead(X_PIN), analogRead(Y_PIN));
   button.update();
   UpdateButton();
-  mytft.display();
+  tft.display();
 }
