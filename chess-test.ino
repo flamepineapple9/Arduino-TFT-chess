@@ -591,18 +591,16 @@ void InvertBoard(){
 //Ryan here, still a work in progress
 void UndoMove(button){
   if((button.state() == LOW)&&(UndoLog != )){
-    InvertBoard();
-    BoardSetup();
+    //set variables
     Turn = !Turn;
     EnPassant = round(UndoLog/20480);
-    //Restore main piece
+    XLog = 8;
+    YLog = 8;
+    //restore pieces
+    InvertBoard();
     Board[round(UndoLog/512)%8][round(UndoLog/64)%8] = Board[round(UndoLog/8)%8][round(UndoLog)%8];
-    Draw.BlankSquare(round(UndoLog/64)%8,round(UndoLog/512)%8);
-    Draw.Piece(round(UndoLog/64)%8,round(UndoLog/512)%8,Board[round(UndoLog/8)%8][round(UndoLog)%8]);
-    //Restore secondary piece
     Board[round(UndoLog/8)%8][round(UndoLog)%8] = round(UndoLog/4096)%5;
-    Draw.BlankSquare(round(UndoLog)%8,round(UndoLog/8)%8);
-    Draw.Piece(round(UndoLog)%8,round(UndoLog/8)%8,Board[round(UndoLog)%8][round(UndoLog)%8]);
+    BoardSetup();
   }
 }
 
