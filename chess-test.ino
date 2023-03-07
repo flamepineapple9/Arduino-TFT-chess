@@ -199,7 +199,7 @@ unsigned int YCursor = 0;
 unsigned int XLog = 8;
 unsigned int YLog = 8;
 unsigned int UndoLog = 0;
-unsigned int EnPassant = 8;
+unsigned int EnPassant = 9;
 bool ButtonState = false;
 bool CursorState = false;
 bool RightCastle = true;
@@ -561,9 +561,12 @@ void UpdateButton(){
       YLog = YCursor;
     }else{
       if(((XLog != XCursor) || (YLog != YCursor)) && (XLog != 8)){
+        UndoLog = XCursor+YCursor*8+XLog*64+YLog*512+Board[YCursor][XCursor]*4096+EnPassant*20480;
         MovePiece(XLog, YLog, XCursor, YCursor);
         XLog = 8;
         YLog = 8;
+        InvertBoard();
+        Turn = !Turn;
       }
     }
     ButtonState = false;
@@ -585,14 +588,23 @@ void InvertBoard(){
 }
 
 
-/*
 //Ryan here, still a work in progress
 void UndoMove(button){
   if((button.state() == LOW)&&(UndoLog != )){
-    
+    InvertBoard();
+    BoardSetup();
+    Turn = !Turn;
+    EnPassant = round(UndoLog/20480);
+    //Restore main piece
+    Board[round(UndoLog/512)%8][round(UndoLog/64)%8] = Board[round(UndoLog/8)%8][round(UndoLog)%8];
+    Draw.BlankSquare(round(UndoLog/64)%8,round(UndoLog/512)%8);
+    Draw.Piece(round(UndoLog/64)%8,round(UndoLog/512)%8,Board[round(UndoLog/8)%8][round(UndoLog)%8]);
+    //Restore secondary piece
+    Board[round(UndoLog/8)%8][round(UndoLog)%8] = round(UndoLog/4096)%5;
+    Draw.BlankSquare(round(UndoLog)%8,round(UndoLog/8)%8);
+    Draw.Piece(round(UndoLog)%8,round(UndoLog/8)%8,Board[round(UndoLog)%8][round(UndoLog)%8]);
   }
 }
-*/
 
 
 
