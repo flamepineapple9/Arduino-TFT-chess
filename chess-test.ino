@@ -212,16 +212,6 @@ bool Turn = true;
 
 class DRAW{
   public:
-    void CursorOutline(int k,int i){
-      tft.drawRect(k*16, i*16, 16, 16, 0xf800);
-    }
-
-
-    void SelectOutline(int k,int i){
-      tft.drawRect(k*16, i*16, 16, 16, 0x001f);
-    }
-    
-    
     void BlankSquare(int k,int i){
       //Ryan here, if i=0, then (0 + k)%2 just means every other, but as we increase i, i+constant will oscillate between
       //even and odd, meaning (k0 + i0)%2 != (k0 + i1)%2, thus making a given row the inverse of the next.
@@ -231,8 +221,8 @@ class DRAW{
         tft.fillRect(k*16+1, i*16+1, 14, 14, 0x2447);
       }
     }
-
-
+    
+    
     void BlankOutline(int k,int i){
       if((k + i) % 2 == 1){
         tft.drawRect(k*16, i*16, 16, 16, 0x7EB2);
@@ -241,6 +231,19 @@ class DRAW{
       }
     }
     
+    
+    void CursorOutline(int k,int i){
+      tft.drawRect(k*16, i*16, 16, 16, 0xf800);
+    }
+
+
+    void SelectOutline(int k,int i){
+      tft.drawRect(k*16, i*16, 16, 16, 0x001f);
+    }
+    
+    void LegalOutline(int k,int i){
+      tft.drawRect(k*16, i*16, 16, 16, 0xffe0);
+    }
     
     void Piece(int xSquare, int ySquare, int piece){
       //xSquare and ySquare is the square on the board, 0=black 1=white, refference PIECES_ARRAY
@@ -282,9 +285,11 @@ class LegalMoves {
       for(int i = y++; i<=7; i++){
         if(Board[i][x] == 6){
           LegalMovesLog[i][x] = true;
+          Draw.LegalOutline(x,i);
         }else{
           if(((Board[i][x] < 6)&&color) || ((Board[i][x] > 6)&&!color)){
             LegalMovesLog[i][x] = true;
+            Draw.LegalOutline(x,i);
           }
           break;
         }
@@ -293,9 +298,11 @@ class LegalMoves {
       for(int i = y--; i>=0; i--){
         if(Board[i][x] == 6){
           LegalMovesLog[i][x] = true;
+          Draw.LegalOutline(x,i);
         }else{
           if(((Board[i][x] < 6)&&color) || ((Board[i][x] > 6)&&!color)){
             LegalMovesLog[i][x] = true;
+            Draw.LegalOutline(x,i);
           }
           break;
         }
@@ -305,9 +312,11 @@ class LegalMoves {
       for(int k = x++; k<=7; k++){
         if(Board[y][k] == 6){
           LegalMovesLog[y][k] = true;
+          Draw.LegalOutline(k,y);
         }else{
           if(((Board[y][k] < 6)&&color) || ((Board[y][k] > 6)&&!color)){
             LegalMovesLog[y][k] = true;
+            Draw.LegalOutline(k,y);
           }
           break;
         }
@@ -316,9 +325,11 @@ class LegalMoves {
       for(int k = x--; k>=0; k--){
         if(Board[y][k] == 6){
           LegalMovesLog[y][k] = true;
+          Draw.LegalOutline(k,y);
         }else{
           if(((Board[y][k] < 6)&&color) || ((Board[y][k] > 6)&&!color)){
             LegalMovesLog[y][k] = true;
+            Draw.LegalOutline(k,y);
           }
           break;
         }
@@ -331,11 +342,14 @@ class LegalMoves {
       for(int i=1; i<=7; i++){
         if(Board[y-i][x+i]==6){
           LegalMovesLog[y-i][x+i] = true;
+          Draw.LegalOutline(x+i,y-i);
           continue;
         }else if(color&&(Board[y-i][x+i]<6)){
           LegalMovesLog[y-i][x+i] = true;
+          Draw.LegalOutline(x+i,y-i);
         }else if(!color&&(Board[y-i][x+i]>6)){
           LegalMovesLog[y-i][x+i] = true;
+          Draw.LegalOutline(x+i,y-i);
         }
         break;
       }
@@ -343,11 +357,14 @@ class LegalMoves {
       for(int i=1; i<=7; i++){
         if(Board[y-i][x-i]==6){
           LegalMovesLog[y-i][x-i] = true;
+          Draw.LegalOutline(x-i,y-i);
           continue;
         }else if(color&&(Board[y-i][x-i]<6)){
           LegalMovesLog[y-i][x-i] = true;
+          Draw.LegalOutline(x-i,y-i);
         }else if(!color&&(Board[y-i][x-i]>6)){
           LegalMovesLog[y-i][x-i] = true;
+          Draw.LegalOutline(x-i,y-i);
         }
         break;
       }
@@ -355,11 +372,14 @@ class LegalMoves {
       for(int i=1; i<=7; i++){
         if(Board[y+i][x-i]==6){
           LegalMovesLog[y+i][x-i] = true;
+          Draw.LegalOutline(x-i,y+i);
           continue;
         }else if(color&&(Board[y+i][x-i]<6)){
           LegalMovesLog[y+i][x-i] = true;
+          Draw.LegalOutline(x-i,y+i);
         }else if(!color&&(Board[y+i][x-i]>6)){
           LegalMovesLog[y+i][x-i] = true;
+          Draw.LegalOutline(x-i,y+i);
         }
         break;
       }
@@ -367,11 +387,14 @@ class LegalMoves {
       for(int i=1; i<=7; i++){
         if(Board[y+i][x+i]==6){
           LegalMovesLog[y+i][x+i] = true;
+          Draw.LegalOutline(x+i,y+i);
           continue;
         }else if(color&&(Board[y+i][x+i]<6)){
           LegalMovesLog[y+i][x+i] = true;
+          Draw.LegalOutline(x+i,y+i);
         }else if(!color&&(Board[y+i][x+i]>6)){
           LegalMovesLog[y+i][x+i] = true;
+          Draw.LegalOutline(x+i,y+i);
         }
         break;
       }
@@ -383,6 +406,7 @@ class LegalMoves {
         for(int k=x-1; k<x+2; k++){
           if(((i>=0)&&(i<=7)&&(k>=0)&&(k<=7)&&!((i==0)&&(k==0))) && ((Board[i][k]==6)||((Board[i][k]<6)&&color)||((Board[i][k]>6)&&!color))){
             LegalMovesLog[i][k] = true;
+            Draw.LegalOutline(k,i);
           }
         }
       }
@@ -394,6 +418,7 @@ class LegalMoves {
         for(int k=-2; k<=2; k++){
           if(((x+y+4)%2==1) && (i!=0) && (k!=0)){
             LegalMovesLog[i][k] = true;
+            Draw.LegalOutline(k,i);
           }
         }
       }
@@ -404,17 +429,21 @@ class LegalMoves {
       //normal move
       if((Board[y-1][x]==0) || ((Board[y-1][x]<6)&&color) || ((Board[y-1][x]>6)&&!color)){
         LegalMovesLog[y-1][x] = true;
+        Draw.LegalOutline(x,y-1);
       }
       //pawn jump
       if(((Board[y-2][x]==0) || ((Board[y-2][x]<6)&&color) || ((Board[y-2][x]>6)&&!color)) && (y==6)){
         LegalMovesLog[y-2][x] = true;
+        Draw.LegalOutline(x,y-2);
       }
       //en passant
       if(EnPassant && y==3){
         if(EnPassant==x--){
           LegalMovesLog[y-1][x-1] = true;
+          Draw.LegalOutline(x-1,y-1);
         }else if(EnPassant==x++){
           LegalMovesLog[y-1][x+1] = true;
+          Draw.LegalOutline(x+1,y-1);
         }
       }
     }
@@ -425,13 +454,16 @@ class LegalMoves {
       if(piece%7==1){
         if(RightCastle||LeftCastle){
           LegalMovesLog[7][4] = true;
+          Draw.LegalOutline(4,7);
         }
       }else if(piece%7==5){
         if(RightCastle){
           LegalMovesLog[7][7] = true;
+          Draw.LegalOutline(7,7);
         }
         if(LeftCastle){
           LegalMovesLog[7][0] = true;
+          Draw.LegalOutline(0,7);
         }
       }
     }
