@@ -589,18 +589,19 @@ void InvertBoard(){
 
 
 //Ryan here, still a work in progress
-void UndoMove(button){
-  if((button.state() == LOW)&&(UndoLog != )){
-    //set variables
-    Turn = !Turn;
-    EnPassant = round(UndoLog/20480);
-    XLog = 8;
-    YLog = 8;
+void UndoMove(){
+  if((button.state() == LOW)&&(UndoLog != 184320)){
     //restore pieces
     InvertBoard();
     Board[round(UndoLog/512)%8][round(UndoLog/64)%8] = Board[round(UndoLog/8)%8][round(UndoLog)%8];
     Board[round(UndoLog/8)%8][round(UndoLog)%8] = round(UndoLog/4096)%5;
     BoardSetup();
+    //set variables
+    Turn = !Turn;
+    EnPassant = round(UndoLog/20480);
+    XLog = 8;
+    YLog = 8;
+    UndoLog = 184320;
   }
 }
 
