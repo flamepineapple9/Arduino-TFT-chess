@@ -17,9 +17,10 @@ CHECK READ ME FOR MORE INFORMATION
 #include <Adafruit_GFX.h>
 #include <Adafruit_ST7735.h>
 #include <ButtonDebounce.h>
+#include <math.h>
 
 
-// For the joystick
+//for the joystick
 #define Y_PIN A2 //orange wire
 #define X_PIN A3 //yellow wire
 #define SW_PIN 2 //green wire
@@ -55,7 +56,9 @@ void setup() {
 
 
 
+
 //----------CONSTANTS----------
+
 
 
 
@@ -64,89 +67,107 @@ void setup() {
 
 //        [x][y][z]
 bool World[8][8][8] = 
-  {{{false, false, false, false, false, false, false, false},
-    {false, false, false, false, false, false, false, false},
-    {false, false, false, false, false, false, false, false},
-    {false, false, false, false, false, false, false, false},
-    {false, false, false, false, false, false, false, false},
-    {false, false, false, false, false, false, false, false},
-    {false, false, false, false, false, false, false, false},
-    {false, false, false, false, false, false, false, false}},
+  {{{true, true, false, false, false, false, false, false},
+    {true, true, false, false, false, false, false, false},
+    {true, true, false, false, false, false, false, false},
+    {true, true, false, false, false, false, false, false},
+    {true, true, false, false, false, false, false, false},
+    {true, true, false, false, false, false, false, false},
+    {true, true, false, false, false, false, false, false},
+    {true, true, false, false, false, false, false, false}},
     
-   {{false, false, false, false, false, false, false, false},
-    {false, false, false, false, false, false, false, false},
-    {false, false, false, false, false, false, false, false},
-    {false, false, false, false, false, false, false, false},
-    {false, false, false, false, false, false, false, false},
-    {false, false, false, false, false, false, false, false},
-    {false, false, false, false, false, false, false, false},
-    {false, false, false, false, false, false, false, false}},
+   {{true, true, false, false, false, false, false, false},
+    {true, true, false, false, false, false, false, false},
+    {true, true, false, false, false, false, false, false},
+    {true, true, false, false, false, false, false, false},
+    {true, true, false, false, false, false, false, false},
+    {true, true, false, false, false, false, false, false},
+    {true, true, false, false, false, false, false, false},
+    {true, true, false, false, false, false, false, false}},
     
-   {{false, false, false, false, false, false, false, false},
-    {false, false, false, false, false, false, false, false},
-    {false, false, false, false, false, false, false, false},
-    {false, false, false, false, false, false, false, false},
-    {false, false, false, false, false, false, false, false},
-    {false, false, false, false, false, false, false, false},
-    {false, false, false, false, false, false, false, false},
-    {false, false, false, false, false, false, false, false}},
+   {{true, true, false, false, false, false, false, false},
+    {true, true, false, false, false, false, false, false},
+    {true, true, false, false, false, false, false, false},
+    {true, true, false, false, false, false, false, false},
+    {true, true, false, false, false, false, false, false},
+    {true, true, false, false, false, false, false, false},
+    {true, true, false, false, false, false, false, false},
+    {true, true, false, false, false, false, false, false}},
     
-   {{false, false, false, false, false, false, false, false},
-    {false, false, false, false, false, false, false, false},
-    {false, false, false, false, false, false, false, false},
-    {false, false, false, false, false, false, false, false},
-    {false, false, false, false, false, false, false, false},
-    {false, false, false, false, false, false, false, false},
-    {false, false, false, false, false, false, false, false},
-    {false, false, false, false, false, false, false, false}},
+   {{true, true, false, false, false, false, false, false},
+    {true, true, false, false, false, false, false, false},
+    {true, true, false, false, false, false, false, false},
+    {true, true, false, false, false, false, false, false},
+    {true, true, false, false, false, false, false, false},
+    {true, true, false, false, false, false, false, false},
+    {true, true, false, false, false, false, false, false},
+    {true, true, false, false, false, false, false, false}},
     
-   {{false, false, false, false, false, false, false, false},
-    {false, false, false, false, false, false, false, false},
-    {false, false, false, false, false, false, false, false},
-    {false, false, false, false, false, false, false, false},
-    {false, false, false, false, false, false, false, false},
-    {false, false, false, false, false, false, false, false},
-    {false, false, false, false, false, false, false, false},
-    {false, false, false, false, false, false, false, false}},
+   {{true, true, false, false, false, false, false, false},
+    {true, true, false, false, false, false, false, false},
+    {true, true, false, false, false, false, false, false},
+    {true, true, false, false, false, false, false, false},
+    {true, true, false, false, false, false, false, false},
+    {true, true, false, false, false, false, false, false},
+    {true, true, false, false, false, false, false, false},
+    {true, true, false, false, false, false, false, false}},
     
-   {{false, false, false, false, false, false, false, false},
-    {false, false, false, false, false, false, false, false},
-    {false, false, false, false, false, false, false, false},
-    {false, false, false, false, false, false, false, false},
-    {false, false, false, false, false, false, false, false},
-    {false, false, false, false, false, false, false, false},
-    {false, false, false, false, false, false, false, false},
-    {false, false, false, false, false, false, false, false}},
+   {{true, true, false, false, false, false, false, false},
+    {true, true, false, false, false, false, false, false},
+    {true, true, false, false, false, false, false, false},
+    {true, true, false, false, false, false, false, false},
+    {true, true, false, false, false, false, false, false},
+    {true, true, false, false, false, false, false, false},
+    {true, true, false, false, false, false, false, false},
+    {true, true, false, false, false, false, false, false}},
     
-   {{false, false, false, false, false, false, false, false},
-    {false, false, false, false, false, false, false, false},
-    {false, false, false, false, false, false, false, false},
-    {false, false, false, false, false, false, false, false},
-    {false, false, false, false, false, false, false, false},
-    {false, false, false, false, false, false, false, false},
-    {false, false, false, false, false, false, false, false},
-    {false, false, false, false, false, false, false, false}},
+   {{true, true, false, false, false, false, false, false},
+    {true, true, false, false, false, false, false, false},
+    {true, true, false, false, false, false, false, false},
+    {true, true, false, false, false, false, false, false},
+    {true, true, false, false, false, false, false, false},
+    {true, true, false, false, false, false, false, false},
+    {true, true, false, false, false, false, false, false},
+    {true, true, false, false, false, false, false, false}},
     
-   {{false, false, false, false, false, false, false, false},
-    {false, false, false, false, false, false, false, false},
-    {false, false, false, false, false, false, false, false},
-    {false, false, false, false, false, false, false, false},
-    {false, false, false, false, false, false, false, false},
-    {false, false, false, false, false, false, false, false},
-    {false, false, false, false, false, false, false, false},
-    {false, false, false, false, false, false, false, false}}};
+   {{true, true, false, false, false, false, false, false},
+    {true, true, false, false, false, false, false, false},
+    {true, true, false, false, false, false, false, false},
+    {true, true, false, false, false, false, false, false},
+    {true, true, false, false, false, false, false, false},
+    {true, true, false, false, false, false, false, false},
+    {true, true, false, false, false, false, false, false},
+    {true, true, false, false, false, false, false, false}}};
 
 
 //player location data
-unsigned int PlayerPitch = 0;
-unsigned int PlayerYaw = 0;
-int PlayerX = 0;
-int PlayerY = 0;
-int PlayerZ = 0;
-int JumpTimer = 0;
+unsigned float PlayerPitch = 0; //from negative z
+unsigned float PlayerYaw = 0;   //from positive x
+unsigned float PlayerX = 0;
+unsigned float PlayerY = 0;
+unsigned float PlayerZ = 3;     //from feet
+unsigned int JumpTimer = 0;
+
 
 //player internal data
-int PlayerDirt = 0;
+unsigned int PlayerDirt = 0;
+
+
+
+
+
+//----------GAME MECHANICS----------
+
+
+
+
+
+//----------RENDERING----------
+
+void Rasterize(int x, int y, int z){
+  
+}
+
 
 
 
