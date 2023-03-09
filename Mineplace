@@ -31,6 +31,7 @@ CHECK READ ME FOR MORE INFORMATION
 
 
 //for the lcd rgb display
+#define BROWN 0x69e0
 #define TFT_SS 7
 #define RST 8
 #define DC 9
@@ -171,7 +172,14 @@ void PlayerUpdate(){
 
 
 void JumpUpdate(){
-  return;
+  if(JumpTimer==0 && World[round(PlayerX)][round(PlayerY)][PlayerZ-1] && button.state()==LOW){
+    PlayerZ++;
+    JumpTimer+=5;
+  }else if(JumpTimer==0 && !World[round(PlayerX)][round(PlayerY)][PlayerZ-1]){
+    PlayerZ--;
+  }else if(JumpTimer!=0){
+    JumpTimer--;
+  }
 }
 
 
@@ -219,16 +227,25 @@ void GenerateSides(int x, int y, int z){
   if(){
     Rasterize(x,y,z, );
   }
+  if(){
+    Rasterize(x,y,z, );
+  }
+  if(){
+    Rasterize(x,y,z, );
+  }
+  if(){
+    Rasterize(x,y,z, );
+  }
 }
 
 
-void Rasterize(int x, int y, int z, int side){
-  fillTriangle(x0,y0,x1,y1x2,y2,color);
-  fillTriangle(x0,y0,x1,y1x2,y2,color);
-  drawLine(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_t color)
-  drawLine(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_t color)
-  drawLine(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_t color)
-  drawLine(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_t color)
+void Rasterize(int x0, int y0, int x1, int y1, int x2, int y2, int x3, int y3){
+  fillTriangle(x0,y0,x1,y1,x2,y2,BROWN);
+  fillTriangle(x0,y0,x3,y3,x2,y2,BROWN);
+  drawLine(x0,y0,x1,y1,BROWN);
+  drawLine(x1,y1,x2,y2,BROWN);
+  drawLine(x2,y2,x3,y3,BROWN);
+  drawLine(x3,y3,x0,y0,BROWN);
 }
 
 
@@ -243,6 +260,8 @@ void GameSetup(){
 
 
 void loop(){
+  button.update();
   PlayerUpdate();
   Render();
+  screen.display();
 }
