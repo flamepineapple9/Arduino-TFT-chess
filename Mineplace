@@ -9,6 +9,8 @@ CHECK READ ME FOR MORE INFORMATION
 
 
 
+
+
 //----------SETUP----------
 
 //import libraries
@@ -50,7 +52,7 @@ void setup() {
   screen.setCursor(0,0); //puts cursor in top left, (which is where the text is printed from)
   randomSeed(analogRead(A5)); //Seed with bogus read
   Serial.begin(9600);
-  SoftwareSetup();
+  GameSetup();
 }
 
 
@@ -58,6 +60,10 @@ void setup() {
 
 
 //----------CONSTANTS----------
+
+const unsigned int WORLD_X = 7;
+const unsigned int WORLD_Y = 7;
+const unsigned int WORLD_Z = 7;
 
 
 
@@ -145,7 +151,7 @@ unsigned float PlayerPitch = 0; //from negative z
 unsigned float PlayerYaw = 0;   //from positive x
 unsigned float PlayerX = 0;
 unsigned float PlayerY = 0;
-unsigned float PlayerZ = 3;     //from feet
+unsigned int PlayerZ = 3;     //from feet
 unsigned int JumpTimer = 0;
 
 
@@ -158,26 +164,58 @@ unsigned int PlayerDirt = 0;
 
 //----------GAME MECHANICS----------
 
+void PlayerUpdate(){
+  JumpUpdate();
+  MovementUpdate();
+}
 
 
+void JumpUpdate(){
+  
+}
 
 
-//----------RENDERING----------
-
-void Rasterize(int x, int y, int z){
+void MovementUpdate(){
   
 }
 
 
 
 
+
+//----------RENDERING----------
+
+void Render(){
+  for(var l=0; l<=WORLD_X*2; l++){   //layer
+    for(var z=0; z<=WORLD_Z*2; z++){ //z
+      for(var s=0; s<=; s++){       `//section
+        for(var r=0; r<=; r++){      //ratio
+          if(World[x][y][]){
+            Rasterize(x,y,);
+          }
+        }
+      }
+    }
+  }
+}
+
+
+void Rasterize(int x, int y, int z){
+  return();
+}
+
+
+
+
+
 //----------MAIN----------
 
-void SoftwareSetup(){
+void GameSetup(){
   return;
 }
 
 
 void loop(){
-  return;
+  PlayerUpdate();
+  Render();
 }
