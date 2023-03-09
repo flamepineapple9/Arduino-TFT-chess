@@ -171,12 +171,12 @@ void PlayerUpdate(){
 
 
 void JumpUpdate(){
-  
+  return;
 }
 
 
 void MovementUpdate(){
-  
+  return;
 }
 
 
@@ -186,12 +186,21 @@ void MovementUpdate(){
 //----------RENDERING----------
 
 void Render(){
-  for(var l=0; l<=WORLD_X*2; l++){   //layer
-    for(var z=0; z<=WORLD_Z*2; z++){ //z
-      for(var s=0; s<=; s++){       `//section
-        for(var r=0; r<=; r++){      //ratio
-          if(World[x][y][]){
-            Rasterize(x,y,);
+  for(var l=WORLD_X+WORLD_Y; l>0; l--){    //layer
+    for(var z=0-WORLD_Z; z<=WORLD_Z; z++){ //z
+      if(){                                //possible?
+        for(var r=0; r<=; r++){            //ratio
+          if(&&World[round(PlayerX)-][round(PlayerY)-][z]){ //Ryan here, could error, out of index, should be fine
+            GenerateSides(round(PlayerX)-,round(PlayerY)-,z);
+          }
+          if(&&World[round(PlayerX)-][round(PlayerY)-][z]){
+            GenerateSides(round(PlayerX)-,round(PlayerY)-,z);
+          }
+          if(&&World[round(PlayerX)-][round(PlayerY)-][z]){
+            GenerateSides(round(PlayerX)-,round(PlayerY)-,z);
+          }
+          if(&&World[round(PlayerX)-][round(PlayerY)-][z]){
+            GenerateSides(round(PlayerX)-,round(PlayerY)-,z);
           }
         }
       }
@@ -200,8 +209,26 @@ void Render(){
 }
 
 
-void Rasterize(int x, int y, int z){
-  return();
+void GenerateSides(int x, int y, int z){
+  if(){
+    Rasterize(x,y,z, );
+  }
+  if(){
+    Rasterize(x,y,z, );
+  }
+  if(){
+    Rasterize(x,y,z, );
+  }
+}
+
+
+void Rasterize(int x, int y, int z, int side){
+  fillTriangle(x0,y0,x1,y1x2,y2,color);
+  fillTriangle(x0,y0,x1,y1x2,y2,color);
+  drawLine(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_t color)
+  drawLine(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_t color)
+  drawLine(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_t color)
+  drawLine(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_t color)
 }
 
 
