@@ -516,23 +516,6 @@ void GenerateLegalMoves(int x, int y, int piece, bool color){
 
 //----------INTERNAL FUNCTIONS----------
 
-void MovePiece(int x1, int y1, int x2, int y2){
-  //handels promotion
-  if(((Board[y1][x1]==10)&&(y2==7))||((Board[y1][x1]==20)&&(y2==0))){
-    Board[y1][x1] += 4;
-  }
-  //saves to undo
-  //UndoStates = {x1, y1, Board[y1][x1], x2, y2, Board[y2][x2]};
-  //moves piece
-  Board[y2][x2] = Board[y1][x1];
-  Board[y1][x1] = 0;
-  Draw.BlankSquare(x1, y1);
-  Draw.BlankOutline(x1, y1);
-  Draw.BlankSquare(x2, y2);
-  Draw.Piece(x2, y2, Board[y2][x2]);
-}
- 
-
 void UpdateCursor(int XJoy, int YJoy) { // moves the cursor
   //moves cursor outline on x
   if(XJoy > 611){
@@ -592,19 +575,42 @@ void UpdateButton(){
       XLog = XCursor;
       YLog = YCursor;
     }else{
-      if(((XLog != XCursor) || (YLog != YCursor)) && (XLog != 8)){
+      if((XLog != XCursor || YLog != YCursor) && XLog != 8 && LegalMovesLog[YCursor][XCursor]){
+        //saves undo
         UndoLog = XCursor+YCursor*8+XLog*64+YLog*512+Board[YCursor][XCursor]*4096+EnPassant*20480;
+        
+        //handels promotion
+        if(((Board[y1][x1]==0)||(Board[y1][x1]==7))&&(y2==0)){
+          Board[y1][x1] += 4;
+        }
+        
+        //move piece
         MovePiece(XLog, YLog, XCursor, YCursor);
+        
+        //update/reset variables
         XLog = 8;
         YLog = 8;
-        InvertBoard();
         Turn = !Turn;
+        
+        //update board
+        InvertBoard();
       }
     }
     ButtonState = false;
   }else if((button.state() == HIGH) && !(ButtonState)){
     ButtonState = true;
   }
+}
+
+
+void MovePiece(int x1, int y1, int x2, int y2){
+  //moves piece
+  Board[y2][x2] = Board[y1][x1];
+  Board[y1][x1] = 0;
+  Draw.BlankSquare(x1, y1);
+  Draw.BlankOutline(x1, y1);
+  Draw.BlankSquare(x2, y2);
+  Draw.Piece(x2, y2, Board[y2][x2]);
 }
 
 
