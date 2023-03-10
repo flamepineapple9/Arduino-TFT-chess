@@ -584,6 +584,24 @@ void UpdateButton(){
           Board[y1][x1] += 4;
         }
         
+        /*
+        //handels enpassant
+        if(((Board[y1][x1]==0)||(Board[y1][x1]==7))&&(y2==0)){
+          Board[y1][x1] += 4;
+        }else if(){
+        
+        }
+        
+        //handels castle
+        if(((Board[y1][x1]==0)||(Board[y1][x1]==7))&&(y2==0)){
+          Board[y1][x1] += 4;
+        }else if(){
+        
+        }else if(){
+        
+        }
+        */
+        
         //move piece
         MovePiece(XLog, YLog, XCursor, YCursor);
         
@@ -606,7 +624,7 @@ void UpdateButton(){
 void MovePiece(int x1, int y1, int x2, int y2){
   //moves piece
   Board[y2][x2] = Board[y1][x1];
-  Board[y1][x1] = 0;
+  Board[y1][x1] = 6;
   Draw.BlankSquare(x1, y1);
   Draw.BlankOutline(x1, y1);
   Draw.BlankSquare(x2, y2);
