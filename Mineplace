@@ -65,8 +65,10 @@ void setup() {
 const unsigned int WORLD_X = 7;
 const unsigned int WORLD_Y = 7;
 const unsigned int WORLD_Z = 7;
-
-
+const unsigned int FOCAL = 4;
+const unsigned int SCALE = 1;
+const unsigned int SCREEN_HEIGHT = 128;
+const unsigned int SCREEN_WIDTH = 180;
 
 
 
@@ -196,20 +198,18 @@ void MovementUpdate(){
 void Render(){
   for(var l=WORLD_X+WORLD_Y; l>0; l--){    //layer
     for(var z=0-WORLD_Z; z<=WORLD_Z; z++){ //z
-      if(){                                //possible?
-        for(var r=0; r<=; r++){            //ratio
-          if(&&World[round(PlayerX)-][round(PlayerY)-][z]){ //Ryan here, could error, out of index, should be fine
-            GenerateSides(round(PlayerX)-,round(PlayerY)-,z);
-          }
-          if(&&World[round(PlayerX)-][round(PlayerY)-][z]){
-            GenerateSides(round(PlayerX)-,round(PlayerY)-,z);
-          }
-          if(&&World[round(PlayerX)-][round(PlayerY)-][z]){
-            GenerateSides(round(PlayerX)-,round(PlayerY)-,z);
-          }
-          if(&&World[round(PlayerX)-][round(PlayerY)-][z]){
-            GenerateSides(round(PlayerX)-,round(PlayerY)-,z);
-          }
+      for(var r=0; r<=; r++){            //ratio
+        if(&&World[round(PlayerX)+r][round(PlayerY)+r][round(PlayerZ)+z]){ //Ryan here, could error, out of index, should be fine
+          GenerateSides(round(PlayerX)-,round(PlayerY)-,z);
+        }
+        if(&&World[round(PlayerX)-r][round(PlayerY)+r][z]){
+          GenerateSides(round(PlayerX)-,round(PlayerY)-,z);
+        }
+        if(&&World[round(PlayerX)-r][round(PlayerY)-r][z]){
+          GenerateSides(round(PlayerX)-,round(PlayerY)-,z);
+        }
+        if(&&World[round(PlayerX)+r][round(PlayerY)-r][z]){
+          GenerateSides(round(PlayerX)-,round(PlayerY)-,z);
         }
       }
     }
@@ -219,23 +219,33 @@ void Render(){
 
 void GenerateSides(int x, int y, int z){
   if(){
-    Rasterize(x,y,z, );
+    Rasterize(x,y, );
   }
   if(){
-    Rasterize(x,y,z, );
+    Rasterize(x,y, );
   }
   if(){
-    Rasterize(x,y,z, );
+    Rasterize(x,y, );
   }
   if(){
-    Rasterize(x,y,z, );
+    Rasterize(x,y, );
   }
   if(){
-    Rasterize(x,y,z, );
+    Rasterize(x,y, );
   }
   if(){
-    Rasterize(x,y,z, );
+    Rasterize(x,y, );
   }
+}
+
+
+void ProjectX(x,z){
+  return SCALE*FOCAL*x/(FOCAL+z)+SCREEN_WIDTH/2;
+}
+
+
+void ProjectY(y,z){
+  return SCALE*FOCAL*y/(FOCAL+z)+SCREEN_HEIGHT/2;
 }
 
 
