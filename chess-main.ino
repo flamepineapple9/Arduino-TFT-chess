@@ -14,7 +14,6 @@ CHECK READ ME FOR MORE INFORMATION
 
 //import libraries
 #include <SPI.h>
-#include <Adafruit_GFX_Buffer.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_ST7735.h>
 #include <ButtonDebounce.h>
@@ -36,8 +35,8 @@ CHECK READ ME FOR MORE INFORMATION
 
 
 //library variable/object definitions
-Adafruit_GFX_Buffer<Adafruit_ST7735> tft = Adafruit_GFX_Buffer<Adafruit_ST7735>(80, 160,  Adafruit_ST7735(TFT_SS, DC, RST)  );
-ButtonDebounce button(SW_PIN, MIN_CLICK);
+Adafruit_ST7735 tft = Adafruit_ST7735(TFT_SS, DC, RST); // idk why this is needed
+ButtonDebounce button(SW_PIN, MIN_CLICK);// seems to be defining some values for the button debounce library
 
 
 void setup() {
@@ -574,16 +573,17 @@ void UpdateButton(){
     if((XLog == 8) && (Board[YCursor][XCursor] != 0)){
       XLog = XCursor;
       YLog = YCursor;
+      GenerateLegalMoves(XCursor, YCursor, Board[YCursor][XCursor], Turn);
     }else{
       if((XLog != XCursor || YLog != YCursor) && XLog != 8 && LegalMovesLog[YCursor][XCursor]){
         //saves undo
         UndoLog = XCursor+YCursor*8+XLog*64+YLog*512+Board[YCursor][XCursor]*4096+EnPassant*20480;
-        
+        /*
         //handels promotion
         if(((Board[y1][x1]==0)||(Board[y1][x1]==7))&&(y2==0)){
           Board[y1][x1] += 4;
         }
-        
+        */
         /*
         //handels enpassant
         if(((Board[y1][x1]==0)||(Board[y1][x1]==7))&&(y2==0)){
@@ -669,5 +669,5 @@ void loop(){
   UpdateCursor(analogRead(X_PIN), analogRead(Y_PIN));
   button.update();
   UpdateButton();
-  tft.display();
+  delay(100);
 }
