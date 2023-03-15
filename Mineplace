@@ -198,21 +198,25 @@ void MovementUpdate(){
 void Render(){
   for(var l=WORLD_X+WORLD_Y+WORLD_Z; l>0; l--){                             //layer
     for(var z=round(PlayerZ)-WORLD_Z; z<=WORLD_Z-round(PlayerZ); z++){     //z
-      for(var r=0; r<=; r++){                                             //ratio
-        if(){                                                            //possible?
-          if(&&World[round(PlayerX)+r][round(PlayerY)+r][z]){  //Ryan here, could error, out of index, should be fine
-            GenerateSides(round(PlayerX)+r,round(PlayerY)+r,z);
-          }
-          if(&&World[round(PlayerX)-r][round(PlayerY)+r][z]){
-            GenerateSides(round(PlayerX)-r,round(PlayerY)+r,z);
-          }
-          if(&&World[round(PlayerX)-r][round(PlayerY)-r][z]){
-            GenerateSides(round(PlayerX)-r,round(PlayerY)-r,z);
-          }
-          if(&&World[round(PlayerX)+r][round(PlayerY)-r][z]){
-            GenerateSides(round(PlayerX)+r,round(PlayerY)-r,z);
+      if(l-abs(z)>0){                                                     //l z ratio possible?
+        for(var r=0; r<=l-abs(z); r++){                                  //ratio
+          if(){                                                         //inner ratio possible?
+            if(&&World[round(PlayerX)+r][round(PlayerY)+r][z]){  //Ryan here, could error, out of index, should be fine
+              GenerateSides(round(PlayerX)+r,round(PlayerY)+r,z);
+            }
+            if(&&World[round(PlayerX)-r][round(PlayerY)+r][z]){
+              GenerateSides(round(PlayerX)-r,round(PlayerY)+r,z);
+            }
+            if(&&World[round(PlayerX)-r][round(PlayerY)-r][z]){
+              GenerateSides(round(PlayerX)-r,round(PlayerY)-r,z);
+            }
+            if(&&World[round(PlayerX)+r][round(PlayerY)-r][z]){
+              GenerateSides(round(PlayerX)+r,round(PlayerY)-r,z);
+            }
           }
         }
+      }else if(l-abs(z)==0){                                               //if middle
+        GenerateSides(round(PlayerX),round(PlayerY),z)
       }
     }
   }
