@@ -639,7 +639,7 @@ void InvertBoard(){
 }
 
 
-//Ryan here, still a work in progress
+//Ryan here, this won't be implimented until another button is declared
 void UndoMove(){
   if((button.state() == LOW)&&(UndoLog != 184320)){
     //restore pieces
