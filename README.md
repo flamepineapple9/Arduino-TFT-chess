@@ -16,11 +16,11 @@ Hardware Designer: grace0lkjhb
 # Chess Software Specs
 -668 Lines (581 sloc)
 
--89% Dynamic Memory Usaeage
+-89% Dynamic Memory Useage
 
 # Mineplace Software Specs
 -283 Lines (217 sloc)
 
--32% Dynamic Memory Usaeage
+-32% Dynamic Memory Useage
 
 -wow u actually read the read me, good job
