@@ -13,7 +13,14 @@ Hardware Designer: grace0lkjhb
 
 -1.8" 128x160 TFT Display
 
-# Software Specs
--~550 Lines
+# Chess Software Specs
+-668 Lines (581 sloc)
+
+-89% Dynamic Memory Usaeage
+
+# Mineplace Software Specs
+-283 Lines (217 sloc)
+
+-32% Dynamic Memory Usaeage
 
 -wow u actually read the read me, good job
