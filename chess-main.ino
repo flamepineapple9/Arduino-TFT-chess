@@ -580,10 +580,10 @@ void UpdateButton(){
         UndoLog = XCursor+YCursor*8+XLog*64+YLog*512+Board[YCursor][XCursor]*4096+EnPassant*20480;
 
         if(Board[YCursor][XCursor]%7==0 && YCursor==0){  //handels promotion
-          Board[y1][x1] += 4;
+          Board[YLog][XLog] += 4;
           MovePiece(XLog, YLog, XCursor, YCursor);
         }else if(Board[YLog][XLog]%7==0 && YLog==3 && XCursor==EnPassant){  //handels enpassant
-          Board[YCursor][XCursor] = 6;
+          Board[YCursor++][XCursor] = 6;
           MovePiece(XLog, YLog, XCursor, YCursor);
         }else if(YCursor==7 && ((XCursor==4&&XLog==0)||(XCursor==0&&XLog==4)) && LeftCastle){ //handels castle
           Board[7][4] = 1;
