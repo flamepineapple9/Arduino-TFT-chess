@@ -585,12 +585,12 @@ void UpdateButton(){
         }else if(Board[YLog][XLog]%7==0 && YLog==3 && XCursor==EnPassant){  //handels enpassant
           Board[YCursor++][XCursor] = 6;
           MovePiece(XLog, YLog, XCursor, YCursor);
-        }else if(YCursor==7 && ((XCursor==4&&XLog==0)||(XCursor==0&&XLog==4)) && LeftCastle){ //handels castle
+        }else if(YCursor==7 && ((XCursor==4&&XLog==0)||(XCursor==0&&XLog==4)) && LeftCastle){  //handels left castle
           Board[7][4] = 1;
           Board[7][0] = 5;
           Draw.Piece(4, 7, 1);
           Draw.Piece(0, 7, 5);
-        }else if(YCursor==7 && ((XCursor==4&&XLog==0)||(XCursor==0&&XLog==4)) && RightCastle){
+        }else if(YCursor==7 && ((XCursor==4&&XLog==0)||(XCursor==0&&XLog==4)) && RightCastle){  //handels right castle
           Board[7][4] = 1;
           Board[7][7] = 5;
           Draw.Piece(4, 7, 1);
