@@ -1,5 +1,5 @@
 # Abstract
-This is code for a chess board on a 1.8" TFT display running on an Arduino Uno/Pro Mini using a joystick (will be d-pad) control scheme.
+This is a collection of several games designed for an arduino uno/pro mini with a NES 4 control scheme and a 1.8" tft display.
 
 # Our Team
 Software Designer: RyanYasuda
