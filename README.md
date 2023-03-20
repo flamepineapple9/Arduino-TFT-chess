@@ -13,6 +13,8 @@ Hardware Designer: grace0lkjhb
 
 -1.8" 128x160 TFT Display
 
+-Bootleg NES 004 Controller
+
 # Chess Software Specs
 -668 Lines (581 sloc)
 
