@@ -52,8 +52,8 @@ void main() {
   }
   for(var i=0; i<12; i++){
     if(Latch[i]){
-      Serial.println(0);
-      Serial.println(ZeroHigh);
+      Serial.println(i);
+      Serial.println(Values[i]);
     }
   }
 }
