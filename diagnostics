@@ -55,98 +55,98 @@ void main() {
   delay(5000);
   for(var i=0; i<10; i++){
     if(Zero){
-      if(ZeroLow==0 || ZeroLow<analogRead(A0)){
+      if(analogRead(0)!=0 && (ZeroLow==0 || ZeroLow<analogRead(A0))){
         ZeroLow = analogRead(A0);
       }
-      if(ZeroHigh==0 || ZeroHigh>analogRead(A0)){
+      if(analogRead(0)!=0 && (ZeroHigh==0 || ZeroHigh>analogRead(A0))){
         ZeroHigh = analogRead(A0);
       }
     }
     if(One){
-      if(OneLow==0 || OneLow<analogRead(A1)){
+      if(analogRead(1)!=0 && (OneLow==0 || OneLow<analogRead(A1))){
         OneLow = analogRead(A1);
       }
-      if(OneHigh==0 || OneHigh>analogRead(A1)){
+      if(analogRead(1)!=0 && (OneHigh==0 || OneHigh>analogRead(A1))){
         OneHigh = analogRead(A1);
       }
     }
     if(Two){
-      if(TwoLow==0 || TwoLow<analogRead(A2)){
+      if(analogRead(2)!=0 && (TwoLow==0 || TwoLow<analogRead(A2))){
         TwoLow = analogRead(A2);
       }
-      if(TwoHigh==0 || TwoHigh>analogRead(A2)){
+      if(analogRead(2)!=0 && (TwoHigh==0 || TwoHigh>analogRead(A2))){
         TwoHigh = analogRead(A2);
       }
     }
     if(Three){
-      if(ThreeLow==0 || ThreeLow<analogRead(A3)){
+      if(analogRead(3)!=0 && (ThreeLow==0 || ThreeLow<analogRead(A3))){
         ThreeLow = analogRead(A3);
       }
-      if(ThreeHigh==0 || ThreeHigh>analogRead(A3)){
+      if(analogRead(3)!=0 && (ThreeHigh==0 || ThreeHigh>analogRead(A3))){
         ThreeHigh = analogRead(A3);
       }
     }
     if(Four){
-      if(FourLow==0 || FourLow<analogRead(A4)){
+      if(analogRead(4)!=0 && (FourLow==0 || FourLow<analogRead(A4))){
         FourLow = analogRead(A4);
       }
-      if(FourHigh==0 || FourHigh>analogRead(A4)){
+      if(analogRead(4)!=0 && (FourHigh==0 || FourHigh>analogRead(A4))){
         FourHigh = analogRead(A4);
       }
     }
     if(Five){
-      if(FiveLow==0 || FiveLow<analogRead(A5)){
+      if(analogRead(5)!=0 && (FiveLow==0 || FiveLow<analogRead(A5))){
         FiveLow = analogRead(A5);
       }
-      if(FiveHigh==0 || FiveHigh>analogRead(A5)){
+      if(analogRead(5)!=0 && (FiveHigh==0 || FiveHigh>analogRead(A5))){
         FiveHigh = analogRead(A5);
       }
     }
     if(Six){
-      if(SixLow==0 || SixLow<analogRead(A6)){
+      if(analogRead(6)!=0 && (SixLow==0 || SixLow<analogRead(A6))){
         SixLow = analogRead(A6);
       }
-      if(SixHigh==0 || SixHigh>analogRead(A6)){
+      if(analogRead(6)!=0 && (SixHigh==0 || SixHigh>analogRead(A6))){
         SixHigh = analogRead(A6);
       }
     }
     if(Seven){
-      if(SevenLow==0 || SevenLow<analogRead(A7)){
+      if(analogRead(7)!=0 && (SevenLow==0 || SevenLow<analogRead(A7))){
         SevenLow = analogRead(A7);
       }
-      if(SevenHigh==0 || SevenHigh>analogRead(A7)){
+      if(analogRead(7)!=0 && (SevenHigh==0 || SevenHigh>analogRead(A7))){
         SevenHigh = analogRead(A7);
       }
     }
     if(Eight){
-      if(EightLow==0 || EightLow<analogRead(A8)){
+      if(analogRead(8)!=0 && (EightLow==0 || EightLow<analogRead(A8))){
         EightLow = analogRead(A8);
       }
-      if(EightHigh==0 || EightHigh>analogRead(A8)){
+      if(analogRead(8)!=0 && (EightHigh==0 || EightHigh>analogRead(A8))){
         EightHigh = analogRead(A8);
       }
     }
     if(Nine){
-      if(NineLow==0 || NineLow<analogRead(A9)){
+      if(analogRead(9)!=0 && (NineLow==0 || NineLow<analogRead(A9))){
         NineLow = analogRead(A9);
       }
-      if(NineHigh==0 || NineHigh>analogRead(A9)){
+      if(analogRead(9)!=0 && (NineHigh==0 || NineHigh>analogRead(A9))){
         NineHigh = analogRead(A9);
       }
     }
     if(Ten){
-      if(TenLow==0 || TenLow<analogRead(A10)){
+      if(analogRead(10)!=0 && (TenLow==0 || TenLow<analogRead(A10))){
         TenLow = analogRead(A10);
       }
-      if(TenHigh==0 || TenHigh>analogRead(A10)){
+      if(analogRead(10)!=0 && (TenHigh==0 || TenHigh>analogRead(A10))){
         TenHigh = analogRead(A10);
       }
     }
     if(Eleven){
-      if(ElevenLow==0 || ElevenLow<analogRead(A11)){
+      if(analogRead(11)!=0 && (ElevenLow==0 || ElevenLow<analogRead(A11))){
         ElevenLow = analogRead(A11);
       }
-      if(ElevenHigh==0 || ElevenHigh>analogRead(A11)){
+      if(analogRead(11)!=0 && (ElevenHigh==0 || ElevenHigh>analogRead(A11))){
         ElevenHigh = analogRead(A11);
       }
     }
@@ -158,33 +158,33 @@ void main() {
   Serial.println(OneHigh);
   Serial.println(OneLow);
   Serial.println(2);
-  Serial.println(ZeroHigh);
-  Serial.println(ZeroLow);
+  Serial.println(TwoHigh);
+  Serial.println(TwoLow);
   Serial.println(3);
-  Serial.println(ZeroHigh);
-  Serial.println(ZeroLow);
+  Serial.println(ThreeHigh);
+  Serial.println(ThreeLow);
   Serial.println(4);
-  Serial.println(ZeroHigh);
-  Serial.println(ZeroLow);
+  Serial.println(FourHigh);
+  Serial.println(FourLow);
   Serial.println(5);
-  Serial.println(ZeroHigh);
-  Serial.println(ZeroLow);
+  Serial.println(FiveHigh);
+  Serial.println(FiveLow);
   Serial.println(6);
-  Serial.println(ZeroHigh);
-  Serial.println(ZeroLow);
+  Serial.println(SixHigh);
+  Serial.println(SixLow);
   Serial.println(7);
-  Serial.println(ZeroHigh);
-  Serial.println(ZeroLow);
+  Serial.println(SevenHigh);
+  Serial.println(SevenLow);
   Serial.println(8);
-  Serial.println(ZeroHigh);
-  Serial.println(ZeroLow);
+  Serial.println(EightHigh);
+  Serial.println(EightLow);
   Serial.println(9);
-  Serial.println(ZeroHigh);
-  Serial.println(ZeroLow);
+  Serial.println(NineHigh);
+  Serial.println(NineLow);
   Serial.println(10);
-  Serial.println(ZeroHigh);
-  Serial.println(ZeroLow);
+  Serial.println(TenHigh);
+  Serial.println(TenLow);
   Serial.println(11);
-  Serial.println(ZeroHigh);
-  Serial.println(ZeroLow);
+  Serial.println(ElevenHigh);
+  Serial.println(ElevenLow);
 }
