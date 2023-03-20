@@ -1,0 +1,33 @@
+#include <SPI.h> 
+
+#include <ButtonDebounce.h>
+
+#define SW_PIN 2 //green wire
+#define MIN_CLICK 100 //debounce ms
+#define MAX_DCLICK 500 //double-click cutoff
+
+ButtonDebounce button(SW_PIN, MIN_CLICK);// seems to be defining some values for the button debounce library
+
+void setup() {
+  randomSeed(analogRead(A5)); //Seed with bogus read
+  Serial.begin(9600);
+}
+
+unsigned int OneHigh = 0;
+
+
+void loop() {
+  Serial.println(analogRead(A0));
+  Serial.println(analogRead(A1));
+  Serial.println(analogRead(A2));
+  Serial.println(analogRead(A3));
+  Serial.println(analogRead(A4));
+  Serial.println(analogRead(A5));
+  Serial.println(analogRead(A6));
+  Serial.println(analogRead(A7));
+  Serial.println(analogRead(A8));
+  Serial.println(analogRead(A9));
+  Serial.println(analogRead(A10));
+  Serial.println(analogRead(A11));
+  delay(10000);
+}
