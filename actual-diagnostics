@@ -1,0 +1,64 @@
+#include <SPI.h> 
+
+#include <ButtonDebounce.h>
+
+#define PIN_0 A0
+#define PIN_1 A1
+#define PIN_2 A2
+#define PIN_3 A3
+#define PIN_4 A4
+#define PIN_5 A5
+#define PIN_6 A6
+#define PIN_7 A7
+#define PIN_8 A8
+#define PIN_9 A9
+#define PIN_10 A10
+#define PIN_11 A11
+
+#define SW_PIN 2 //green wire
+#define MIN_CLICK 100 //debounce ms
+#define MAX_DCLICK 500 //double-click cutoff
+
+ButtonDebounce button(SW_PIN, MIN_CLICK);// seems to be defining some values for the button debounce library
+
+void setup() {
+  randomSeed(analogRead(A5)); //Seed with bogus read
+  Serial.begin(9600);
+  main();
+}
+
+unsigned int Values[2][12]={
+              {0,0,0,0,0,0,0,0,0,0,0,0},
+              {0,0,0,0,0,0,0,0,0,0,0,0}};
+
+bool Latch[12]=
+              {false,false,false,false,false,false,false,false,false,false,false,false};
+              
+
+
+void main() {
+  delay(5000);
+  for(var i=0; i<10; i++){
+    for(var k=0; k<12; k++){
+      if(Latch[k]){
+        if(analogRead(0)!=0 && (Values[0][k]==0 || Values[0][k]<analogRead(A0))){
+          Values[0][k] = analogRead(A0);
+        }
+        if(analogRead(0)!=0 && (Values[1][k]==0 || Values[1][k]>analogRead(A0))){
+          Values[1][k] = analogRead(A0);
+        }
+      }
+    }
+  }
+  for(var i=0; i<12; i++){
+    if(Latch[i]){
+      Serial.println(0);
+      Serial.println(ZeroHigh);
+    }
+  }
+}
+
+void loop(){
+  1++;
+}
+ 
