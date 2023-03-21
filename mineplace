@@ -257,12 +257,12 @@ void ProjY(int x, int y, int z){
 
 
 void Rasterize(int x0, int y0, int x1, int y1, int x2, int y2, int x3, int y3){
-  fillTriangle(x0,y0,x1,y1,x2,y2,BROWN);
-  fillTriangle(x0,y0,x3,y3,x2,y2,BROWN);
-  drawLine(x0,y0,x1,y1,BROWN);
-  drawLine(x1,y1,x2,y2,BROWN);
-  drawLine(x2,y2,x3,y3,BROWN);
-  drawLine(x3,y3,x0,y0,BROWN);
+  screen.fillTriangle(x0,y0,x1,y1,x2,y2,BROWN);
+  screen.fillTriangle(x0,y0,x3,y3,x2,y2,BROWN);
+  screen.drawLine(x0,y0,x1,y1,BROWN);
+  screen.drawLine(x1,y1,x2,y2,BROWN);
+  screen.drawLine(x2,y2,x3,y3,BROWN);
+  screen.drawLine(x3,y3,x0,y0,BROWN);
 }
 
 
