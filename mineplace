@@ -173,6 +173,7 @@ void PlayerUpdate(){
 }
 
 
+//Ryan here, update for head Z0
 void JumpUpdate(){
   if(JumpTimer==0 && World[round(PlayerX)][round(PlayerY)][PlayerZ-1] && button.state()==LOW){
     PlayerZ++;
@@ -224,22 +225,22 @@ void Render(){
 
 
 void GenerateSides(int x, int y, int z){
-  if(){
+  if(round(PlayerX)<x){
     Rasterize(ProjX(x,y,z),ProjY(x,y,z),ProjX(x,y,z),ProjY(x,y,z),ProjX(x,y,z),ProjY(x,y,z),ProjX(x,y,z),ProjY(x,y,z));
   }
-  if(){
+  if(round(PlayerX)>x){
     Rasterize(ProjX(x,y,z),ProjY(x,y,z),ProjX(x,y,z),ProjY(x,y,z),ProjX(x,y,z),ProjY(x,y,z),ProjX(x,y,z),ProjY(x,y,z));
   }
-  if(){
+  if(round(PlayerY)<y){
     Rasterize(ProjX(x,y,z),ProjY(x,y,z),ProjX(x,y,z),ProjY(x,y,z),ProjX(x,y,z),ProjY(x,y,z),ProjX(x,y,z),ProjY(x,y,z));
   }
-  if(){
+  if(round(PlayerY)>y){
     Rasterize(ProjX(x,y,z),ProjY(x,y,z),ProjX(x,y,z),ProjY(x,y,z),ProjX(x,y,z),ProjY(x,y,z),ProjX(x,y,z),ProjY(x,y,z));
   }
-  if(){
+  if(PlayerZ<z){
     Rasterize(ProjX(x,y,z),ProjY(x,y,z),ProjX(x,y,z),ProjY(x,y,z),ProjX(x,y,z),ProjY(x,y,z),ProjX(x,y,z),ProjY(x,y,z));
   }
-  if(){
+  if(PlayerZ>z){
     Rasterize(ProjX(x,y,z),ProjY(x,y,z),ProjX(x,y,z),ProjY(x,y,z),ProjX(x,y,z),ProjY(x,y,z),ProjX(x,y,z),ProjY(x,y,z));
   }
 }
