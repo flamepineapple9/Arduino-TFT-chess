@@ -15,10 +15,12 @@ void setup() {
 }
 
 int Values[2][12]={
-              {0,0,0,0,0,0,0,0,0,0,0,0},
-              {0,0,0,0,0,0,0,0,0,0,0,0}};
+            {0,0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0,0}};
 
-bool Latch[12]={false,false,false,false,false,false,false,false,false,false,false,false};
+bool Latch[12]=
+            {false,false,false,false,false,false,false,false,false,false,false,false};
+
 
 
 void update(){
