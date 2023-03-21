@@ -36,9 +36,9 @@ void update(){
           Values[1][k] = analogRead(k);
         }
       }
-      Serial.println(i);
-      Serial.println(Values[0][i]);
-      Serial.println(Values[1][i]);
+      Serial.println(k);
+      Serial.println(Values[0][k]);
+      Serial.println(Values[1][k]);
     }
   }
 }
