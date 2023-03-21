@@ -24,22 +24,21 @@ ButtonDebounce button(SW_PIN, MIN_CLICK);// seems to be defining some values for
 void setup() {
   randomSeed(analogRead(A5)); //Seed with bogus read
   Serial.begin(9600);
-  main();
+  m();
 }
 
-unsigned int Values[2][12]={
+int Values[2][12]={
               {0,0,0,0,0,0,0,0,0,0,0,0},
               {0,0,0,0,0,0,0,0,0,0,0,0}};
 
-bool Latch[12]=
-              {false,false,false,false,false,false,false,false,false,false,false,false};
+bool Latch[12]={false,false,false,false,false,false,false,false,false,false,false,false};
               
 
 
-void main() {
+void m(){
   delay(5000);
-  for(var i=0; i<10; i++){
-    for(var k=0; k<12; k++){
+  for(int i=0; i<10; i++){
+    for(int k=0; k<12; k++){
       if(Latch[k]){
         if(analogRead(0)!=0 && (Values[0][k]==0 || Values[0][k]<analogRead(A0))){
           Values[0][k] = analogRead(A0);
@@ -50,15 +49,16 @@ void main() {
       }
     }
   }
-  for(var i=0; i<12; i++){
+  for(int i=0; i<12; i++){
     if(Latch[i]){
       Serial.println(i);
-      Serial.println(Values[i]);
+      Serial.println(Values[0][i]);
+      Serial.println(Values[1][i]);
     }
   }
 }
 
 void loop(){
-  1++;
+  delay(1);
 }
  
