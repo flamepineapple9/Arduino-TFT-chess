@@ -244,13 +244,21 @@ void GenerateSides(int x, int y, int z){
   }
 }
 
+void Yaw(){
+  return;
+}
+
+void Pitch(){
+  return;
+}
+
 //Ryan here, feels a bit silly to have these, might remove later
-void ProjectX(x,z){
+void ProjX(x,z){
   return SCALE*FOCAL*x/(FOCAL+z)+SCREEN_WIDTH/2;
 }
 
 
-void ProjectY(y,z){
+void ProjY(y,z){
   return SCALE*FOCAL*y/(FOCAL+z)+SCREEN_HEIGHT/2;
 }
 
