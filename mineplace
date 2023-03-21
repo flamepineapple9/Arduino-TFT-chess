@@ -225,27 +225,27 @@ void Render(){
 
 void GenerateSides(int x, int y, int z){
   if(){
-    Rasterize(x,y, );
+    Rasterize(ProjX(x,y,z),ProjY(x,y,z),ProjX(x,y,z),ProjY(x,y,z),ProjX(x,y,z),ProjY(x,y,z),ProjX(x,y,z),ProjY(x,y,z));
   }
   if(){
-    Rasterize(x,y, );
+    Rasterize(ProjX(x,y,z),ProjY(x,y,z),ProjX(x,y,z),ProjY(x,y,z),ProjX(x,y,z),ProjY(x,y,z),ProjX(x,y,z),ProjY(x,y,z));
   }
   if(){
-    Rasterize(x,y, );
+    Rasterize(ProjX(x,y,z),ProjY(x,y,z),ProjX(x,y,z),ProjY(x,y,z),ProjX(x,y,z),ProjY(x,y,z),ProjX(x,y,z),ProjY(x,y,z));
   }
   if(){
-    Rasterize(x,y, );
+    Rasterize(ProjX(x,y,z),ProjY(x,y,z),ProjX(x,y,z),ProjY(x,y,z),ProjX(x,y,z),ProjY(x,y,z),ProjX(x,y,z),ProjY(x,y,z));
   }
   if(){
-    Rasterize(x,y, );
+    Rasterize(ProjX(x,y,z),ProjY(x,y,z),ProjX(x,y,z),ProjY(x,y,z),ProjX(x,y,z),ProjY(x,y,z),ProjX(x,y,z),ProjY(x,y,z));
   }
   if(){
-    Rasterize(x,y, );
+    Rasterize(ProjX(x,y,z),ProjY(x,y,z),ProjX(x,y,z),ProjY(x,y,z),ProjX(x,y,z),ProjY(x,y,z),ProjX(x,y,z),ProjY(x,y,z));
   }
 }
 
 
-//Ryan here, feels a bit silly to have these, might remove later
+//Ryan here, these are incomplete
 void ProjX(int x, int y, int z){
   return SCALE*FOCAL*x/(FOCAL+z)+SCREEN_WIDTH/2;
 }
