@@ -248,7 +248,7 @@ void GenerateSides(int x, int y, int z){
 
 //Ryan here, these are incomplete
 void ProjX(int x, int y, int z){
-  return SCALE*FOCAL*x/(FOCAL+z)+SCREEN_WIDTH/2;
+  return SCALE*FOCAL*x/(FOCAL+y)+SCREEN_WIDTH/2;
 }
 
 //Ryan here, ignore these
@@ -258,7 +258,7 @@ tan(arctan(y/z)+PlayerYaw)*((y^2+z^2)^(1/2))
 */
 
 void ProjY(int x, int y, int z){
-  return SCALE*FOCAL*y/(FOCAL+z)+SCREEN_HEIGHT/2;
+  return SCALE*FOCAL*z/(FOCAL+y)+SCREEN_HEIGHT/2;
 }
 
 
