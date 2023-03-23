@@ -172,14 +172,14 @@ const unsigned int COLOR_ARRAY[2][5] =
 //Ryan here, each piece is represented by a number. <6 for black, >6 for white,
 //and %7 for piece number (reference PieceArray). 6 is null. Also yeah, it's weird.
 unsigned int Board[8][8] = {
-  {8, 9, 10, 11, 12, 10, 9, 8},
-  {7, 7, 7, 7, 7, 7, 7, 7},
-  {6, 6, 6, 6, 6, 6, 6, 6},
-  {6, 6, 6, 6, 6, 6, 6, 6},
-  {6, 6, 6, 6, 6, 6, 6, 6},
-  {6, 6, 6, 6, 6, 6, 6, 6},
+  {1, 2, 3, 4, 5, 3, 2, 1},
   {0, 0, 0, 0, 0, 0, 0, 0},
-  {1, 2, 3, 4, 5, 3, 2, 1}};
+  {6, 6, 6, 6, 6, 6, 6, 6},
+  {6, 6, 6, 6, 6, 6, 6, 6},
+  {6, 6, 6, 6, 6, 6, 6, 6},
+  {6, 6, 6, 6, 6, 6, 6, 6},
+  {7, 7, 7, 7, 7, 7, 7, 7},
+  {8, 9, 10, 11, 12, 10, 9, 8}};
 
 
 bool LegalMovesLog[8][8] = {
@@ -278,55 +278,68 @@ void BoardSetup(){
 
 class LegalMoves {
   public:
-    void VertHoriz(int x, int y, bool color){
+    void VertHoriz(int x, int y){
       //VERTICAL
       //down from
-      for(int i = y++; i<=7; i++){
+      Serial.println(Board[y][x]);
+      Serial.println(y);
+      for(int i = ++y; i<=7; i++){
+        Serial.println(i);
+        Serial.println(Board[i][x]);
         if(Board[i][x] == 6){
           LegalMovesLog[i][x] = true;
           Draw.LegalOutline(x,i);
         }else{
-          if(((Board[i][x] < 6)&&color) || ((Board[i][x] > 6)&&!color)){
+          if(((Board[i][x] < 6)&&Turn) || ((Board[i][x] > 6)&&!Turn)){
             LegalMovesLog[i][x] = true;
             Draw.LegalOutline(x,i);
           }
           break;
         }
       }
+      Serial.println();
       //up from
-      for(int i = y--; i>=0; i--){
+      for(int i = --y; i>=0; i--){
+        Serial.println(i);
+        Serial.println(Board[i][x]);
         if(Board[i][x] == 6){
           LegalMovesLog[i][x] = true;
-          Draw.LegalOutline(x,i);
+          Draw.LegalOutline(x,Turn ? i:7-i); //Ryan here, need to update this
         }else{
-          if(((Board[i][x] < 6)&&color) || ((Board[i][x] > 6)&&!color)){
+          if(((Board[i][x] < 6)&&Turn) || ((Board[i][x] > 6)&&!Turn)){
             LegalMovesLog[i][x] = true;
             Draw.LegalOutline(x,i);
           }
           break;
         }
       }
+      Serial.println();
       //HORZONTAL
       //right from
-      for(int k = x++; k<=7; k++){
+      for(int k = ++x; k<=7; k++){
+        Serial.println(k);
+        Serial.println(Board[y][k]);
         if(Board[y][k] == 6){
           LegalMovesLog[y][k] = true;
           Draw.LegalOutline(k,y);
         }else{
-          if(((Board[y][k] < 6)&&color) || ((Board[y][k] > 6)&&!color)){
+          if(((Board[y][k] < 6)&&Turn) || ((Board[y][k] > 6)&&!Turn)){
             LegalMovesLog[y][k] = true;
             Draw.LegalOutline(k,y);
           }
           break;
         }
       }
+      Serial.println();
       //left from
-      for(int k = x--; k>=0; k--){
+      for(int k = --x; k>=0; k--){
+        Serial.println(k);
+        Serial.println(Board[y][k]);
         if(Board[y][k] == 6){
           LegalMovesLog[y][k] = true;
           Draw.LegalOutline(k,y);
         }else{
-          if(((Board[y][k] < 6)&&color) || ((Board[y][k] > 6)&&!color)){
+          if(((Board[y][k] < 6)&&Turn) || ((Board[y][k] > 6)&&!Turn)){
             LegalMovesLog[y][k] = true;
             Draw.LegalOutline(k,y);
           }
@@ -336,17 +349,17 @@ class LegalMoves {
     }
     
     
-    void Diagonal(int x, int y, bool color){
+    void Diagonal(int x, int y){
       //quadrant 1
       for(int i=1; i<=7; i++){
         if(Board[y-i][x+i]==6){
           LegalMovesLog[y-i][x+i] = true;
           Draw.LegalOutline(x+i,y-i);
           continue;
-        }else if(color&&(Board[y-i][x+i]<6)){
+        }else if(Turn&&(Board[y-i][x+i]<6)){
           LegalMovesLog[y-i][x+i] = true;
           Draw.LegalOutline(x+i,y-i);
-        }else if(!color&&(Board[y-i][x+i]>6)){
+        }else if(!Turn&&(Board[y-i][x+i]>6)){
           LegalMovesLog[y-i][x+i] = true;
           Draw.LegalOutline(x+i,y-i);
         }
@@ -358,10 +371,10 @@ class LegalMoves {
           LegalMovesLog[y-i][x-i] = true;
           Draw.LegalOutline(x-i,y-i);
           continue;
-        }else if(color&&(Board[y-i][x-i]<6)){
+        }else if(Turn&&(Board[y-i][x-i]<6)){
           LegalMovesLog[y-i][x-i] = true;
           Draw.LegalOutline(x-i,y-i);
-        }else if(!color&&(Board[y-i][x-i]>6)){
+        }else if(!Turn&&(Board[y-i][x-i]>6)){
           LegalMovesLog[y-i][x-i] = true;
           Draw.LegalOutline(x-i,y-i);
         }
@@ -373,10 +386,10 @@ class LegalMoves {
           LegalMovesLog[y+i][x-i] = true;
           Draw.LegalOutline(x-i,y+i);
           continue;
-        }else if(color&&(Board[y+i][x-i]<6)){
+        }else if(Turn&&(Board[y+i][x-i]<6)){
           LegalMovesLog[y+i][x-i] = true;
           Draw.LegalOutline(x-i,y+i);
-        }else if(!color&&(Board[y+i][x-i]>6)){
+        }else if(!Turn&&(Board[y+i][x-i]>6)){
           LegalMovesLog[y+i][x-i] = true;
           Draw.LegalOutline(x-i,y+i);
         }
@@ -388,10 +401,10 @@ class LegalMoves {
           LegalMovesLog[y+i][x+i] = true;
           Draw.LegalOutline(x+i,y+i);
           continue;
-        }else if(color&&(Board[y+i][x+i]<6)){
+        }else if(Turn&&(Board[y+i][x+i]<6)){
           LegalMovesLog[y+i][x+i] = true;
           Draw.LegalOutline(x+i,y+i);
-        }else if(!color&&(Board[y+i][x+i]>6)){
+        }else if(!Turn&&(Board[y+i][x+i]>6)){
           LegalMovesLog[y+i][x+i] = true;
           Draw.LegalOutline(x+i,y+i);
         }
@@ -400,10 +413,10 @@ class LegalMoves {
     }
     
     
-    void King(int x, int y, bool color){
+    void King(int x, int y){
       for(int i=y-1; i<y+2; i++){
         for(int k=x-1; k<x+2; k++){
-          if(((i>=0)&&(i<=7)&&(k>=0)&&(k<=7)&&!((i==0)&&(k==0))) && ((Board[i][k]==6)||((Board[i][k]<6)&&color)||((Board[i][k]>6)&&!color))){
+          if(((i>=0)&&(i<=7)&&(k>=0)&&(k<=7)&&!((i==0)&&(k==0))) && ((Board[i][k]==6)||((Board[i][k]<6)&&Turn)||((Board[i][k]>6)&&!Turn))){
             LegalMovesLog[i][k] = true;
             Draw.LegalOutline(k,i);
           }
@@ -412,7 +425,7 @@ class LegalMoves {
     }
     
     
-    void Knight(int x, int y, bool color){
+    void Knight(int x, int y){
       for(int i=-2; i<=2; i++){
         for(int k=-2; k<=2; k++){
           if(((x+y+4)%2==1) && (i!=0) && (k!=0)){
@@ -424,14 +437,14 @@ class LegalMoves {
     }
     
     
-    void Pawn(int x, int y, bool color){
+    void Pawn(int x, int y){
       //normal move
-      if((Board[y-1][x]==0) || ((Board[y-1][x]<6)&&color) || ((Board[y-1][x]>6)&&!color)){
+      if((Board[y-1][x]==6) || ((Board[y-1][x]<6)&&Turn) || ((Board[y-1][x]>6)&&!Turn)){
         LegalMovesLog[y-1][x] = true;
         Draw.LegalOutline(x,y-1);
       }
       //pawn jump
-      if(((Board[y-2][x]==0) || ((Board[y-2][x]<6)&&color) || ((Board[y-2][x]>6)&&!color)) && (y==6)){
+      if(((Board[y-2][x]==6) || ((Board[y-2][x]<6)&&Turn) || ((Board[y-2][x]>6)&&!Turn)) && (y==6)){
         LegalMovesLog[y-2][x] = true;
         Draw.LegalOutline(x,y-2);
       }
@@ -448,7 +461,7 @@ class LegalMoves {
     }
     
     
-    void Castle(int x, int y, int piece, bool color){
+    void Castle(int x, int y, int piece){
       //Ryan here, this needs work
       if(piece%7==1){
         if(RightCastle||LeftCastle){
@@ -480,34 +493,34 @@ class LegalMoves {
 }LegalMoves;
 
 
-void GenerateLegalMoves(int x, int y, int piece, bool color){
+void GenerateLegalMoves(int x, int y, int piece){
   switch(piece%7){
     //Pawn
     case 0:
-      LegalMoves.Pawn(x, y, color);
+      LegalMoves.Pawn(x, y);
       break;
     //Rook
     case 1:
-      LegalMoves.VertHoriz(x, y, color);
-      LegalMoves.Castle(x, y, piece, color);
+      LegalMoves.VertHoriz(x, y);
+      LegalMoves.Castle(x, y, piece);
       break;
     //Knight
     case 2:
-      LegalMoves.Knight(x, y, color);
+      LegalMoves.Knight(x, y);
       break;
     //Bishop
     case 3:
-      LegalMoves.Diagonal(x, y, color);
+      LegalMoves.Diagonal(x, y);
       break;
     //Queen
     case 4:
-      LegalMoves.VertHoriz(x, y, color);
-      LegalMoves.Diagonal(x, y, color);
+      LegalMoves.VertHoriz(x, y);
+      LegalMoves.Diagonal(x, y);
       break;
     //King
     default:
-      LegalMoves.King(x, y, color);
-      LegalMoves.Castle(x, y, piece, color);
+      LegalMoves.King(x, y);
+      LegalMoves.Castle(x, y, piece);
   }
 }
 
@@ -521,6 +534,8 @@ void UpdateCursor(int XJoy, int YJoy) { // moves the cursor
     if(XCursor < 7){
       if((XLog == XCursor) && (YLog == YCursor)){
         Draw.SelectOutline(XCursor, YCursor);
+      }else if(LegalMovesLog[YCursor][XCursor]){
+        Draw.LegalOutline(XCursor, YCursor);
       }else{
         Draw.BlankOutline(XCursor, YCursor);
       }
@@ -532,9 +547,11 @@ void UpdateCursor(int XJoy, int YJoy) { // moves the cursor
     if(XCursor > 0){
       if((XLog == XCursor) && (YLog == YCursor)){
         Draw.SelectOutline(XCursor, YCursor);
+      }else if(LegalMovesLog[YCursor][XCursor]){
+        Draw.LegalOutline(XCursor, YCursor);
       }else{
         Draw.BlankOutline(XCursor, YCursor);
-      } 
+      }
       XCursor -= 1;
       Draw.CursorOutline(XCursor, YCursor);
       delay(250);
@@ -545,6 +562,8 @@ void UpdateCursor(int XJoy, int YJoy) { // moves the cursor
     if(YCursor < 7){
       if((XLog == XCursor) && (YLog == YCursor)){
         Draw.SelectOutline(XCursor, YCursor);
+      }else if(LegalMovesLog[YCursor][XCursor]){
+        Draw.LegalOutline(XCursor, YCursor);
       }else{
         Draw.BlankOutline(XCursor, YCursor);
       }
@@ -556,6 +575,8 @@ void UpdateCursor(int XJoy, int YJoy) { // moves the cursor
     if(YCursor > 0){
       if((XLog == XCursor) && (YLog == YCursor)){
         Draw.SelectOutline(XCursor, YCursor);
+      }else if(LegalMovesLog[YCursor][XCursor]){
+        Draw.LegalOutline(XCursor, YCursor);
       }else{
         Draw.BlankOutline(XCursor, YCursor);
       }
@@ -570,33 +591,32 @@ void UpdateCursor(int XJoy, int YJoy) { // moves the cursor
 void UpdateButton(){
   //checks button
   if((button.state() == LOW) && (ButtonState)){
-    if((XLog == 8) && (Board[YCursor][XCursor] != 0)){
+    if(XLog == 8 && Board[YCursor][XCursor] != 6 && (Board[YCursor][XCursor]<6&&!Turn || Board[YCursor][XCursor]>6&&Turn)){
       XLog = XCursor;
       YLog = YCursor;
-      GenerateLegalMoves(XCursor, YCursor, Board[YCursor][XCursor], Turn);
+      GenerateLegalMoves(XCursor, YCursor, Board[YCursor][XCursor]);
     }else{
       if((XLog != XCursor || YLog != YCursor) && XLog != 8 && LegalMovesLog[YCursor][XCursor]){
         //saves undo
         UndoLog = XCursor+YCursor*8+XLog*64+YLog*512+Board[YCursor][XCursor]*4096+EnPassant*20480;
 
-        if(Board[YCursor][XCursor]%7==0 && YCursor==0){  //handels promotion
+        if(Board[YLog][XLog]%7==0 && YCursor==0){  //handels promotion
           Board[YLog][XLog] += 4;
-          MovePiece(XLog, YLog, XCursor, YCursor);
+          Board[YCursor][XCursor] = Board[YLog][XLog];
+          Board[YLog][XLog] = 6;
         }else if(Board[YLog][XLog]%7==0 && YLog==3 && XCursor==EnPassant){  //handels enpassant
           Board[YCursor++][XCursor] = 6;
-          MovePiece(XLog, YLog, XCursor, YCursor);
+          Board[YCursor][XCursor] = Board[YLog][XLog];
+          Board[YLog][XLog] = 6;
         }else if(YCursor==7 && ((XCursor==4&&XLog==0)||(XCursor==0&&XLog==4)) && LeftCastle){  //handels left castle
-          Board[7][4] = 1;
-          Board[7][0] = 5;
-          Draw.Piece(4, 7, 1);
-          Draw.Piece(0, 7, 5);
+          Board[7][4] -= 4;
+          Board[7][0] += 4;
         }else if(YCursor==7 && ((XCursor==4&&XLog==0)||(XCursor==0&&XLog==4)) && RightCastle){  //handels right castle
-          Board[7][4] = 1;
-          Board[7][7] = 5;
-          Draw.Piece(4, 7, 1);
-          Draw.Piece(7, 7, 5);
+          Board[7][4] -= 4;
+          Board[7][7] += 4;
         }else{  //normal move
-          MovePiece(XLog, YLog, XCursor, YCursor);
+          Board[YCursor][XCursor] = Board[YLog][XLog];
+          Board[YLog][XLog] = 6;
         }
         
         //update/reset variables
@@ -606,6 +626,7 @@ void UpdateButton(){
         
         //update board
         InvertBoard();
+        LegalMoves.Reset();
         BoardSetup();
       }
     }
@@ -613,17 +634,6 @@ void UpdateButton(){
   }else if((button.state() == HIGH) && !(ButtonState)){
     ButtonState = true;
   }
-}
-
-
-void MovePiece(int x1, int y1, int x2, int y2){
-  //moves piece
-  Board[y2][x2] = Board[y1][x1];
-  Board[y1][x1] = 6;
-  Draw.BlankSquare(x1, y1);
-  Draw.BlankOutline(x1, y1);
-  Draw.BlankSquare(x2, y2);
-  Draw.Piece(x2, y2, Board[y2][x2]);
 }
 
 
