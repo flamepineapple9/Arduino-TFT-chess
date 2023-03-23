@@ -299,7 +299,7 @@ class LegalMoves {
       }
       Serial.println();
       //up from
-      for(int i = --y; i>=0; i--){
+      for(int i = y-2; i>=0; i--){
         Serial.println(i);
         Serial.println(Board[i][x]);
         if(Board[i][x] == 6){
@@ -332,7 +332,7 @@ class LegalMoves {
       }
       Serial.println();
       //left from
-      for(int k = --x; k>=0; k--){
+      for(int k = x-2; k>=0; k--){
         Serial.println(k);
         Serial.println(Board[y][k]);
         if(Board[y][k] == 6){
