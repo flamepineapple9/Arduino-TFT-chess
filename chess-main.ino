@@ -405,9 +405,9 @@ class LegalMoves {
     }
     
     
-    void King(int x, int y){
-      for(int i=y-1; i<y+2; i++){
-        for(int k=x-1; k<x+2; k++){
+    void King(){
+      for(int i=YLog-1; i<YLog+2; i++){
+        for(int k=XLog-1; k<XLog+2; k++){
           if(((i>=0)&&(i<=7)&&(k>=0)&&(k<=7)&&!((i==0)&&(k==0))) && ((Board[i][k]==6)||((Board[i][k]<6)&&Turn)||((Board[i][k]>6)&&!Turn))){
             LegalMovesLog[i][k] = true;
             Draw.LegalOutline(k,i);
@@ -417,10 +417,10 @@ class LegalMoves {
     }
     
     
-    void Knight(int x, int y){
+    void Knight(){
       for(int i=-2; i<=2; i++){
         for(int k=-2; k<=2; k++){
-          if(((x+y+4)%2==1) && (i!=0) && (k!=0)){
+          if(((XLog+YLog+4)%2==1) && (i!=0) && (k!=0)){
             LegalMovesLog[i][k] = true;
             Draw.LegalOutline(k,i);
           }
@@ -429,25 +429,25 @@ class LegalMoves {
     }
     
     
-    void Pawn(int x, int y){
+    void Pawn(){
       //normal move
-      if((Board[y-1][x]==6) || ((Board[y-1][x]<6)&&Turn) || ((Board[y-1][x]>6)&&!Turn)){
-        LegalMovesLog[y-1][x] = true;
-        Draw.LegalOutline(x,y-1);
+      if((Board[YLog-1][XLog]==6) || ((Board[YLog-1][XLog]<6)&&Turn) || ((Board[YLog-1][XLog]>6)&&!Turn)){
+        LegalMovesLog[YLog-1][XLog] = true;
+        Draw.LegalOutline(XLog,YLog-1);
       }
       //pawn jump
-      if(((Board[y-2][x]==6) || ((Board[y-2][x]<6)&&Turn) || ((Board[y-2][x]>6)&&!Turn)) && (y==6)){
-        LegalMovesLog[y-2][x] = true;
-        Draw.LegalOutline(x,y-2);
+      if(((Board[YLog-2][XLog]==6) || ((Board[YLog-2][XLog]<6)&&Turn) || ((Board[YLog-2][XLog]>6)&&!Turn)) && (YLog==6)){
+        LegalMovesLog[YLog-2][XLog] = true;
+        Draw.LegalOutline(XLog,YLog-2);
       }
       //en passant
-      if(EnPassant && y==3){
-        if(EnPassant==x--){
-          LegalMovesLog[y-1][x-1] = true;
-          Draw.LegalOutline(x-1,y-1);
-        }else if(EnPassant==x+1){
-          LegalMovesLog[y-1][x+1] = true;
-          Draw.LegalOutline(x+1,y-1);
+      if(EnPassant && YLog==3){
+        if(EnPassant==XLog-1){
+          LegalMovesLog[YLog-1][XLog-1] = true;
+          Draw.LegalOutline(XLog-1,YLog-1);
+        }else if(EnPassant==XLog+1){
+          LegalMovesLog[YLog-1][XLog+1] = true;
+          Draw.LegalOutline(XLog+1,YLog-1);
         }
       }
     }
@@ -493,7 +493,7 @@ void GenerateLegalMoves(){
       break;
     //Rook
     case 1:
-      LegalMoves.VertHoriz());
+      LegalMoves.VertHoriz();
       LegalMoves.Castle();
       break;
     //Knight
@@ -511,8 +511,8 @@ void GenerateLegalMoves(){
       break;
     //King
     default:
-      LegalMoves.King(x, y);
-      LegalMoves.Castle(x, y, piece);
+      LegalMoves.King();
+      LegalMoves.Castle();
   }
 }
 
