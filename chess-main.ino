@@ -173,9 +173,9 @@ const unsigned int COLOR_ARRAY[2][5] =
 //and %7 for piece number (reference PieceArray). 6 is null. Also yeah, it's weird.
 unsigned int Board[8][8] = {
   {1, 2, 3, 4, 5, 3, 2, 1},
-  {0, 0, 0, 0, 6, 0, 0, 0},
+  {0, 0, 0, 0, 0, 0, 0, 0},
   {6, 6, 6, 6, 6, 6, 6, 6},
-  {6, 6, 6, 6, 8, 6, 6, 6},
+  {6, 6, 6, 6, 6, 6, 6, 6},
   {6, 6, 6, 6, 6, 6, 6, 6},
   {6, 6, 6, 6, 6, 6, 6, 6},
   {7, 7, 7, 7, 7, 7, 7, 7},
@@ -282,8 +282,6 @@ class LegalMoves {
       //VERTICAL
       //down from
       for(int i = YLog+1; i<=7; i++){
-        Serial.println(i);
-        Serial.println(Board[i][XLog]);
         if(Board[i][XLog] == 6){
           LegalMovesLog[i][XLog] = true;
           Draw.LegalOutline(XLog,i);
@@ -408,7 +406,7 @@ class LegalMoves {
     void King(){
       for(int i=YLog-1; i<YLog+2; i++){
         for(int k=XLog-1; k<XLog+2; k++){
-          if(((i>=0)&&(i<=7)&&(k>=0)&&(k<=7)&&!((i==0)&&(k==0))) && ((Board[i][k]==6)||((Board[i][k]<6)&&Turn)||((Board[i][k]>6)&&!Turn))){
+          if(((i>=0)&&(i<=7)&&(k>=0)&&(k<=7)&&!((i==0)&&(k==0))) && !(((Board[i][k]<6)&&!Turn)||((Board[i][k]>6)&&Turn))){
             LegalMovesLog[i][k] = true;
             Draw.LegalOutline(k,i);
           }
@@ -420,9 +418,9 @@ class LegalMoves {
     void Knight(){
       for(int i=-2; i<=2; i++){
         for(int k=-2; k<=2; k++){
-          if(((XLog+YLog+4)%2==1) && (i!=0) && (k!=0)){
-            LegalMovesLog[i][k] = true;
-            Draw.LegalOutline(k,i);
+          if((i+k+4)%2==1 && i!=0 && k!=0 && (i+YLog>=0&&i+YLog<=7) && (k+XLog>=0&&k+XLog<=7) && !((Board[YLog+i][XLog+k]<6&&!Turn)||(Board[YLog+i][XLog+k]>6&&Turn))){
+            LegalMovesLog[i+YLog][k+XLog] = true;
+            Draw.LegalOutline(k+XLog,i+YLog);
           }
         }
       }
@@ -431,12 +429,12 @@ class LegalMoves {
     
     void Pawn(){
       //normal move
-      if((Board[YLog-1][XLog]==6) || ((Board[YLog-1][XLog]<6)&&Turn) || ((Board[YLog-1][XLog]>6)&&!Turn)){
+      if(!(((Board[YLog-1][XLog]<6)&&!Turn)||((Board[YLog-1][XLog]>6)&&Turn))){
         LegalMovesLog[YLog-1][XLog] = true;
         Draw.LegalOutline(XLog,YLog-1);
       }
       //pawn jump
-      if(((Board[YLog-2][XLog]==6) || ((Board[YLog-2][XLog]<6)&&Turn) || ((Board[YLog-2][XLog]>6)&&!Turn)) && (YLog==6)){
+      if(!(((Board[YLog-2][XLog]<6)&&!Turn)||((Board[YLog-2][XLog]>6)&&Turn)) && (YLog==6)){
         LegalMovesLog[YLog-2][XLog] = true;
         Draw.LegalOutline(XLog,YLog-2);
       }
@@ -533,7 +531,7 @@ void UpdateCursor(int XJoy, int YJoy) { // moves the cursor
       }
       XCursor += 1;
       Draw.CursorOutline(XCursor, YCursor);
-      delay(250);
+      delay(175);
     }
   }else if(XJoy < 411){
     if(XCursor > 0){
@@ -546,7 +544,7 @@ void UpdateCursor(int XJoy, int YJoy) { // moves the cursor
       }
       XCursor -= 1;
       Draw.CursorOutline(XCursor, YCursor);
-      delay(250);
+      delay(175);
     }
   }
   //moves cursor outline on y
@@ -561,7 +559,7 @@ void UpdateCursor(int XJoy, int YJoy) { // moves the cursor
       }
       YCursor += 1;
       Draw.CursorOutline(XCursor, YCursor);
-      delay(250);
+      delay(175);
     }
   }else if(YJoy < 411){
     if(YCursor > 0){
@@ -574,7 +572,7 @@ void UpdateCursor(int XJoy, int YJoy) { // moves the cursor
       }
       YCursor -= 1;
       Draw.CursorOutline(XCursor, YCursor);
-      delay(250);
+      delay(175);
     }
   } 
 }
@@ -591,38 +589,46 @@ void UpdateButton(){
       if((XLog != XCursor || YLog != YCursor) && XLog != 8 && LegalMovesLog[YCursor][XCursor]){
         //saves undo
         UndoLog = XCursor+YCursor*8+XLog*64+YLog*512+Board[YCursor][XCursor]*4096+EnPassant*20480;
+        //handels castle booleans
+        if(Board[YLog][XLog]%7==1 && XLog==0 && LeftCastle){
+          LeftCastle = false;
+        }else if(Board[YLog][XLog]%7==1 && XLog==7 && RightCastle){
+          RightCastle = false;
+        }else if(Board[YLog][XLog]%7==5 && XLog==4 && (LeftCastle||RightCastle)){
+          LeftCastle = false;
+          RightCastle = false;
+        }
 
+        //main move logic
         if(Board[YLog][XLog]%7==0 && YCursor==0){  //handels promotion
           Board[YCursor][XCursor] = Board[YLog][XLog]+4;
           Board[YLog][XLog] = 6;
-          EnPassant = 9;
-        }else if(Board[YLog][XLog]%7==0 && YLog==YCursor+2){  //handels pawn jump
-          Board[YCursor][XCursor] = Board[YLog][XLog];
-          Board[YLog][XLog] = 6;
-          EnPassant = XCursor;
         }else if(Board[YLog][XLog]%7==0 && YLog==3 && XCursor==EnPassant){  //handels enpassant
           Board[YCursor+1][XCursor] = 6;
           Board[YCursor][XCursor] = Board[YLog][XLog];
           Board[YLog][XLog] = 6;
-          EnPassant = 9;
         }else if(YCursor==7 && ((XCursor==4&&XLog==0)||(XCursor==0&&XLog==4)) && LeftCastle){  //handels left castle
           Board[7][4] -= 4;
           Board[7][0] += 4;
-          LeftCastle = false;
-          RightCastle = false;
-          EnPassant = 9;
         }else if(YCursor==7 && ((XCursor==4&&XLog==0)||(XCursor==0&&XLog==4)) && RightCastle){  //handels right castle
           Board[7][4] -= 4;
           Board[7][7] += 4;
-          LeftCastle = false;
-          RightCastle = false;
-          EnPassant = 9;
+        }else if(Board[YCursor][XCursor]%7==5){  //handels win loss
+          while(true){
+            Serial.println(Turn);
+          }
         }else{  //normal move
           Board[YCursor][XCursor] = Board[YLog][XLog];
           Board[YLog][XLog] = 6;
-          EnPassant = 9;
         }
         
+        //EnPassant set Logic
+        if(Board[YCursor][XCursor]%7==0 && YLog==YCursor+2){
+          EnPassant = XCursor;
+        }else{
+          EnPassant = 9;
+        }
+
         //update/reset variables
         XLog = 8;
         YLog = 8;
@@ -678,5 +684,4 @@ void loop(){
   UpdateCursor(analogRead(X_PIN), analogRead(Y_PIN));
   button.update();
   UpdateButton();
-  delay(100);
 }
