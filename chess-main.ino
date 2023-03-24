@@ -173,9 +173,9 @@ const unsigned int COLOR_ARRAY[2][5] =
 //and %7 for piece number (reference PieceArray). 6 is null. Also yeah, it's weird.
 unsigned int Board[8][8] = {
   {1, 2, 3, 4, 5, 3, 2, 1},
-  {0, 0, 0, 0, 0, 0, 0, 0},
+  {0, 0, 0, 0, 6, 0, 0, 0},
   {6, 6, 6, 6, 6, 6, 6, 6},
-  {6, 6, 6, 6, 6, 6, 6, 6},
+  {6, 6, 6, 6, 8, 6, 6, 6},
   {6, 6, 6, 6, 6, 6, 6, 6},
   {6, 6, 6, 6, 6, 6, 6, 6},
   {7, 7, 7, 7, 7, 7, 7, 7},
@@ -266,7 +266,7 @@ void BoardSetup(){
     for(int k = 0; k < 8; k++){
       Draw.BlankSquare(k, i);
       Draw.BlankOutline(k, i);
-      Draw.Piece(k, i, Board[i][k]);
+      Draw.Piece(k, i);
     }
   }
   Draw.CursorOutline(XCursor, YCursor);
@@ -586,29 +586,41 @@ void UpdateButton(){
     if(XLog == 8 && Board[YCursor][XCursor] != 6 && (Board[YCursor][XCursor]<6&&!Turn || Board[YCursor][XCursor]>6&&Turn)){
       XLog = XCursor;
       YLog = YCursor;
-      GenerateLegalMoves(XCursor, YCursor, Board[YCursor][XCursor]);
+      GenerateLegalMoves();
     }else{
       if((XLog != XCursor || YLog != YCursor) && XLog != 8 && LegalMovesLog[YCursor][XCursor]){
         //saves undo
         UndoLog = XCursor+YCursor*8+XLog*64+YLog*512+Board[YCursor][XCursor]*4096+EnPassant*20480;
 
         if(Board[YLog][XLog]%7==0 && YCursor==0){  //handels promotion
-          Board[YLog][XLog] += 4;
+          Board[YCursor][XCursor] = Board[YLog][XLog]+4;
+          Board[YLog][XLog] = 6;
+          EnPassant = 9;
+        }else if(Board[YLog][XLog]%7==0 && YLog==YCursor+2){  //handels pawn jump
           Board[YCursor][XCursor] = Board[YLog][XLog];
           Board[YLog][XLog] = 6;
+          EnPassant = XCursor;
         }else if(Board[YLog][XLog]%7==0 && YLog==3 && XCursor==EnPassant){  //handels enpassant
-          Board[YCursor++][XCursor] = 6;
+          Board[YCursor+1][XCursor] = 6;
           Board[YCursor][XCursor] = Board[YLog][XLog];
           Board[YLog][XLog] = 6;
+          EnPassant = 9;
         }else if(YCursor==7 && ((XCursor==4&&XLog==0)||(XCursor==0&&XLog==4)) && LeftCastle){  //handels left castle
           Board[7][4] -= 4;
           Board[7][0] += 4;
+          LeftCastle = false;
+          RightCastle = false;
+          EnPassant = 9;
         }else if(YCursor==7 && ((XCursor==4&&XLog==0)||(XCursor==0&&XLog==4)) && RightCastle){  //handels right castle
           Board[7][4] -= 4;
           Board[7][7] += 4;
+          LeftCastle = false;
+          RightCastle = false;
+          EnPassant = 9;
         }else{  //normal move
           Board[YCursor][XCursor] = Board[YLog][XLog];
           Board[YLog][XLog] = 6;
+          EnPassant = 9;
         }
         
         //update/reset variables
