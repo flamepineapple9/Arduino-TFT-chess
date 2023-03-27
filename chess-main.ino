@@ -450,7 +450,7 @@ class LegalMoves {
       if((EnPassant==XLog-1&&YLog==3) || (Board[YLog-1][XLog-1]<6&&Turn) ||(Board[YLog-1][XLog-1]>6&&!Turn)){
         LegalMovesLog[YLog-1][XLog-1] = true;
         Draw.LegalOutline(XLog-1,YLog-1);
-      }else if((EnPassant==XLog+1 && YLog==3) || (Board[YLog-1][XLog-1]<6&&Turn) ||(Board[YLog-1][XLog-1]>6&&!Turn)){
+      }else if((EnPassant==XLog+1 && YLog==3) || (Board[YLog-1][XLog+1]<6&&Turn) ||(Board[YLog-1][XLog+1]>6&&!Turn)){
         LegalMovesLog[YLog-1][XLog+1] = true;
         Draw.LegalOutline(XLog+1,YLog-1);
       }
