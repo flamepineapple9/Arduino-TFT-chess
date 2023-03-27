@@ -1,6 +1,6 @@
 /*
 PROJECT NAME: Arduino Chess
-PROJECT VERSION: Sub 2.0
+PROJECT VERSION: 2.0
 PROJECT DESCRIPTION: Chess made for an Arduino Uno/Pro Mini with a 1.8" tft
                      display and a joystick (will be d-pad) control scheme.
 CONTRIBUTERS: RyanYasuda, flamepineapple9, and grace0lkjhb.
@@ -342,61 +342,69 @@ class LegalMoves {
     void Diagonal(){
       //quadrant 1
       for(int i=1; i<=7; i++){
-        if(Board[YLog-i][XLog+i]==6){
-          LegalMovesLog[YLog-i][XLog+i] = true;
-          Draw.LegalOutline(XLog+i,YLog-i);
-          continue;
-        }else if(Turn&&(Board[YLog-i][XLog+i]<6)){
-          LegalMovesLog[YLog-i][XLog+i] = true;
-          Draw.LegalOutline(XLog+i,YLog-i);
-        }else if(!Turn&&(Board[YLog-i][XLog+i]>6)){
-          LegalMovesLog[YLog-i][XLog+i] = true;
-          Draw.LegalOutline(XLog+i,YLog-i);
+        if(YLog-i>=0 && XLog+i<=7){
+          if(Board[YLog-i][XLog+i]==6){
+            LegalMovesLog[YLog-i][XLog+i] = true;
+            Draw.LegalOutline(XLog+i,YLog-i);
+            continue;
+          }else if(Turn&&(Board[YLog-i][XLog+i]<6)){
+            LegalMovesLog[YLog-i][XLog+i] = true;
+            Draw.LegalOutline(XLog+i,YLog-i);
+          }else if(!Turn&&(Board[YLog-i][XLog+i]>6)){
+            LegalMovesLog[YLog-i][XLog+i] = true;
+            Draw.LegalOutline(XLog+i,YLog-i);
+          }
         }
         break;
       }
       //quadrant 2
       for(int i=1; i<=7; i++){
-        if(Board[YLog-i][XLog-i]==6){
-          LegalMovesLog[YLog-i][XLog-i] = true;
-          Draw.LegalOutline(XLog-i,YLog-i);
-          continue;
-        }else if(Turn&&(Board[YLog-i][XLog-i]<6)){
-          LegalMovesLog[YLog-i][XLog-i] = true;
-          Draw.LegalOutline(XLog-i,YLog-i);
-        }else if(!Turn&&(Board[YLog-i][XLog-i]>6)){
-          LegalMovesLog[YLog-i][XLog-i] = true;
-          Draw.LegalOutline(XLog-i,YLog-i);
+        if(YLog-i>=0 && XLog-i>=0){
+          if(Board[YLog-i][XLog-i]==6){
+            LegalMovesLog[YLog-i][XLog-i] = true;
+            Draw.LegalOutline(XLog-i,YLog-i);
+            continue;
+          }else if(Turn&&(Board[YLog-i][XLog-i]<6)){
+            LegalMovesLog[YLog-i][XLog-i] = true;
+            Draw.LegalOutline(XLog-i,YLog-i);
+          }else if(!Turn&&(Board[YLog-i][XLog-i]>6)){
+            LegalMovesLog[YLog-i][XLog-i] = true;
+            Draw.LegalOutline(XLog-i,YLog-i);
+          }
         }
         break;
       }
       //quadrant 3
       for(int i=1; i<=7; i++){
-        if(Board[YLog+i][XLog-i]==6){
-          LegalMovesLog[YLog+i][XLog-i] = true;
-          Draw.LegalOutline(XLog-i,YLog+i);
-          continue;
-        }else if(Turn&&(Board[YLog+i][XLog-i]<6)){
-          LegalMovesLog[YLog+i][XLog-i] = true;
-          Draw.LegalOutline(XLog-i,YLog+i);
-        }else if(!Turn&&(Board[YLog+i][XLog-i]>6)){
-          LegalMovesLog[YLog+i][XLog-i] = true;
-          Draw.LegalOutline(XLog-i,YLog+i);
+        if(YLog+i<=7 && XLog-i>=0){
+          if(Board[YLog+i][XLog-i]==6){
+            LegalMovesLog[YLog+i][XLog-i] = true;
+            Draw.LegalOutline(XLog-i,YLog+i);
+            continue;
+          }else if(Turn&&(Board[YLog+i][XLog-i]<6)){
+            LegalMovesLog[YLog+i][XLog-i] = true;
+            Draw.LegalOutline(XLog-i,YLog+i);
+          }else if(!Turn&&(Board[YLog+i][XLog-i]>6)){
+            LegalMovesLog[YLog+i][XLog-i] = true;
+            Draw.LegalOutline(XLog-i,YLog+i);
+          }
         }
         break;
       }
       //quadrant 4
       for(int i=1; i<=7; i++){
-        if(Board[YLog+i][XLog+i]==6){
-          LegalMovesLog[YLog+i][XLog+i] = true;
-          Draw.LegalOutline(XLog+i,YLog+i);
-          continue;
-        }else if(Turn&&(Board[YLog+i][XLog+i]<6)){
-          LegalMovesLog[YLog+i][XLog+i] = true;
-          Draw.LegalOutline(XLog+i,YLog+i);
-        }else if(!Turn&&(Board[YLog+i][XLog+i]>6)){
-          LegalMovesLog[YLog+i][XLog+i] = true;
-          Draw.LegalOutline(XLog+i,YLog+i);
+        if(YLog+i<=7 && XLog+i<=7){
+          if(Board[YLog+i][XLog+i]==6){
+            LegalMovesLog[YLog+i][XLog+i] = true;
+            Draw.LegalOutline(XLog+i,YLog+i);
+            continue;
+          }else if(Turn&&(Board[YLog+i][XLog+i]<6)){
+            LegalMovesLog[YLog+i][XLog+i] = true;
+            Draw.LegalOutline(XLog+i,YLog+i);
+          }else if(!Turn&&(Board[YLog+i][XLog+i]>6)){
+            LegalMovesLog[YLog+i][XLog+i] = true;
+            Draw.LegalOutline(XLog+i,YLog+i);
+          }
         }
         break;
       }
@@ -429,24 +437,22 @@ class LegalMoves {
     
     void Pawn(){
       //normal move
-      if(!(((Board[YLog-1][XLog]<6)&&!Turn)||((Board[YLog-1][XLog]>6)&&Turn))){
+      if(Board[YLog-1][XLog]==6){
         LegalMovesLog[YLog-1][XLog] = true;
         Draw.LegalOutline(XLog,YLog-1);
       }
       //pawn jump
-      if(!(((Board[YLog-2][XLog]<6)&&!Turn)||((Board[YLog-2][XLog]>6)&&Turn)) && (YLog==6)){
+      if(Board[YLog-2][XLog]==6 && YLog==6){
         LegalMovesLog[YLog-2][XLog] = true;
         Draw.LegalOutline(XLog,YLog-2);
       }
-      //en passant
-      if(EnPassant && YLog==3){
-        if(EnPassant==XLog-1){
-          LegalMovesLog[YLog-1][XLog-1] = true;
-          Draw.LegalOutline(XLog-1,YLog-1);
-        }else if(EnPassant==XLog+1){
-          LegalMovesLog[YLog-1][XLog+1] = true;
-          Draw.LegalOutline(XLog+1,YLog-1);
-        }
+      //capture
+      if((EnPassant==XLog-1&&YLog==3) || (Board[YLog-1][XLog-1]<6&&Turn) ||(Board[YLog-1][XLog-1]>6&&!Turn)){
+        LegalMovesLog[YLog-1][XLog-1] = true;
+        Draw.LegalOutline(XLog-1,YLog-1);
+      }else if((EnPassant==XLog+1 && YLog==3) || (Board[YLog-1][XLog-1]<6&&Turn) ||(Board[YLog-1][XLog-1]>6&&!Turn)){
+        LegalMovesLog[YLog-1][XLog+1] = true;
+        Draw.LegalOutline(XLog+1,YLog-1);
       }
     }
     
@@ -531,7 +537,6 @@ void UpdateCursor(int XJoy, int YJoy) { // moves the cursor
       }
       XCursor += 1;
       Draw.CursorOutline(XCursor, YCursor);
-      delay(175);
     }
   }else if(XJoy < 411){
     if(XCursor > 0){
@@ -544,7 +549,6 @@ void UpdateCursor(int XJoy, int YJoy) { // moves the cursor
       }
       XCursor -= 1;
       Draw.CursorOutline(XCursor, YCursor);
-      delay(175);
     }
   }
   //moves cursor outline on y
@@ -559,7 +563,6 @@ void UpdateCursor(int XJoy, int YJoy) { // moves the cursor
       }
       YCursor += 1;
       Draw.CursorOutline(XCursor, YCursor);
-      delay(175);
     }
   }else if(YJoy < 411){
     if(YCursor > 0){
@@ -572,9 +575,13 @@ void UpdateCursor(int XJoy, int YJoy) { // moves the cursor
       }
       YCursor -= 1;
       Draw.CursorOutline(XCursor, YCursor);
-      delay(175);
     }
-  } 
+  }
+
+  //creates uniform movement delay
+  if(XJoy<411||XJoy>611||YJoy<411||YJoy>411){
+    delay(175);
+  }
 }
 
 
@@ -660,6 +667,7 @@ void InvertBoard(){
 
 
 //Ryan here, this won't be implimented until another button is declared
+/*
 void UndoMove(){
   if((button.state() == LOW)&&(UndoLog != 184320)){
     //restore pieces
@@ -675,6 +683,7 @@ void UndoMove(){
     UndoLog = 184320;
   }
 }
+*/
 
 
 
