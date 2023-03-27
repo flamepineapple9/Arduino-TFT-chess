@@ -16,9 +16,13 @@ Hardware Designer: grace0lkjhb
 -Bootleg NES 004 Controller
 
 # Chess Software Specs
--668 Lines (581 sloc)
+-20.3 KB
 
--89% Dynamic Memory Useage
+-696 lines (606 sloc)
+
+-89% Dynamic Memory Useage (19360/32256 Bytes)
+
+-60% Program Memory Useage (1841/2048 Bytes)
 
 # Mineplace Software Specs
 -283 Lines (217 sloc)
