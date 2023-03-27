@@ -20,9 +20,9 @@ Hardware Designer: grace0lkjhb
 
 -696 lines (606 sloc)
 
--89% Dynamic Memory Useage (19360/32256 Bytes)
+-89% Program Memory Useage (19360/32256 Bytes)
 
--60% Program Memory Useage (1841/2048 Bytes)
+-60% Dynamic Memory Useage (1841/2048 Bytes)
 
 # Mineplace Software Specs
 -283 Lines (217 sloc)
