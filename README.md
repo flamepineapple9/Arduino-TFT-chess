@@ -18,7 +18,7 @@ Hardware Designer: grace0lkjhb
 # Chess Software Specs
 -20.3 KB
 
--696 lines (606 sloc)
+-697 Lines (607 sloc)
 
 -89% Program Memory Useage (19360/32256 Bytes)
 
