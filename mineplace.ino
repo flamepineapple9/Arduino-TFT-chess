@@ -246,19 +246,70 @@ void GenerateSides(int x, int y, int z){
 }
 
 
-//Ryan here, these are incomplete
+//Ryan here, these are very inefficient
 void ProjX(int x, int y, int z){
-  return SCALE*FOCAL*x/(FOCAL+y)+SCREEN_WIDTH/2;
+  //roll
+  if(x>=0 && y>0){ //quadrant 1
+    x = cos(acos(x/sqrt(x**2+y**2))+a)*sqrt(x**2+y**2);
+    y = sin(asin(y/sqrt(x**2+y**2))+a)*sqrt(x**2+y**2);
+  }else if(x>=0 && y<=0){ //quadrant 2
+    x = sin(asin(x/sqrt(x**2+y**2))+a)*sqrt(x**2+y**2);
+    y = sin(asin(y/sqrt(x**2+y**2))+a)*sqrt(x**2+y**2);
+  }else if(x<0 && y<=0){ //quadrant 3
+    x = sin(asin(x/sqrt(x**2+y**2))+a)*sqrt(x**2+y**2);
+    y = cos(acos(y/sqrt(x**2+y**2))+a)*sqrt(x**2+y**2);
+  }else{ //quadrant 4
+    x = cos(acos(x/sqrt(x**2+y**2))+a)*sqrt(x**2+y**2);
+    y = cos(acos(y/sqrt(x**2+y**2))+a)*sqrt(x**2+y**2);
+  }
+  //pitch
+  if(y>=0 && z>0){ //quadrant 1
+    y = cos(acos(y/sqrt(y**2+z**2))+a)*sqrt(y**2+z**2);
+    z = sin(asin(z/sqrt(y**2+z**2))+a)*sqrt(y**2+z**2);
+  }else if(y>=0 && z<=0){ //quadrant 2
+    y = sin(asin(y/sqrt(y**2+z**2))+a)*sqrt(y**2+z**2);
+    z = sin(asin(z/sqrt(y**2+z**2))+a)*sqrt(y**2+z**2);
+  }else if(y<0 && z<=0){ //quadrant 3
+    y = sin(asin(y/sqrt(y**2+z**2))+a)*sqrt(y**2+z**2);
+    z = cos(acos(z/sqrt(y**2+z**2))+a)*sqrt(y**2+z**2);
+  }else{ //quadrant 4
+    y = cos(acos(y/sqrt(y**2+z**2))+a)*sqrt(y**2+z**2);
+    z = cos(acos(z/sqrt(y**2+z**2))+a)*sqrt(y**2+z**2);
+  }
+  return SCALE*FOCAL*x/(FOCAL+z)+SCREEN_WIDTH/2;
 }
 
-//Ryan here, ignore these
-/*
-tan(arctan(x/y)+PlayerYaw)*((x^2+y^2)^(1/2))
-tan(arctan(y/z)+PlayerYaw)*((y^2+z^2)^(1/2))
-*/
 
 void ProjY(int x, int y, int z){
-  return SCALE*FOCAL*z/(FOCAL+y)+SCREEN_HEIGHT/2;
+  //roll
+  if(x>=0 && y>0){ //quadrant 1
+    x = cos(acos(x/sqrt(x**2+y**2))+a)*sqrt(x**2+y**2);
+    y = sin(asin(y/sqrt(x**2+y**2))+a)*sqrt(x**2+y**2);
+  }else if(x>=0 && y<=0){ //quadrant 2
+    x = sin(asin(x/sqrt(x**2+y**2))+a)*sqrt(x**2+y**2);
+    y = sin(asin(y/sqrt(x**2+y**2))+a)*sqrt(x**2+y**2);
+  }else if(x<0 && y<=0){ //quadrant 3
+    x = sin(asin(x/sqrt(x**2+y**2))+a)*sqrt(x**2+y**2);
+    y = cos(acos(y/sqrt(x**2+y**2))+a)*sqrt(x**2+y**2);
+  }else{ //quadrant 4
+    x = cos(acos(x/sqrt(x**2+y**2))+a)*sqrt(x**2+y**2);
+    y = cos(acos(y/sqrt(x**2+y**2))+a)*sqrt(x**2+y**2);
+  }
+  //pitch
+  if(y>=0 && z>0){ //quadrant 1
+    y = cos(acos(y/sqrt(y**2+z**2))+a)*sqrt(y**2+z**2);
+    z = sin(asin(z/sqrt(y**2+z**2))+a)*sqrt(y**2+z**2);
+  }else if(y>=0 && z<=0){ //quadrant 2
+    y = sin(asin(y/sqrt(y**2+z**2))+a)*sqrt(y**2+z**2);
+    z = sin(asin(z/sqrt(y**2+z**2))+a)*sqrt(y**2+z**2);
+  }else if(y<0 && z<=0){ //quadrant 3
+    y = sin(asin(y/sqrt(y**2+z**2))+a)*sqrt(y**2+z**2);
+    z = cos(acos(z/sqrt(y**2+z**2))+a)*sqrt(y**2+z**2);
+  }else{ //quadrant 4
+    y = cos(acos(y/sqrt(y**2+z**2))+a)*sqrt(y**2+z**2);
+    z = cos(acos(z/sqrt(y**2+z**2))+a)*sqrt(y**2+z**2);
+  }
+  return SCALE*FOCAL*y/(FOCAL+z)+SCREEN_WIDTH/2;
 }
 
 
