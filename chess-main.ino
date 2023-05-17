@@ -214,7 +214,7 @@ class DRAW{
     void BlankSquare(int k,int i){
       //Ryan here, if i=0, then (0 + k)%2 just means every other, but as we increase i, i+constant will oscillate between
       //even and odd, meaning (k0 + i0)%2 != (k0 + i1)%2, thus making a given row the inverse of the next.
-      if((k + i) % 2 == 1){
+      if((k + i + ((turn) ? 0 : 1)) % 2 == 1){
         tft.fillRect(k*16+1, i*16+1, 14, 14, 0x7EB2);
       } else {
         tft.fillRect(k*16+1, i*16+1, 14, 14, 0x2447);
@@ -223,7 +223,7 @@ class DRAW{
     
     
     void BlankOutline(int k,int i){
-      if((k + i) % 2 == 1){
+      if((k + i + ((turn) ? 0 : 1)) % 2 == 1){
         tft.drawRect(k*16, i*16, 16, 16, 0x7EB2);
       } else {
         tft.drawRect(k*16, i*16, 16, 16, 0x2447);
@@ -658,10 +658,10 @@ void UpdateButton(){
 void InvertBoard(){
   for(int x=0; x<8; x++){
     for(int y=0; y<4; y++){
-      //Board[y][x] -> Board[7-y][x] & Board[7-y][x] -> Board[y][x]
-      Board[y][x] += Board[7-y][x];
-      Board[7-y][x] = Board[y][x]-Board[7-y][x];
-      Board[y][x] -= Board[7-y][x];
+      //Board[y][x] -> Board[7-y][x-7] & Board[7-y][x-7] -> Board[y][x]
+      Board[y][x] += Board[7-y][x-7];
+      Board[7-y][x-7] = Board[y][x]-Board[7-y][x-7];
+      Board[y][x] -= Board[7-y][x-7];
     }
   }
 }
